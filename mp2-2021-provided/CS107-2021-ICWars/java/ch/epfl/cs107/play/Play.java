@@ -81,7 +81,7 @@ public class Play {
 			}
 			//recorder.stop("zelda.xml");
 			game.end();
-
+///dsfd
 		} finally {
 			// Release resources
 			window.dispose();
