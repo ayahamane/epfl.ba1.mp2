@@ -126,6 +126,7 @@ public class GhostPlayer extends MovableAreaEntity {
 	public boolean isViewInteractable() {
 		return true;
 	}
+
 	@Override
 	public List<DiscreteCoordinates> getCurrentCells() {
 		return Collections.singletonList(getCurrentMainCellCoordinates());
