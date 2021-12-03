@@ -3,6 +3,7 @@ package ch.epfl.cs107.play.game.icwars.actor;
 import ch.epfl.cs107.play.game.actor.TextGraphics;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
+import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Canvas;
@@ -39,6 +40,11 @@ public class Soldier extends Unit
     @Override
     public int getDamage(){
         return damage;
+    }
+
+    @Override
+    public void acceptInteraction(AreaInteractionVisitor v){
+
     }
 
 }
