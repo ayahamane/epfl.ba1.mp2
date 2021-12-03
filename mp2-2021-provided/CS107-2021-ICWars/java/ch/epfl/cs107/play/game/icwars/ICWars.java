@@ -1,7 +1,11 @@
 package ch.epfl.cs107.play.game.icwars;
 
+import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.AreaGame;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
+import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
+import ch.epfl.cs107.play.game.icwars.actor.Unit;
+import ch.epfl.cs107.play.game.icwars.actor.player.ICWarsPlayer;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.game.icwars.area.Level0;
 import ch.epfl.cs107.play.game.icwars.area.Level1;
@@ -12,7 +16,7 @@ import ch.epfl.cs107.play.window.Window;
 
 public class ICWars extends AreaGame {
 
-    private GhostPlayer player;
+    private ICWarsPlayer player;
     private final String[] areas = {"icwars/Level0", "icwars/Level1"};
 
     private int areaIndex;
@@ -33,26 +37,23 @@ public class ICWars extends AreaGame {
         if (super.begin(window, fileSystem)) {
             createAreas();
             areaIndex = 0;
-            initArea(areas[areaIndex]);
+            //initArea(areas[areaIndex]);
             return true;
         }
         return false;
     }
 
-    private void initArea(String areaKey) {
+   /* private void initArea(String areaKey) {
 
         ICWarsArea area = (ICWarsArea)setCurrentArea(areaKey, true);
         DiscreteCoordinates coords = area.getPlayerSpawnPosition();
-        player = new GhostPlayer(area, Orientation.DOWN, coords,"ghost.1");
+        player = new ICWarsPlayer(area, position, ICWarsActor.Fafac, Unit... unit);
         player.enterArea(area, coords);
         player.centerCamera();
 
-    }
+    }*/
     @Override
     public void update(float deltaTime) {
-        if(player.isWeak()){
-            switchArea();
-        }
         super.update(deltaTime);
 
     }
@@ -75,7 +76,7 @@ public class ICWars extends AreaGame {
         ICWarsArea currentArea = (ICWarsArea)setCurrentArea(areas[areaIndex], false);
         player.enterArea(currentArea, currentArea.getPlayerSpawnPosition());
 
-        player.strengthen();
+        //player.strengthen();
     }
 
 }
