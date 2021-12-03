@@ -9,7 +9,7 @@ import ch.epfl.cs107.play.window.Canvas;
 
 import java.awt.*;
 
-public class Tank extends Unity{
+public class Tank extends Unit {
 
     private final static int radius = 4;
     private final static int damage = 7;

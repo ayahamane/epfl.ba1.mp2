@@ -50,11 +50,53 @@
       <updated>1638385306902</updated>
       <workItem from="1638385308688" duration="1015000" />
       <workItem from="1638469602772" duration="1743000" />
-      <workItem from="1638478864928" duration="5856000" />
+      <workItem from="1638478864928" duration="6270000" />
+      <workItem from="1638532527784" duration="4177000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+        <entry key="bf85e36d-096d-4b39-9651-3e74316a9707">
+          <value>
+            <State>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="structure">
+                    <value>
+                      <list>
+                        <option value="dir:C:/Users/hp/Desktop/MP2/mp2-2021-provided" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="bf85e36d-096d-4b39-9651-3e74316a9707" value="TOOL_WINDOW" />
+      </map>
+    </option>
   </component>
 </project>
