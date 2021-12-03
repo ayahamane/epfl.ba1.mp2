@@ -7,7 +7,7 @@ import ch.epfl.cs107.play.game.areagame.actor.Text;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
 
-abstract public class Unity extends ICWarsActor
+abstract public class Unit extends ICWarsActor
 {
 
     private String name;
@@ -16,7 +16,7 @@ abstract public class Unity extends ICWarsActor
     private Sprite sprite;
 
 
-    public Unity (Area area, DiscreteCoordinates position, Faction fac){
+    public Unit(Area area, DiscreteCoordinates position, Faction fac){
         super(area, position, fac);
     }
 

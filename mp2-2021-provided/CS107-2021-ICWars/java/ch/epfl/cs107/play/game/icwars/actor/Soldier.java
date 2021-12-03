@@ -9,7 +9,7 @@ import ch.epfl.cs107.play.window.Canvas;
 
 import java.awt.*;
 
-public class Soldier extends Unity
+public class Soldier extends Unit
 {
     private final static int radius = 2;
     private final static int damage = 2;

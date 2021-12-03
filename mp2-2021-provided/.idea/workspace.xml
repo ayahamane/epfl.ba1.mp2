@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9ba7e25a-8821-4f13-88d6-697ca73daa01" name="Changes" comment="" />
+    <list default="true" id="9ba7e25a-8821-4f13-88d6-697ca73daa01" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/CS107-2021-ICWars/java/ch/epfl/cs107/play/game/icwars/actor/player/ICWarsPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CS107-2021-ICWars/java/ch/epfl/cs107/play/game/icwars/ICWars.java" beforeDir="false" afterPath="$PROJECT_DIR$/CS107-2021-ICWars/java/ch/epfl/cs107/play/game/icwars/ICWars.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CS107-2021-ICWars/java/ch/epfl/cs107/play/game/icwars/actor/Soldier.java" beforeDir="false" afterPath="$PROJECT_DIR$/CS107-2021-ICWars/java/ch/epfl/cs107/play/game/icwars/actor/Soldier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CS107-2021-ICWars/java/ch/epfl/cs107/play/game/icwars/actor/Tank.java" beforeDir="false" afterPath="$PROJECT_DIR$/CS107-2021-ICWars/java/ch/epfl/cs107/play/game/icwars/actor/Tank.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CS107-2021-ICWars/java/ch/epfl/cs107/play/game/icwars/actor/Unity.java" beforeDir="false" afterPath="$PROJECT_DIR$/CS107-2021-ICWars/java/ch/epfl/cs107/play/game/icwars/actor/Unit.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
