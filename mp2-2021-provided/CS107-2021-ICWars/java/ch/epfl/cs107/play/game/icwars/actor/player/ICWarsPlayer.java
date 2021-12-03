@@ -22,9 +22,8 @@ public class ICWarsPlayer extends ICWarsActor {
         }
     }
 
-    public void update(float deltatime){ //Why should I change the name?
+    public void update(float deltatime){
         super.update(deltatime);
-        //Elimination des entités non opérationnelles à faire dans update même s'ils disent à "chaque pas".
         for(int i=0;i<unit.size();++i){
             if(unit.get(i).isDead()){
                 getOwnerArea().unregisterActor(unit.get(i));
@@ -58,7 +57,6 @@ public class ICWarsPlayer extends ICWarsActor {
     public void centerCamera() {
         getOwnerArea().setViewCandidate(this);
     }
-    //J'ai pris exactement celle de ghostPlayer, est-ce problématique?
 
     @Override
     public void draw(Canvas canvas) {

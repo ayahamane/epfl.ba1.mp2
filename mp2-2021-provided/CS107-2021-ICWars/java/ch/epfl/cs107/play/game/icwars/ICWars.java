@@ -18,8 +18,8 @@ public class ICWars extends AreaGame {
 
     private ICWarsPlayer player;
     private final String[] areas = {"icwars/Level0", "icwars/Level1"};
-
     private int areaIndex;
+    
     /**
      * Add all the areas
      */
@@ -37,21 +37,11 @@ public class ICWars extends AreaGame {
         if (super.begin(window, fileSystem)) {
             createAreas();
             areaIndex = 0;
-            //initArea(areas[areaIndex]);
             return true;
         }
         return false;
     }
 
-   /* private void initArea(String areaKey) {
-
-        ICWarsArea area = (ICWarsArea)setCurrentArea(areaKey, true);
-        DiscreteCoordinates coords = area.getPlayerSpawnPosition();
-        player = new ICWarsPlayer(area, position, ICWarsActor.Fafac, Unit... unit);
-        player.enterArea(area, coords);
-        player.centerCamera();
-
-    }*/
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
@@ -68,15 +58,9 @@ public class ICWars extends AreaGame {
     }
 
     protected void switchArea() {
-
         player.leaveArea();
-
-        areaIndex = (areaIndex==0) ? 1 : 0;
-
-        ICWarsArea currentArea = (ICWarsArea)setCurrentArea(areas[areaIndex], false);
+        areaIndex = (areaIndex == 0) ? 1 : 0;
+        ICWarsArea currentArea = (ICWarsArea) setCurrentArea(areas[areaIndex], false);
         player.enterArea(currentArea, currentArea.getPlayerSpawnPosition());
-
-        //player.strengthen();
     }
-
 }
