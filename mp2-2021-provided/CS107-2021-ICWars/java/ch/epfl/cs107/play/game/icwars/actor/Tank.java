@@ -3,6 +3,7 @@ package ch.epfl.cs107.play.game.icwars.actor;
 import ch.epfl.cs107.play.game.actor.TextGraphics;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
+import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Canvas;
@@ -11,7 +12,7 @@ import java.awt.*;
 
 public class Tank extends Unit {
 
-    private final static int radius = 4;
+    final static int radius = 4;
     private final static int damage = 7;
 
     public Tank (Area area, DiscreteCoordinates position, Faction fac){
@@ -41,6 +42,10 @@ public class Tank extends Unit {
         return damage;
     }
 
+    @Override
+    public void acceptInteraction(AreaInteractionVisitor v) {
+        System.out.println("hello");
+    }
 }
 
 //compilation mistakes are because of methods that should be implemented but they

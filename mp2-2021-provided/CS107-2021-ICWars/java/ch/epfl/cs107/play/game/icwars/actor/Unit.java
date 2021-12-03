@@ -2,10 +2,15 @@ package ch.epfl.cs107.play.game.icwars.actor;
 
 import ch.epfl.cs107.play.game.actor.TextGraphics;
 import ch.epfl.cs107.play.game.areagame.Area;
+import ch.epfl.cs107.play.game.areagame.actor.Orientation;
+import ch.epfl.cs107.play.game.areagame.actor.Path;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.actor.Text;
+import ch.epfl.cs107.play.game.icwars.area.ICWarsRange;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
+
+import java.util.Queue;
 
 abstract public class Unit extends ICWarsActor
 {
@@ -14,11 +19,55 @@ abstract public class Unit extends ICWarsActor
     private float hp;
     private TextGraphics message;
     private Sprite sprite;
+    private ICWarsRange range;
+    protected int radius;
 
 
     public Unit(Area area, DiscreteCoordinates position, Faction fac){
         super(area, position, fac);
+        for (int x = - radius; x < radius; ++x){
+            for (int y = - radius; y < radius; ++y){
+                boolean hasLeftEdge = false;
+                boolean hasRightEdge = false;
+                boolean hasUpEdge = false;
+                boolean hasDownEdge = false;
+                if ((x > - radius)&&(x + position.x > 0  )){ //NotSureAboutThis
+                    hasLeftEdge = true;
+                }
+                if ((x < radius)&&(x + position.x < getOwnerArea().getWidth() )){ //NotSureAboutThis
+                    hasRightEdge = true;
+                }
+                if ((y > -radius)&&(y + position.y > 0 )){ //NotSureAboutThis
+                    hasUpEdge = true;
+                }
+                if ((y > radius)&&(x + position.y < getOwnerArea().getHeight() )){ //NotSureAboutThis
+                    hasDownEdge = true;
+                }
+                range.addNode(position, hasLeftEdge, hasUpEdge,hasRightEdge, hasDownEdge);
+            }
+        }
     }
+
+    /**
+     * Draw the unit's range and a path from the unit position to
+     destination
+     * @param destination path destination
+     * @param canvas canvas
+     */
+    public void drawRangeAndPathTo(DiscreteCoordinates destination ,
+                                   Canvas canvas) {
+        range.draw(canvas);
+        Queue<Orientation> path =
+                range.shortestPath(getCurrentMainCellCoordinates(),
+                        destination);
+//Draw path only if it exists (destination inside the range)
+        if (path != null){
+            new Path(getCurrentMainCellCoordinates().toVector(),
+                    path).draw(canvas);
+        }
+    }
+
+
 
     public boolean isDead(){
         if (hp == 0){
@@ -26,6 +75,7 @@ abstract public class Unit extends ICWarsActor
         }
         return false;
     }
+
 
     public void undergoDamage(float minus){
         hp = hp - minus;
