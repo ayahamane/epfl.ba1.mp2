@@ -44,7 +44,7 @@ public class Tank extends Unit {
 
     @Override
     public void acceptInteraction(AreaInteractionVisitor v) {
-
+        System.out.println("hello");
     }
 }
 
