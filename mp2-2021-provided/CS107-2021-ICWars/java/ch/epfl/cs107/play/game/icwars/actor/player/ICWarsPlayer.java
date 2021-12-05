@@ -14,17 +14,17 @@ import java.util.List;
 public class ICWarsPlayer extends ICWarsActor {
     private List<Unit> unit;
 
-    public ICWarsPlayer(Area area, DiscreteCoordinates position, Faction fac, Unit... unit) {
+    public ICWarsPlayer(Area area, DiscreteCoordinates position, Faction fac, Unit... units) {
         super(area, position, fac);
-        this.unit= new ArrayList<>(Arrays.asList(unit));
-        for(int i=0;i<unit.length;++i){
-            getOwnerArea().registerActor(this.unit.get(i));
+        unit = new ArrayList<>(Arrays.asList(units));
+        for(int i = 0;i < units.length; ++i){
+            getOwnerArea().registerActor(unit.get(i));
         }
     }
 
     public void update(float deltatime){
         super.update(deltatime);
-        for(int i=0;i<unit.size();++i){
+        for(int i = 0; i < unit.size(); ++i){
             if(unit.get(i).isDead()){
                 getOwnerArea().unregisterActor(unit.get(i));
                 unit.remove(i);
@@ -39,7 +39,7 @@ public class ICWarsPlayer extends ICWarsActor {
     @Override
     public void leaveArea(){
         super.leaveArea();
-        for(int i=0;i<unit.size();++i){
+        for(int i = 0; i < unit.size(); ++i){
             getOwnerArea().unregisterActor(unit.get(i));
         }
     }
