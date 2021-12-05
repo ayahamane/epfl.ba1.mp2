@@ -135,10 +135,6 @@ abstract public class Unit extends ICWarsActor
         sprite = s;
     }
 
-    protected Faction getFaction(){
-        return getFaction(); //Wtf j'ai jamais mis de getFaction et
-    }
-
     protected Sprite getSprite(){
         return sprite;
     }

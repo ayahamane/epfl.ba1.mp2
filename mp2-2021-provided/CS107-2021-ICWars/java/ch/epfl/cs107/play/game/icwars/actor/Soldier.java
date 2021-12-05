@@ -22,7 +22,7 @@ public class Soldier extends Unit
         setMessage(new TextGraphics(Integer.toString((int)getHp()), 0.4f, Color.BLUE));
         getMessage().setParent(this);
         getMessage().setAnchor(new Vector(-0.3f, 0.1f));
-        if (getFaction() == Faction.ally){
+        if (fac == Faction.ally){
             setSprite(new Sprite("icwars/friendlySoldier" , 1.5f, 1.5f, this , null , new
                     Vector(-0.25f, -0.25f)));
         } else {
