@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9ba7e25a-8821-4f13-88d6-697ca73daa01" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="9ba7e25a-8821-4f13-88d6-697ca73daa01" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -93,7 +91,7 @@
       <workItem from="1638469602772" duration="1743000" />
       <workItem from="1638478864928" duration="6270000" />
       <workItem from="1638532527784" duration="7244000" />
-      <workItem from="1638646777820" duration="34460000" />
+      <workItem from="1638646777820" duration="34806000" />
     </task>
     <task id="LOCAL-00001" summary="ICWarsPlayer">
       <created>1638545679730</created>
@@ -123,7 +121,21 @@
       <option name="project" value="LOCAL" />
       <updated>1638717814895</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="gitignore commit">
+      <created>1638718916118</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1638718916118</updated>
+    </task>
+    <task id="LOCAL-00006" summary="gitignore update">
+      <created>1638719084197</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1638719084197</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -175,6 +187,8 @@
     <MESSAGE value="ICWarsPlayer" />
     <MESSAGE value="Etape1" />
     <MESSAGE value="Etape 1 2.0" />
-    <option name="LAST_COMMIT_MESSAGE" value="Etape 1 2.0" />
+    <MESSAGE value="gitignore commit" />
+    <MESSAGE value="gitignore update" />
+    <option name="LAST_COMMIT_MESSAGE" value="gitignore update" />
   </component>
 </project>
