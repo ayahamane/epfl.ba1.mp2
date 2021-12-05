@@ -18,7 +18,7 @@ public class Tank extends Unit {
     public Tank (Area area, DiscreteCoordinates position, Faction fac){
         super(area, position, fac);
         setHp((float) 10);
-        setName("Tank");
+        setName("Tanki");
         setMessage(new TextGraphics(Integer.toString((int)getHp()), 0.4f, Color.BLUE));
         getMessage().setParent(this);
         getMessage().setAnchor(new Vector(-0.3f, 0.1f));
