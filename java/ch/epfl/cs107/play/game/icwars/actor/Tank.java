@@ -23,6 +23,7 @@ public class Tank extends Unit {
         getMessage().setParent(this);
         getMessage().setAnchor(new Vector(-0.3f, 0.1f));
         if (getFaction() == Faction.ally){
+            
             setSprite(new Sprite("icwars/friendlyTank" , 1.5f, 1.5f, this , null , new
                     Vector(-0.25f, -0.25f)));
         } else {
