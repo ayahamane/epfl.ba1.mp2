@@ -15,14 +15,14 @@ abstract public class Unit extends ICWarsActor {
 
     private String name;
     private float hp;
-    private TextGraphics message;
     private Sprite sprite;
     private ICWarsRange range;
-    protected int radius;
+    private static int radius;
 
 
     public Unit(Area area, DiscreteCoordinates position, Faction fac){
         super(area, position, fac);
+        radius = getRadius();
         for (int x = - radius; x < radius; ++x){
             for (int y = - radius; y < radius; ++y){
                 boolean hasLeftEdge = false;
@@ -48,6 +48,10 @@ abstract public class Unit extends ICWarsActor {
         }
     }
 
+    public void draw(Canvas canvas) {
+        sprite.draw(canvas);
+    }
+
     /**
      * Draw the unit's range and a path from the unit position to
      destination
@@ -60,7 +64,7 @@ abstract public class Unit extends ICWarsActor {
         Queue<Orientation> path =
                 range.shortestPath(getCurrentMainCellCoordinates(),
                         destination);
-//Draw path only if it exists (destination inside the range)
+        //Draw path only if it exists (destination inside the range)
         if (path != null){
             new Path(getCurrentMainCellCoordinates().toVector(),
                     path).draw(canvas);
@@ -87,8 +91,6 @@ abstract public class Unit extends ICWarsActor {
 
     abstract int getDamage();
 
-    abstract public void draw(Canvas canvas);
-
     //This method has only been created to figure in the code.
     //This is not its real way of functioning (Haven't figure it yet).
     public boolean moveInRadius(){
@@ -97,7 +99,7 @@ abstract public class Unit extends ICWarsActor {
 
     @Override
     public boolean takeCellSpace() {
-        return false;
+        return true;
     }
 
     /**@return (boolean): true if this is able to have cell interactions*/
@@ -132,15 +134,8 @@ abstract public class Unit extends ICWarsActor {
         sprite = s;
     }
 
-    protected Sprite getSprite(){
-        return sprite;
+    protected int getRadius(){
+        return radius;
     }
 
-    protected TextGraphics getMessage(){
-        return message;
-    }
-
-    protected void setMessage(TextGraphics m){
-        message = m;
-    }
 }

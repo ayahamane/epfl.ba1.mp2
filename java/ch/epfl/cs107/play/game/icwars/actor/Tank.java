@@ -12,16 +12,13 @@ import java.awt.*;
 
 public class Tank extends Unit {
 
-    final static int radius = 4;
+    final static int TANK_RADIUS = 4;
     private final static int damage = 7;
 
     public Tank (Area area, DiscreteCoordinates position, Faction fac){
         super(area, position, fac);
         setHp((float) 10);
-        setName("Tanki");
-        setMessage(new TextGraphics(Integer.toString((int)getHp()), 0.4f, Color.BLUE));
-        getMessage().setParent(this);
-        getMessage().setAnchor(new Vector(-0.3f, 0.1f));
+        setName("Tank");
         if (fac == Faction.ally){
             setSprite(new Sprite("icwars/friendlyTank" , 1.5f, 1.5f, this , null , new
                     Vector(-0.25f, -0.25f)));
@@ -31,15 +28,15 @@ public class Tank extends Unit {
         }
     }
 
-    @Override
-    public void draw(Canvas canvas) {
-        getSprite().draw(canvas);
-        getMessage().draw(canvas);
-    }
 
     @Override
     public int getDamage(){
         return damage;
+    }
+
+    @Override
+    protected int getRadius(){
+        return TANK_RADIUS;
     }
 
     @Override
