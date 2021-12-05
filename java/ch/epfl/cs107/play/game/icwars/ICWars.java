@@ -51,7 +51,6 @@ public class ICWars extends AreaGame {
         DiscreteCoordinates coordsSoldier = new DiscreteCoordinates(3,5);
         Tank tank=new Tank(area,coordsTank, ICWarsActor.Faction.ally);
         Soldier soldier=new Soldier(area, coordsSoldier, ICWarsActor.Faction.ally);
-
         player = new RealPlayer(area, coords, ICWarsActor.Faction.ally,"player1",soldier,tank);
         //Demander sur piazza pour ellipse!!
         player.enterArea(area, coords);
