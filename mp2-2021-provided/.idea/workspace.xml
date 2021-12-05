@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9ba7e25a-8821-4f13-88d6-697ca73daa01" name="Changes" comment="tank">
-      <change afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="9ba7e25a-8821-4f13-88d6-697ca73daa01" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/CS107-2021-ICWars/java/ch/epfl/cs107/play/game/icwars/ICWars.java" beforeDir="false" afterPath="$PROJECT_DIR$/CS107-2021-ICWars/java/ch/epfl/cs107/play/game/icwars/ICWars.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CS107-2021-ICWars/java/ch/epfl/cs107/play/game/icwars/actor/player/ICWarsPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/CS107-2021-ICWars/java/ch/epfl/cs107/play/game/icwars/actor/player/ICWarsPlayer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,6 +22,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="ProjectId" id="21hFEsEJIBrjyjVbYqRvi3nGRgh" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -56,12 +64,12 @@
       <workItem from="1638478864928" duration="6270000" />
       <workItem from="1638532527784" duration="7244000" />
     </task>
-    <task id="LOCAL-00001" summary="tank">
-      <created>1638544658313</created>
+    <task id="LOCAL-00001" summary="ICWarsPlayer">
+      <created>1638545679730</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1638544658313</updated>
+      <updated>1638545679730</updated>
     </task>
     <option name="localTasksCounter" value="2" />
     <servers />
@@ -112,7 +120,7 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="tank" />
-    <option name="LAST_COMMIT_MESSAGE" value="tank" />
+    <MESSAGE value="ICWarsPlayer" />
+    <option name="LAST_COMMIT_MESSAGE" value="ICWarsPlayer" />
   </component>
 </project>

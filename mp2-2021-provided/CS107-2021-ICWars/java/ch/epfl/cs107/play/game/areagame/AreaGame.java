@@ -124,8 +124,9 @@ abstract public class AreaGame implements Game, PauseMenu.Pausable {
     }
 
     @Override
-    public void end() {
+    public String end() {
         // TODO save the game states somewhere
+        return null;
     }
 
     @Override

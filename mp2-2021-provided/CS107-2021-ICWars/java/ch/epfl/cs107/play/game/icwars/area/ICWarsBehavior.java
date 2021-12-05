@@ -70,7 +70,7 @@ public class ICWarsBehavior extends AreaBehavior {
          * @param y (int): y coordinate of the cell
          * @param type (EnigmeCellType), not null
          */
-        public  ICWarsCell(int x, int y, ICWarsCellType type){
+        public ICWarsCell(int x, int y, ICWarsCellType type){
             super(x, y);
             this.type = type;
         }
@@ -83,13 +83,15 @@ public class ICWarsBehavior extends AreaBehavior {
         @Override
         protected boolean canEnter(Interactable entity) {
             if(entity.takeCellSpace()){
-                for(Interactable element:
-                       entities){
-                return false;
+                for(Interactable element:entities){
+                    //Pas sur de la syntaxe ici, à revoir!
+                    if(element.takeCellSpace()){
+                        return false;
+                    }
+                    //else{} SHOULD I ADD UN TRUC POUR ITERER OU ESTCE QUE CETTE BOUCLE FOR EST BIEN?
                 }
             }
            return true;
-            //return type.isWalkable;
         }
 
 

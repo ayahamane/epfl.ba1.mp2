@@ -19,7 +19,6 @@ public abstract class ICWarsArea extends Area{
     protected abstract void createArea();
 
     /// EnigmeArea extends Area
-
     @Override
     public final float getCameraScaleFactor() {
         return CAMERA_SCALE_FACTOR;
@@ -28,8 +27,7 @@ public abstract class ICWarsArea extends Area{
 
     public abstract DiscreteCoordinates getPlayerSpawnPosition();
 
-    /// Demo2Area implements Playable
-
+   // Demo2Area implements Playable
     @Override
     public boolean begin(Window window, FileSystem fileSystem) {
         if (super.begin(window, fileSystem)) {

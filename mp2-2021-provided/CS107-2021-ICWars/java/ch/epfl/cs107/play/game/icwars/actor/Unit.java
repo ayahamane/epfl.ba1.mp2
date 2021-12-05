@@ -6,14 +6,14 @@ import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Path;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.actor.Text;
+import ch.epfl.cs107.play.game.icwars.ICWars;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsRange;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
 
 import java.util.Queue;
 
-abstract public class Unit extends ICWarsActor
-{
+abstract public class Unit extends ICWarsActor {
 
     private String name;
     private float hp;
@@ -43,6 +43,8 @@ abstract public class Unit extends ICWarsActor
                 if ((y > radius)&&(x + position.y < getOwnerArea().getHeight() )){ //NotSureAboutThis
                     hasDownEdge = true;
                 }
+                //Est ce qu'il doit être instancié au niv de Unit?
+                range=new ICWarsRange();
                 range.addNode(position, hasLeftEdge, hasUpEdge,hasRightEdge, hasDownEdge);
             }
         }
@@ -54,8 +56,8 @@ abstract public class Unit extends ICWarsActor
      * @param destination path destination
      * @param canvas canvas
      */
-    public void drawRangeAndPathTo(DiscreteCoordinates destination ,
-                                   Canvas canvas) {
+    public void drawRangeAndPathTo(DiscreteCoordinates destination,
+                                          Canvas canvas) {
         range.draw(canvas);
         Queue<Orientation> path =
                 range.shortestPath(getCurrentMainCellCoordinates(),
@@ -67,15 +69,12 @@ abstract public class Unit extends ICWarsActor
         }
     }
 
-
-
     public boolean isDead(){
         if (hp == 0){
             return true;
         }
         return false;
     }
-
 
     public void undergoDamage(float minus){
         hp = hp - minus;
@@ -146,5 +145,4 @@ abstract public class Unit extends ICWarsActor
     protected void setMessage(TextGraphics m){
         message = m;
     }
-
 }

@@ -68,9 +68,10 @@ public class Tuto1 extends AreaGame {
 	}
 
 	@Override
-	public void end() {
+	public String end() {
 
-	}
+        return null;
+    }
 
 	@Override
 	public String getTitle() {
