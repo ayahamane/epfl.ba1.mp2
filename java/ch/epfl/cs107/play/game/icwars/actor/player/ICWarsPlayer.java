@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ICWarsPlayer extends ICWarsActor {
-    private List<Unit> unit;
+    protected List<Unit> unit;
 
     public ICWarsPlayer(Area area, DiscreteCoordinates position, Faction fac, Unit... units) {
         super(area, position, fac);
@@ -52,13 +52,6 @@ public class ICWarsPlayer extends ICWarsActor {
         }
         return false;
     }
-
-    /**
-     * Selects one of the units of the player
-     */
-    /*protected Unit selectUnit(int index){
-        return unit.get(index);
-    }*/
 
     /**
      * Center the camera on the player

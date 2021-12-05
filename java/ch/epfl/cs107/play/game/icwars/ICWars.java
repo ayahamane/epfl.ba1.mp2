@@ -19,6 +19,8 @@ public class ICWars extends AreaGame {
     private ICWarsPlayer player;
     private final String[] areas = {"icwars/Level0", "icwars/Level1"};
     private int areaIndex;
+    private Window windowReset;
+    private FileSystem fileSystemReset;
 
     /**
      * Add all the areas
@@ -29,7 +31,9 @@ public class ICWars extends AreaGame {
     }
 
     @Override
-    public boolean begin(Window window, FileSystem fileSystem) {
+    public boolean begin(Window window, FileSystem fileSystem){
+        windowReset=window;
+        fileSystemReset=fileSystem;
         if (super.begin(window, fileSystem)) {
             createAreas();
             areaIndex = 0;
@@ -57,21 +61,8 @@ public class ICWars extends AreaGame {
 
     @Override
     public void update(float deltaTime) {
-        super.update(deltaTime);
-        //Code fourni dans l'énoncé
-        /*if (keyboard.get(Keyboard.U).isReleased()) {
-            ((RealPlayer)player).selectUnit (1); // 0, 1 ...
-        }
-        //Code added by me pour traiter l'unité en indice 0 dans l'ellipse.
-        if (keyboard.get(Keyboard.V).isReleased()) {
-            ((RealPlayer)player).selectUnit (0); // 0, 1 ...
-        }*/
-        //J'ai choisi de coder la méthode selectUnit dans ICWarsPlayer
-        // car c'est lui qui contient l'ellipse avec ses unités.
-    }
-
-    public void nextLevel(){
         Keyboard keyboard= getCurrentArea().getKeyboard();
+        super.update(deltaTime);
         if((keyboard.get(Keyboard.N).isReleased())){
             //If the areaIndex is 0, it means that the player is in the Level0 (en tout cas
             //      pour l'instant, c'est ainsi vu que c'est ce qui est demander
@@ -79,21 +70,26 @@ public class ICWars extends AreaGame {
             if(areaIndex==0){
                 switchArea();
             } else {
-                end();
+                System.out.println(end());
+                //Ask if that's what they are expecting!
             }
         }
-    }
-    public void reset() {
-        Keyboard keyboard = getCurrentArea().getKeyboard();
         if ((keyboard.get(Keyboard.R).isReleased())) {
-            initArea("icwars/Level0");
+            begin(windowReset, fileSystemReset);
             //Est-ce possible d'avoir une méthode plus générale?
         }
+        if (keyboard.get(Keyboard.U).isReleased()) {
+            ((RealPlayer)player).selectUnit (1);
+        }
+        if (keyboard.get(Keyboard.V).isReleased()) {
+            ((RealPlayer)player).selectUnit (0);
+        }
     }
+
     @Override
     public String end() {
         //I made end return a String (before it wasn't supposed to return anything(void)).
-        return "Game Over";
+        return "Game Over :(";
     }
 
     @Override
@@ -105,10 +101,7 @@ public class ICWars extends AreaGame {
         player.leaveArea();
         areaIndex = (areaIndex == 0) ? 1 : 0;
         ICWarsArea currentArea = (ICWarsArea) setCurrentArea(areas[areaIndex], false);
-        player.enterArea(currentArea, currentArea.getPlayerSpawnPosition());
+        //player.enterArea(currentArea, currentArea.getPlayerSpawnPosition());
+        initArea(currentArea.getTitle());
     }
-
-    /*protected ICWarsPlayer getRealPlayer(){
-        return player;
-    }*/
 }

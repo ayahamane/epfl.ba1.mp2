@@ -17,9 +17,5 @@ public class Level0 extends ICWarsArea {
         return new DiscreteCoordinates(0,0);
     }
 
-    protected void createArea() {
-        // Base
-        registerActor(new Background(this)) ;
-        //registerActor(ICWars.getRealPlayer());
-    }
+    protected void createArea() {registerActor(new Background(this)) ;}
 }

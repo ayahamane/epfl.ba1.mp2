@@ -16,13 +16,9 @@ public abstract class ICWarsArea extends Area{
      * Note it set the Behavior as needed !
      */
     protected abstract void createArea();
-
     /// EnigmeArea extends Area
     @Override
-    public final float getCameraScaleFactor() {
-        return CAMERA_SCALE_FACTOR;
-        //Here, it was an ICWars.CAMERA.... but since now it's declared here, there is no need.
-    }
+    public final float getCameraScaleFactor() {return CAMERA_SCALE_FACTOR;}
 
     public abstract DiscreteCoordinates getPlayerSpawnPosition();
 
@@ -40,7 +36,5 @@ public abstract class ICWarsArea extends Area{
     }
 
     @Override
-    public String getTitle() {
-        return null;
-    }
+    public String getTitle() {return null;}
 }

@@ -5,7 +5,7 @@ import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icwars.actor.Unit;
-//import ch.epfl.cs107.play.game.icwars.gui.ICWarsPlayerGUI;
+import ch.epfl.cs107.play.game.icwars.gui.ICWarsPlayerGUI;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Button;
@@ -18,9 +18,10 @@ import java.util.List;
 public class RealPlayer extends ICWarsPlayer{
 
     private Sprite sprite;
-    //private ICWarsPlayerGUI playerGUI;
+    private ICWarsPlayerGUI playerGUI;
     /// Animation duration in frame number
     private final static int MOVE_DURATION = 8;
+    private Unit selectedUnit;
 
     /**
      * Demo actor
@@ -38,7 +39,7 @@ public class RealPlayer extends ICWarsPlayer{
             setSprite(new Sprite("icwars/enemyCursor", 1.5f, 1.5f, this, null ,
                     new Vector(-0.25f, -0.25f)));
         }
-        //playerGUI=new ICWarsPlayerGUI(getOwnerArea().getCameraScaleFactor(), this);
+        playerGUI=new ICWarsPlayerGUI(getOwnerArea().getCameraScaleFactor(), this);
     }
 
     @Override
@@ -73,11 +74,22 @@ public class RealPlayer extends ICWarsPlayer{
         }
     }
 
+    /**
+     * Selects one of the units of the player
+     */
+    public void selectUnit(int index){
+        if(index<unit.size()){
+            this.selectedUnit = unit.get(index);
+            playerGUI.setSelectedUnit(this.selectedUnit);
+        }
+    }
+
     @Override
     public void draw(Canvas canvas) {
         getSprite().draw(canvas);
+        playerGUI.draw(canvas);
     }
-    /*public void draw(Canvas canvas) {ICWarsPlayerGUI.draw(canvas);}*/
+
     @Override
     public boolean takeCellSpace() {
         return true;
@@ -98,8 +110,7 @@ public class RealPlayer extends ICWarsPlayer{
         return Collections.singletonList(getCurrentMainCellCoordinates());}
 
     @Override
-    public void acceptInteraction(AreaInteractionVisitor v) {
-    }
+    public void acceptInteraction(AreaInteractionVisitor v) {}
 
     //Is it really needed?
     protected void setSprite(Sprite s){
