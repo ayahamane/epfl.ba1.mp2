@@ -17,8 +17,9 @@ public interface Playable extends Updatable{
 
     /** Cleans up things, called even if initialisation failed.
      * Note: Need to be Override
+     * @return
      */
-    void end();
+    String end();
 
     /**
      * Getter for game title

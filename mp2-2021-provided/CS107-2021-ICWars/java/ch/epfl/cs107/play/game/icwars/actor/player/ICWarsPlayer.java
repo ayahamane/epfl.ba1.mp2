@@ -22,8 +22,8 @@ public class ICWarsPlayer extends ICWarsActor {
         }
     }
 
-    public void update(float deltatime){
-        super.update(deltatime);
+    public void update(float deltaTime){
+        super.update(deltaTime);
         for(int i = 0; i < unit.size(); ++i){
             if(unit.get(i).isDead()){
                 getOwnerArea().unregisterActor(unit.get(i));
@@ -35,7 +35,6 @@ public class ICWarsPlayer extends ICWarsActor {
     /**
      * Leave an area by unregister this player
      */
-
     @Override
     public void leaveArea(){
         super.leaveArea();
@@ -44,12 +43,22 @@ public class ICWarsPlayer extends ICWarsActor {
         }
     }
 
+    /**
+     * Tells if the player is defeated or not.
+     */
     public boolean isDefeated(){
         if(unit.isEmpty()){
             return true;
         }
         return false;
     }
+
+    /**
+     * Selects one of the units of the player
+     */
+    /*protected Unit selectUnit(int index){
+        return unit.get(index);
+    }*/
 
     /**
      * Center the camera on the player
@@ -59,9 +68,7 @@ public class ICWarsPlayer extends ICWarsActor {
     }
 
     @Override
-    public void draw(Canvas canvas) {
-
-    }
+    public void draw(Canvas canvas) {}
 
     @Override
     public boolean takeCellSpace() {
@@ -79,7 +86,5 @@ public class ICWarsPlayer extends ICWarsActor {
     }
 
     @Override
-    public void acceptInteraction(AreaInteractionVisitor v) {
-
-    }
+    public void acceptInteraction(AreaInteractionVisitor v) {}
 }

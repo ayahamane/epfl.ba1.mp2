@@ -3,13 +3,14 @@ package ch.epfl.cs107.play.game.icwars.actor;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.MovableAreaEntity;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
+import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
 import java.util.Collections;
 import java.util.List;
 
-abstract public class ICWarsActor extends MovableAreaEntity
-{
+abstract public class ICWarsActor extends MovableAreaEntity {
+
     public enum Faction {
         ally, enemy;
     }
@@ -39,10 +40,12 @@ abstract public class ICWarsActor extends MovableAreaEntity
         getOwnerArea().unregisterActor(this);
     }
 
+    protected Faction getFaction(){
+        return faction;
+    }
 
     @Override
     public List<DiscreteCoordinates> getCurrentCells() {
         return Collections.singletonList(getCurrentMainCellCoordinates());
     }
-
 }
