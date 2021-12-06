@@ -20,7 +20,7 @@ public class RealPlayer extends ICWarsPlayer{
     private Sprite sprite;
     private ICWarsPlayerGUI playerGUI;
     /// Animation duration in frame number
-    private final static int MOVE_DURATION = 8;
+    private final static int MOVE_DURATION = 1;
     private Unit selectedUnit;
 
     /**
@@ -33,11 +33,11 @@ public class RealPlayer extends ICWarsPlayer{
         sprite = new Sprite(spriteName, 1.f, 1.f,this);
         resetMotion();
         if (fac== Faction.ally){
-            setSprite(new Sprite("icwars/allyCursor", 1.5f, 1.5f, this,
-                    null , new Vector(-0.25f, -0.25f)));
+            setSprite(new Sprite("icwars/allyCursor", 1f, 1f, this,
+                    null , new Vector(0, 0)));
         } else {
-            setSprite(new Sprite("icwars/enemyCursor", 1.5f, 1.5f, this, null ,
-                    new Vector(-0.25f, -0.25f)));
+            setSprite(new Sprite("icwars/enemyCursor", 1f, 1f, this, null ,
+                    new Vector(0, 0)));
         }
         playerGUI=new ICWarsPlayerGUI(getOwnerArea().getCameraScaleFactor(), this);
     }
