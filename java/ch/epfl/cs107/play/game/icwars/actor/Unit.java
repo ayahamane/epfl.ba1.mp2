@@ -16,40 +16,43 @@ abstract public class Unit extends ICWarsActor {
     private String name;
     private float hp;
     private Sprite sprite;
-    private ICWarsRange range;
+    private ICWarsRange range = new ICWarsRange();
     private static int radius;
 
 
     public Unit(Area area, DiscreteCoordinates position, Faction fac){
         super(area, position, fac);
-        radius = getRadius();
-        for (int x = - radius; x < radius; ++x){
-            for (int y = - radius; y < radius; ++y){
-                boolean hasLeftEdge = false;
-                boolean hasRightEdge = false;
-                boolean hasUpEdge = false;
-                boolean hasDownEdge = false;
-                if ((x > - radius)&&(x + position.x > 0  )){ //NotSureAboutThis
-                    hasLeftEdge = true;
-                }
-                if ((x < radius)&&(x + position.x < getOwnerArea().getWidth() )){ //NotSureAboutThis
-                    hasRightEdge = true;
-                }
-                if ((y > -radius)&&(y + position.y > 0 )){ //NotSureAboutThis
-                    hasUpEdge = true;
-                }
-                if ((y > radius)&&(x + position.y < getOwnerArea().getHeight() )){ //NotSureAboutThis
-                    hasDownEdge = true;
-                }
-                //Est ce qu'il doit être instancié au niv de Unit?
-                range=new ICWarsRange();
-                range.addNode(position, hasLeftEdge, hasUpEdge,hasRightEdge, hasDownEdge);
-            }
-        }
+        setRange(position);
     }
 
     public void draw(Canvas canvas) {
         sprite.draw(canvas);
+    }
+
+    private void setRange(DiscreteCoordinates position){
+            radius = getRadius();
+            for (int x = - radius; x < radius; ++x) {
+                for (int y = -radius; y < radius; ++y) {
+                    DiscreteCoordinates newPosition = new DiscreteCoordinates(x+position.x,y+position.y);
+                    boolean hasLeftEdge = false;
+                    boolean hasRightEdge = false;
+                    boolean hasUpEdge = false;
+                    boolean hasDownEdge = false;
+                    if ((x > -radius) && (x + position.x > 0)) { //NotSureAboutThis
+                        hasLeftEdge = true;
+                    }
+                    if ((x < radius) && (x + position.x < getOwnerArea().getWidth())) { //NotSureAboutThis
+                        hasRightEdge = true;
+                    }
+                    if ((y > -radius) && (y + position.y > 0)) { //NotSureAboutThis
+                        hasUpEdge = true;
+                    }
+                    if ((y > radius) && (x + position.y < getOwnerArea().getHeight())) { //NotSureAboutThis
+                        hasDownEdge = true;
+                    }
+                    range.addNode(newPosition, hasLeftEdge, hasUpEdge, hasRightEdge, hasDownEdge);
+                }
+            }
     }
 
     /**
