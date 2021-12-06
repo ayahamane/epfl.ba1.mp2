@@ -1,0 +1,2 @@
+-Contour haut et bas du carré blanc quand on sélectionne à arranger.
+-Carré blanc ne doit pas sortir dans l'espace noir.
