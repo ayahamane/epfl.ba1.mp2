@@ -79,15 +79,16 @@ public class RealPlayer extends ICWarsPlayer{
      */
     public void selectUnit(int index){
         if(index<unit.size()){
-            this.selectedUnit = unit.get(index);
-            playerGUI.setSelectedUnit(this.selectedUnit);
+            selectedUnit = unit.get(index);
+            playerGUI.setSelectedUnit(selectedUnit);
         }
     }
 
     @Override
     public void draw(Canvas canvas) {
         getSprite().draw(canvas);
-        playerGUI.draw(canvas);
+        if(!(selectedUnit ==null)){
+            playerGUI.draw(canvas);}
     }
 
     @Override

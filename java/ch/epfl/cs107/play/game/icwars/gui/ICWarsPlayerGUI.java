@@ -3,7 +3,6 @@ package ch.epfl.cs107.play.game.icwars.gui;
 import ch.epfl.cs107.play.game.actor.Graphics;
 import ch.epfl.cs107.play.game.icwars.actor.Unit;
 import ch.epfl.cs107.play.game.icwars.actor.player.ICWarsPlayer;
-import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
 
 
@@ -12,7 +11,6 @@ public class ICWarsPlayerGUI implements Graphics {
     private float camScaleFactor;
     private ICWarsPlayer icWarsPlayer;
     private Unit selectedUnitGui;
-    private DiscreteCoordinates destination;
 
     public ICWarsPlayerGUI(float cameraScaleFactor , ICWarsPlayer player){
         camScaleFactor = cameraScaleFactor;
@@ -20,13 +18,12 @@ public class ICWarsPlayerGUI implements Graphics {
     }
 
     public void setSelectedUnit(Unit selectedUnit) {
-        this.selectedUnitGui = selectedUnit;
+        selectedUnitGui = selectedUnit;
     }
 
     @Override
     public void draw(Canvas canvas) {
-        destination = selectedUnitGui.getCurrentCells();
-        selectedUnitGui.drawRangeAndPathTo(destination, canvas);
+       selectedUnitGui.drawRangeAndPathTo(icWarsPlayer.getCurrentCells().get(0), canvas);
     }
 }
 

@@ -29,6 +29,7 @@ abstract public class Unit extends ICWarsActor {
                 boolean hasRightEdge = false;
                 boolean hasUpEdge = false;
                 boolean hasDownEdge = false;
+                //DiscreteCoordinates coords = new DiscreteCoordinates(position.x+x, position.y+y);
                 if ((x > - radius)&&(x + position.x > 0  )){ //NotSureAboutThis
                     hasLeftEdge = true;
                 }
@@ -38,7 +39,7 @@ abstract public class Unit extends ICWarsActor {
                 if ((y > -radius)&&(y + position.y > 0 )){ //NotSureAboutThis
                     hasUpEdge = true;
                 }
-                if ((y > radius)&&(x + position.y < getOwnerArea().getHeight() )){ //NotSureAboutThis
+                if ((y > radius)&&(y + position.y < getOwnerArea().getHeight() )){ //NotSureAboutThis
                     hasDownEdge = true;
                 }
                 //Est ce qu'il doit être instancié au niv de Unit?
@@ -99,8 +100,8 @@ abstract public class Unit extends ICWarsActor {
 
     @Override
     public boolean takeCellSpace() {
-        return true;
-    }
+        return false;
+    }   //Revoir l'énoncé.
 
     /**@return (boolean): true if this is able to have cell interactions*/
     public boolean isCellInteractable(){

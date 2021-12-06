@@ -74,8 +74,7 @@ public class ICWars extends AreaGame {
             }
         }
         if ((keyboard.get(Keyboard.R).isReleased())) {
-            begin(windowReset, fileSystemReset);
-            //Est-ce possible d'avoir une méthode plus générale?
+            initArea(getCurrentArea().getTitle());
         }
         if (keyboard.get(Keyboard.U).isReleased()) {
             ((RealPlayer)player).selectUnit (1);
