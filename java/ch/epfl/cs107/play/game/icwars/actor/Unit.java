@@ -46,8 +46,8 @@ abstract public class Unit extends ICWarsActor {
                     //Code final (askip).
                     if( x > -radius && newPosition.x > 0 ) { hasLeftEdge = true; }
                     if( x < radius &&  newPosition.x < getOwnerArea().getWidth()-1 ) { hasRightEdge = true; }
-                    if( y > -radius && newPosition.y > 0 ) { hasUpEdge = true; }
-                    if( y < radius && newPosition.y < getOwnerArea().getHeight()-1 ) { hasDownEdge = true; }
+                    if( y > -radius && newPosition.y > 0 ) { hasDownEdge = true; }
+                    if( y < radius && newPosition.y < getOwnerArea().getHeight()-1 ) { hasUpEdge = true; }
 
                     range.addNode(newPosition, hasLeftEdge, hasUpEdge, hasRightEdge, hasDownEdge);
                 }
