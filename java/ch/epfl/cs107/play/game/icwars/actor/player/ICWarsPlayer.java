@@ -110,9 +110,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     public void draw(Canvas canvas) {}
 
     @Override
-    public boolean takeCellSpace() {
-        return false;
-    }
+    public boolean takeCellSpace() {return false;}
 
     @Override
     public boolean isCellInteractable() {

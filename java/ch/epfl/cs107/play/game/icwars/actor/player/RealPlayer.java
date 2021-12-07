@@ -107,7 +107,7 @@ public class RealPlayer extends ICWarsPlayer{
 
     @Override
     public boolean takeCellSpace() {
-        return true;
+        return false;
     }
 
     @Override
