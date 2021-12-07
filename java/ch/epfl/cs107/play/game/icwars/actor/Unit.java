@@ -27,9 +27,9 @@ abstract public class Unit extends ICWarsActor {
 
     private void setRange(DiscreteCoordinates position){
             radius = getRadius();
-            for (int n = - radius; n < radius+1; ++n) {
-                for (int m= -radius; m < radius+1; ++m) {
-                    DiscreteCoordinates newPosition = new DiscreteCoordinates(position.x+n,position.y+m);
+            for (int x = - radius; x <= radius; ++x) {
+                for (int y= -radius; y <= radius; ++y) {
+                    DiscreteCoordinates newPosition = new DiscreteCoordinates(x+position.x,y+position.y);
                     boolean hasLeftEdge = false;
                     boolean hasRightEdge = false;
                     boolean hasUpEdge = false;
@@ -42,23 +42,13 @@ abstract public class Unit extends ICWarsActor {
                     //if( m <= radius && position.y+m>=0 ) { hasDownEdge = true; }
 
                     //Code Aya qui essaye de merge les deux lul:
-                    if( n > -radius && position.x+n > 0 && position.x+n < getOwnerArea().getWidth() ) { hasLeftEdge = true; }
-                    if( n < radius &&  position.x+n < getOwnerArea().getWidth() && position.x+n > 0 ) { hasRightEdge = true; }
-                    if( m >= -radius && position.y+m > 0 && position.y+m < getOwnerArea().getHeight() ) { hasUpEdge = true; }
-                    if( m <= radius && position.y+m > 0 && position.y+m < getOwnerArea().getHeight() ) { hasDownEdge = true; }
+                    //Merci Aya.
+                    //Code final (askip).
+                    if( x > -radius && newPosition.x > 0 ) { hasLeftEdge = true; }
+                    if( x < radius &&  newPosition.x < getOwnerArea().getWidth()-1 ) { hasRightEdge = true; }
+                    if( y > -radius && newPosition.y > 0 ) { hasUpEdge = true; }
+                    if( y < radius && newPosition.y < getOwnerArea().getHeight()-1 ) { hasDownEdge = true; }
 
-                    //Code Lina:
-                    /*if ((x > - radius)&&(x + position.x > 0  )){ //NotSureAboutThis
-                        hasLeftEdge = true;
-                    }
-                    if ((x < radius)&&(x + position.x < getOwnerArea().getWidth() )){ //NotSureAboutThis
-                        hasRightEdge = true;
-                    }
-                    if ((y > -radius)&&(y + position.y > 0 )){ //NotSureAboutThis
-                        hasUpEdge = true;
-                    }
-                    if ((y > radius)&&(y + position.y < getOwnerArea().getHeight() )){ //NotSureAboutThis
-                        hasDownEdge = true;*/
                     range.addNode(newPosition, hasLeftEdge, hasUpEdge, hasRightEdge, hasDownEdge);
                 }
             }
