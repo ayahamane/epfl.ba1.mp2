@@ -114,9 +114,7 @@ abstract public class Unit extends ICWarsActor {
     }
 
     @Override
-    public boolean takeCellSpace() {
-        return false;
-    }   //Revoir l'énoncé.
+    public boolean takeCellSpace() { return true; }//Mise à true d'après piazza
 
     /**@return (boolean): true if this is able to have cell interactions*/
     public boolean isCellInteractable(){

@@ -25,7 +25,6 @@ public class ICWarsBehavior extends AreaBehavior {
 
         ICWarsCellType(int i, int type){
             this.type = type;
-            //this.isWalkable = isWalkable;
         }
 
         public static ICWarsCellType toType(int type){
@@ -81,16 +80,21 @@ public class ICWarsBehavior extends AreaBehavior {
 
         @Override
         protected boolean canEnter(Interactable entity) {
-            if(entity.takeCellSpace()){
+            /*if(entity.takeCellSpace()){
                 for(Interactable element:entities){
                     //Pas sur de la syntaxe ici, à revoir!
                     if(element.takeCellSpace()){
                         return false;
                     }
-                    //else{} SHOULD I ADD UN TRUC POUR ITERER OU ESTCE QUE CETTE BOUCLE FOR EST BIEN?
                 }
             }
-           return true;
+           return true;*/
+            for(Interactable element:entities){
+                if(entity.takeCellSpace() && element.takeCellSpace()){
+               return false;
+                }
+            }
+            return true;
         }
 
 
