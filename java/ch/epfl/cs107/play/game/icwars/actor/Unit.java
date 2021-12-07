@@ -18,38 +18,44 @@ abstract public class Unit extends ICWarsActor {
     private Sprite sprite;
     private ICWarsRange range = new ICWarsRange();
     private static int radius;
+    private boolean hasBeenUsed;
 
 
     public Unit(Area area, DiscreteCoordinates position, Faction fac){
         super(area, position, fac);
         setRange(position);
+        hasBeenUsed = false;
     }
 
     private void setRange(DiscreteCoordinates position){
             radius = getRadius();
             for (int x = - radius; x <= radius; ++x) {
-                for (int y= -radius; y <= radius; ++y) {
+                for (int y = -radius; y <= radius; ++y) {
                     DiscreteCoordinates newPosition = new DiscreteCoordinates(x+position.x,y+position.y);
                     boolean hasLeftEdge = false;
                     boolean hasRightEdge = false;
                     boolean hasUpEdge = false;
                     boolean hasDownEdge = false;
 
+
+                    //Code Aya qui essaye de merge les deux lul:
+                    //Merci Aya.
+                    //Code final (askip).
+                    //if (0 <=  newPosition.x && newPosition.x < getOwnerArea().getWidth()
+                        //&& 0 <= newPosition.y && newPosition.y < getOwnerArea().getHeight()){
+                        if( x > -radius && newPosition.x > 0 ) { hasLeftEdge = true; }
+                        if( x < radius &&  newPosition.x < getOwnerArea().getWidth()-1 ) { hasRightEdge = true; }
+                        if( y > -radius && newPosition.y > 0 ) { hasDownEdge = true; }
+                        if( y < radius && newPosition.y < getOwnerArea().getHeight()-1 ) { hasUpEdge = true; }
+                    //}
+
+                    range.addNode(newPosition, hasLeftEdge, hasUpEdge, hasRightEdge, hasDownEdge);
+
                     //Code Mamoun:
                     //if( n > -radius && position.x+n>0 ) { hasLeftEdge = true; }
                     //if( n < radius && position.x+n>0 ) { hasRightEdge = true; }
                     //if( m >= -radius && position.y+m>=0 ) { hasUpEdge = true; }
                     //if( m <= radius && position.y+m>=0 ) { hasDownEdge = true; }
-
-                    //Code Aya qui essaye de merge les deux lul:
-                    //Merci Aya.
-                    //Code final (askip).
-                    if( x > -radius && newPosition.x > 0 ) { hasLeftEdge = true; }
-                    if( x < radius &&  newPosition.x < getOwnerArea().getWidth()-1 ) { hasRightEdge = true; }
-                    if( y > -radius && newPosition.y > 0 ) { hasDownEdge = true; }
-                    if( y < radius && newPosition.y < getOwnerArea().getHeight()-1 ) { hasUpEdge = true; }
-
-                    range.addNode(newPosition, hasLeftEdge, hasUpEdge, hasRightEdge, hasDownEdge);
                 }
             }
     }
@@ -97,11 +103,16 @@ abstract public class Unit extends ICWarsActor {
 
     abstract int getDamage();
 
-    //This method has only been created to figure in the code.
-    //This is not its real way of functioning (Haven't figure it yet).
-    public boolean moveInRadius(){
-        return true;
+    @Override
+    public boolean changePosition(DiscreteCoordinates newPosition) {
+        if (range.nodeExists(newPosition)) {
+            setRange(newPosition);
+            return true;
+        }
+        return false;
     }
+
+
 
     @Override
     public boolean takeCellSpace() { return true; }//Mise à true d'après piazza
@@ -140,4 +151,13 @@ abstract public class Unit extends ICWarsActor {
     protected int getRadius(){
         return radius;
     }
+
+    protected boolean isHasBeenUsed(){
+        return hasBeenUsed;
+    }
+
+    public void setHasBeenUsed(boolean used){ //IsThisAnIntrusiveSetter?
+        hasBeenUsed = used;
+    }
+
 }

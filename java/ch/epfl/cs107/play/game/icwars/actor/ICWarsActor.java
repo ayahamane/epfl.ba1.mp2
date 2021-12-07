@@ -39,7 +39,7 @@ abstract public class ICWarsActor extends MovableAreaEntity {
         getOwnerArea().unregisterActor(this);
     }
 
-    protected Faction getFaction(){
+    public Faction getFaction(){
         return faction;
     }
 
