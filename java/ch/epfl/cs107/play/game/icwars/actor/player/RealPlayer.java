@@ -1,6 +1,7 @@
 package ch.epfl.cs107.play.game.icwars.actor.player;
 
 import ch.epfl.cs107.play.game.areagame.Area;
+import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
@@ -24,6 +25,8 @@ public class RealPlayer extends ICWarsPlayer{
     private ICWarsPlayerGUI playerGUI;
     private final static int MOVE_DURATION = 1;
     private Unit selectedUnit;
+    private Keyboard keyboard= getOwnerArea().getKeyboard();
+    private ICWarsPlayerInteractionHandler handler;
 
     /**
      * Demo actor
@@ -60,6 +63,33 @@ public class RealPlayer extends ICWarsPlayer{
             moveIfPressed(Orientation.DOWN, keyboard.get(Keyboard.DOWN));
         }
         changeState();
+    }
+
+    //Pour cette méthode, l'utilisation des case c qlqch avec lql je suis pas trop habituée,
+    //je vais donc très probablement revenir dessus quand je me serai bien documentée sur ça
+    //pck mettre case et if je trouve ça chelou.
+    protected void changeState(){
+        switch (getCurrentState()){
+            case IDLE: break;
+            case NORMAL:
+                if (keyboard.get(Keyboard.ENTER).isReleased()) { setCurrentState(playerState.SELECT_CELL); }
+                if (keyboard.get(Keyboard.TAB).isReleased()) {
+                    setCurrentState(playerState.IDLE);
+                }
+                break;
+            case SELECT_CELL:
+                if (unitInMemory != null){ setCurrentState(playerState.MOVE_UNIT); }
+                //Pas vraiment null mais juste si y a une unit dans sa currentCell.
+                break;
+            case MOVE_UNIT:
+                if (keyboard.get(Keyboard.ENTER).isReleased()) {
+                    unitInMemory.changePosition(this.getCurrentMainCellCoordinates());
+                    unitInMemory.setHasBeenUsed(true);
+                }
+                break;
+            case ACTION:
+            case ACTION_SELECTION:
+        }
     }
 
     /**
@@ -105,15 +135,20 @@ public class RealPlayer extends ICWarsPlayer{
     @Override
     public List<DiscreteCoordinates> getCurrentCells() { return Collections.singletonList(getCurrentMainCellCoordinates()); }
 
-    @Override
-    public void acceptInteraction(AreaInteractionVisitor v) {}
 
     protected void setSprite(Sprite s){ sprite = s; }//Is it really needed?
 
     protected Sprite getSprite(){ return sprite; }
 
-    //public void cellInteractionOf(Interactor interactor)
+    @Override
+    public void acceptInteraction(AreaInteractionVisitor v) {
+        ((ICWarInteractionVisitor)v).interactWith(this);
+    }
 
+    @Override
+    public void interactWith (Interactable inter){
+        inter.acceptInteraction(handler);
+    }
 
     public class ICWarsPlayerInteractionHandler implements ICWarInteractionVisitor{
         @Override
@@ -125,4 +160,5 @@ public class RealPlayer extends ICWarsPlayer{
             }
         }
     }
+
 }

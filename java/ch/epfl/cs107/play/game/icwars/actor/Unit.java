@@ -5,7 +5,9 @@ import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Path;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
+import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsRange;
+import ch.epfl.cs107.play.game.icwars.handler.ICWarInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
 
@@ -97,7 +99,7 @@ abstract public class Unit extends ICWarsActor {
 
     @Override
     public boolean changePosition(DiscreteCoordinates newPosition) {
-        if (range.nodeExists(newPosition)) {
+        if ((range.nodeExists(newPosition)||(!super.changePosition(newPosition)))){
             setRange(newPosition);
             return true;
         }
@@ -134,4 +136,10 @@ abstract public class Unit extends ICWarsActor {
 
     //IsThisAnIntrusiveSetter?
     public void setHasBeenUsed(boolean used) { hasBeenUsed = used; }
+
+
+    public void acceptInteraction(AreaInteractionVisitor v)
+    {
+        ((ICWarInteractionVisitor)v).interactWith(this);
+    }
 }

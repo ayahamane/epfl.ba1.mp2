@@ -22,7 +22,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     protected List<Unit> unit;
     private playerState currentState;
     private Keyboard keyboard= getOwnerArea().getKeyboard();
-    private Unit unitInMemory;
+    protected Unit unitInMemory;
 
     public ICWarsPlayer(Area area, DiscreteCoordinates position, Faction fac, Unit... units) {
         super(area, position, fac);
@@ -33,42 +33,18 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
         currentState = playerState.IDLE;
     }
 
-    //Pour cette méthode, l'utilisation des case c qlqch avec lql je suis pas trop habituée,
-    //je vais donc très probablement revenir dessus quand je me serai bien documentée sur ça
-    //pck mettre case et if je trouve ça chelou.
-    protected void changeState(){
-        switch (currentState){
-            case IDLE: break;
-            case NORMAL:
-                if (keyboard.get(Keyboard.ENTER).isReleased()) { currentState = playerState.SELECT_CELL; }
-                if (keyboard.get(Keyboard.TAB).isReleased()) {
-                    currentState = playerState.IDLE;
-                }
-                break;
-            case SELECT_CELL:
-                if (unitInMemory != null){ currentState = playerState.MOVE_UNIT; }
-                //Pas vraiment null mais juste si y a une unit dans sa currentCell.
-                break;
-            case MOVE_UNIT:
-                if (keyboard.get(Keyboard.ENTER).isReleased()) {
-                    //changer la position de l'unité, plus tard.
-                    //unitInMemory.setHasBeenUsed(true);
-                }
-                break;
-            case ACTION:
-            case ACTION_SELECTION:
-        }
-    }
 
     //Changed it to public because I need it in ICWars.
     public void start_turn(){
         currentState = playerState.NORMAL;
+        this.unitsReusable();
         centerCamera();
     }
 
     @Override
     public void onLeaving(List<DiscreteCoordinates> coordinates) {
         if (currentState == playerState.SELECT_CELL && unitInMemory == null) {
+            //Reverifier ces conditions. Apparemment on n'a pas besoin de vérifier qu'elle est vide.
             currentState = playerState.NORMAL;
         }
     }
@@ -106,6 +82,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
         return false;
     }
 
+
     /**
      * Center the camera on the player
      */
@@ -140,6 +117,11 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     //Changed it to public cause I need it in ICWars constructor.
 
     public playerState getCurrentState() { return currentState; }
+
+
+    protected void setCurrentState(playerState currState) {
+        currentState = currState;
+    }
 
     protected void memorizeUnit (Unit u) { unitInMemory = u; }
 
