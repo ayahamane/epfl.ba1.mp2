@@ -126,12 +126,16 @@ public class RealPlayer extends ICWarsPlayer{
 
     protected Sprite getSprite(){ return sprite; }
 
+    //public void cellInteractionOf(Interactor interactor)
+
+
     public class ICWarsPlayerInteractionHandler implements ICWarInteractionVisitor{
         @Override
         public void interactWith(Unit u) {
             if (RealPlayer.this.getCurrentState() == playerState.SELECT_CELL &&
-                    u.getFaction() == RealPlayer.this.getFaction()) {
+                    u.getFaction() == RealPlayer.this.getFaction() && !u.isHasBeenUsed()) {
                 RealPlayer.this.memorizeUnit(u);
+                RealPlayer.this.playerGUI.setSelectedUnit(u);    //Graphisme
             }
 
         }

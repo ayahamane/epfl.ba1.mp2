@@ -72,7 +72,9 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
 
     @Override
     public void onLeaving(List<DiscreteCoordinates> coordinates) {
-        if (currentState == playerState.SELECT_CELL && unitInMemory == null) { currentState = playerState.NORMAL;}
+        if (currentState == playerState.SELECT_CELL && unitInMemory == null) {
+            currentState = playerState.NORMAL;
+        }
     }
 
     public void update(float deltaTime){
