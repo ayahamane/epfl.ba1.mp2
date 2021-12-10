@@ -4,6 +4,7 @@ import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.actor.Interactor;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.game.icwars.ICWars;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
 import ch.epfl.cs107.play.game.icwars.actor.Unit;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -149,5 +150,15 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
             unit.get(i).getSprite().setAlpha(1.f);
             unit.get(i).setHasBeenUsed(false);
         }
+    }
+
+    /**
+     *Returns true if player ended his turn.
+     */
+    public boolean playerEndedTurn(){
+        if(currentState == ICWarsPlayer.playerState.IDLE){
+          return true;
+        }
+        return false;
     }
 }

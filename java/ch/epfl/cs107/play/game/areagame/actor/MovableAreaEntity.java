@@ -111,7 +111,6 @@ public abstract class MovableAreaEntity extends AreaEntity {
 
         if (!getOwnerArea().canEnterAreaCells(this, List.of(newPosition)))
             return false;
-
         getOwnerArea().leaveAreaCells(this, getCurrentCells());
         setCurrentPosition(newPosition.toVector());
         getOwnerArea().enterAreaCells(this, getCurrentCells());

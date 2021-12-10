@@ -29,8 +29,6 @@ public class ICWarsBehavior extends AreaBehavior {
                 if(ict.type == type)
                     return ict;
             }
-            // When you add a new color, you can print the int value here before assign it to a type
-            System.out.println(type);
             return null; //There was an error with NULL, so i replaced it with a null.
         }
     }

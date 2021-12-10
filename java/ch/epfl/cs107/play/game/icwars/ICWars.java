@@ -118,7 +118,7 @@ public class ICWars extends AreaGame {
                 gameCurrentState = gameState.PLAYER_TURN;
                 break;
             case PLAYER_TURN:
-                if(activePlayer.getCurrentState() == ICWarsPlayer.playerState.IDLE){
+                if(activePlayer.playerEndedTurn()){
                     gameCurrentState = gameState.END_PLAYER_TURN;
                 }
                 break;
