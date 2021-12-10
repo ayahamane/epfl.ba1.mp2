@@ -35,16 +35,14 @@ public class RealPlayer extends ICWarsPlayer{
         sprite = new Sprite(spriteName, 1.f, 1.f, this);
         resetMotion();
         if (fac == Faction.ally){
-            setSprite(new Sprite("icwars/allyCursor", 1f, 1f, this,
-                    null , new Vector(0, 0)));
+            sprite = new Sprite("icwars/allyCursor", 1f, 1f, this,
+                    null , new Vector(0, 0));
         } else {
-            setSprite(new Sprite("icwars/enemyCursor", 1f, 1f, this, null ,
-                    new Vector(0, 0)));
+            sprite = new Sprite("icwars/enemyCursor", 1f, 1f, this, null ,
+                    new Vector(0, 0));
         }
         playerGUI = new ICWarsPlayerGUI(getOwnerArea().getCameraScaleFactor(), this);
     }
-
-
 
     @Override
     public void update(float deltaTime) {
@@ -88,7 +86,7 @@ public class RealPlayer extends ICWarsPlayer{
 
     @Override
     public void draw(Canvas canvas) {
-        getSprite().draw(canvas);
+        if(!(getCurrentState() == playerState.IDLE)){sprite.draw(canvas);}
         if((!(selectedUnit == null)) && (getCurrentState() == playerState.MOVE_UNIT)){
             playerGUI.draw(canvas);}
     }
@@ -107,10 +105,6 @@ public class RealPlayer extends ICWarsPlayer{
 
     @Override
     public void acceptInteraction(AreaInteractionVisitor v) {}
-
-    protected void setSprite(Sprite s){ sprite = s; }//Is it really needed?
-
-    protected Sprite getSprite(){ return sprite; }
 
     public class ICWarsPlayerInteractionHandler implements ICWarInteractionVisitor{
         @Override
