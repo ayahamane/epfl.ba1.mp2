@@ -10,7 +10,6 @@ import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.game.icwars.area.Level0;
 import ch.epfl.cs107.play.game.icwars.area.Level1;
 import ch.epfl.cs107.play.io.FileSystem;
-import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
@@ -72,12 +71,6 @@ public class ICWars extends AreaGame {
             }
             players.get(i).centerCamera();
         }
-        /*for(int i = 0; i < players.size(); ++i) {//Not sure if that's how and where active player should be initialised.
-           if(players.get(i).getCurrentState() == ICWarsPlayer.playerState.IDLE){
-               activePlayer=players.get(i);
-               i= players.size();
-           }
-        }*/
         gameCurrentState = gameState.INIT;
     }
 
@@ -121,7 +114,7 @@ public class ICWars extends AreaGame {
                 }
                 break;
             case START_PLAYER_TURN:
-                activePlayer.start_turn();
+                activePlayer.startTurn();
                 gameCurrentState = gameState.PLAYER_TURN;
                 break;
             case PLAYER_TURN:

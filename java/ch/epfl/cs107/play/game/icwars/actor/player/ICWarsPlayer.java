@@ -35,7 +35,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
 
 
     //Changed it to public because I need it in ICWars.
-    public void start_turn(){
+    public void startTurn(){
         currentState = playerState.NORMAL;
         this.unitsReusable();
         centerCamera();
