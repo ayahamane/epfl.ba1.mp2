@@ -20,7 +20,17 @@ public abstract class ICWarsArea extends Area{
     @Override
     public final float getCameraScaleFactor() {return CAMERA_SCALE_FACTOR;}
 
-    public abstract DiscreteCoordinates getPlayerSpawnPosition();
+    public abstract DiscreteCoordinates getPlayerAllySpawnPosition();
+    //I added those methods, can I improve these?
+    public abstract DiscreteCoordinates getPlayerEnemySpawnPosition();
+
+    public abstract DiscreteCoordinates getTankAllySpawnPosition();
+
+    public abstract DiscreteCoordinates getTankEnemySpawnPosition();
+
+    public abstract DiscreteCoordinates getSoldierAllySpawnPosition();
+
+    public abstract DiscreteCoordinates getSoldierEnemySpawnPosition();
 
    // Demo2Area implements Playable
     @Override

@@ -1,7 +1,6 @@
 package ch.epfl.cs107.play.game.icwars;
 
 import ch.epfl.cs107.play.game.areagame.AreaGame;
-import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
 import ch.epfl.cs107.play.game.icwars.actor.Soldier;
 import ch.epfl.cs107.play.game.icwars.actor.Tank;
@@ -15,8 +14,6 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
-import java.awt.*;
-
 public class ICWars extends AreaGame {
 
     private ICWarsPlayer player;
@@ -24,7 +21,6 @@ public class ICWars extends AreaGame {
     private int areaIndex;
     private Window windowReset;
     private FileSystem fileSystemReset;
-    private Font
 
     /**
      * Add all the areas

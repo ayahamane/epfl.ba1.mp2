@@ -20,7 +20,6 @@ abstract public class Unit extends ICWarsActor {
     private static int radius;
     private boolean hasBeenUsed;
 
-
     public Unit(Area area, DiscreteCoordinates position, Faction fac){
         super(area, position, fac);
         setRange(position);
@@ -36,6 +35,8 @@ abstract public class Unit extends ICWarsActor {
                     boolean hasRightEdge = false;
                     boolean hasUpEdge = false;
                     boolean hasDownEdge = false;
+
+                    //Code final (askip).
                     //if (0 <=  newPosition.x && newPosition.x < getOwnerArea().getWidth()
                         //&& 0 <= newPosition.y && newPosition.y < getOwnerArea().getHeight()){
                         if( x > -radius && newPosition.x > 0 ) { hasLeftEdge = true; }
@@ -55,9 +56,7 @@ abstract public class Unit extends ICWarsActor {
             }
     }
 
-    public void draw(Canvas canvas) {
-        sprite.draw(canvas);
-    }
+    public void draw(Canvas canvas) { sprite.draw(canvas); }
 
     /**
      * Draw the unit's range and a path from the unit position to
@@ -92,9 +91,7 @@ abstract public class Unit extends ICWarsActor {
         }
     }
 
-    public void fix(float plus){
-        hp = hp + plus;
-    }
+    public void fix(float plus) { hp = hp + plus; }
 
     abstract int getDamage();
 
@@ -107,52 +104,34 @@ abstract public class Unit extends ICWarsActor {
         return false;
     }
 
-
-
     @Override
     public boolean takeCellSpace() { return true; }
 
     /**@return (boolean): true if this is able to have cell interactions*/
-    public boolean isCellInteractable(){
-        return true;
-    }
+    public boolean isCellInteractable() { return true; }
 
     /**@return (boolean): true if this is able to have view interactions*/
-    public boolean isViewInteractable(){
-        return false;
-    }
+    public boolean isViewInteractable() { return false; }
 
-    public String getName(){
-        return name;
-    }
+    public String getName() { return name; }
 
-    public float getHp(){
-        return hp;
-    }
+    public float getHp() { return hp; }
 
     //These methods are here to help us in the coming code. Can we keep them?
-    protected void setName(String n){
-        name = n;
-    }
+    protected void setName(String n) { name = n; }
 
-    protected void setHp(float energy){
-        hp = energy;
-    }
+    protected void setHp(float energy) { hp = energy; }
 
-    protected void setSprite(Sprite s){
-        sprite = s;
-    }
+    protected void setSprite(Sprite s) { sprite = s; }
 
-    protected int getRadius(){
-        return radius;
-    }
+    //IsThisAnIntrusiveGetter?I think that a sprite doesn't change throughout the time.
+    public Sprite getSprite() { return sprite; }
 
-    protected boolean isHasBeenUsed(){
-        return hasBeenUsed;
-    }
+    protected int getRadius() { return radius; }
 
-    public void setHasBeenUsed(boolean used){ //IsThisAnIntrusiveSetter?
-        hasBeenUsed = used;
-    }
+    //I changed it to public cause I use it in ICWarsPlayer update.
+    public boolean isHasBeenUsed() { return hasBeenUsed; }
 
+    //IsThisAnIntrusiveSetter?
+    public void setHasBeenUsed(boolean used) { hasBeenUsed = used; }
 }
