@@ -7,9 +7,7 @@ import ch.epfl.cs107.play.window.Window;
 
 public class ICWarsBehavior extends AreaBehavior {
     public enum ICWarsCellType{
-
         //I changed the first element to a type int.(A)
-
         NONE(0,0), // Should never be used except
         // in the toType method
         ROAD(-16777216, 0), // the second value is the number
@@ -21,7 +19,6 @@ public class ICWarsBehavior extends AreaBehavior {
         CITY(-1,2);
 
         final int type;
-        //final boolean isWalkable;
 
         ICWarsCellType(int i, int type){
             this.type = type;
@@ -80,15 +77,6 @@ public class ICWarsBehavior extends AreaBehavior {
 
         @Override
         protected boolean canEnter(Interactable entity) {
-            /*if(entity.takeCellSpace()){
-                for(Interactable element:entities){
-                    //Pas sur de la syntaxe ici, à revoir!
-                    if(element.takeCellSpace()){
-                        return false;
-                    }
-                }
-            }
-           return true;*/
             for(Interactable element:entities){
                 if(entity.takeCellSpace() && element.takeCellSpace()){
                return false;
@@ -111,6 +99,5 @@ public class ICWarsBehavior extends AreaBehavior {
         @Override
         public void acceptInteraction(AreaInteractionVisitor v) {
         }
-
     }
 }

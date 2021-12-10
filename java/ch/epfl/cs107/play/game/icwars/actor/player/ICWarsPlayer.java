@@ -1,6 +1,7 @@
 package ch.epfl.cs107.play.game.icwars.actor.player;
 
 import ch.epfl.cs107.play.game.areagame.Area;
+import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.actor.Interactor;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
@@ -15,12 +16,11 @@ import java.util.List;
 
 public class ICWarsPlayer extends ICWarsActor implements Interactor {
 
-    protected enum State{
+    public enum playerState{
         IDLE, NORMAL, SELECT_CELL, MOVE_UNIT, ACTION_SELECTION, ACTION;
     }
-
     protected List<Unit> unit;
-    private State currentState;
+    private playerState currentState;
     private Keyboard keyboard= getOwnerArea().getKeyboard();
     private Unit unitInMemory;
 
@@ -30,7 +30,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
         for(int i = 0;i < units.length; ++i){
             getOwnerArea().registerActor(unit.get(i));
         }
-        currentState = State.IDLE;
+        currentState = playerState.IDLE;
     }
 
     //Pour cette méthode, l'utilisation des case c qlqch avec lql je suis pas trop habituée,
@@ -40,11 +40,17 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
         switch (currentState){
             case IDLE: break;
             case NORMAL:
-                if (keyboard.get(Keyboard.ENTER).isReleased()) { currentState = State.SELECT_CELL; }
-                if (keyboard.get(Keyboard.TAB).isReleased()) { currentState = State.IDLE; }
+                if (keyboard.get(Keyboard.ENTER).isReleased()) { currentState = playerState.SELECT_CELL; }
+                if (keyboard.get(Keyboard.TAB).isReleased()) {
+                    currentState = playerState.IDLE;
+                    for(int i = 0; i < unit.size(); ++i){
+                        unit.get(i).getSprite().setAlpha(1.f);
+                        unit.get(i).setHasBeenUsed(false);
+                    }
+                }
                 break;
             case SELECT_CELL:
-                if (unitInMemory != null){ currentState = State.MOVE_UNIT; }
+                if (unitInMemory != null){ currentState = playerState.MOVE_UNIT; }
                 //Pas vraiment null mais juste si y a une unit dans sa currentCell.
                 break;
             case MOVE_UNIT:
@@ -58,14 +64,15 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
         }
     }
 
-    protected void startTurn(){
-        currentState = State.NORMAL;
+    //Changed it to public because I need it in ICWars.
+    public void start_turn(){
+        currentState = playerState.NORMAL;
         centerCamera();
     }
 
     @Override
     public void onLeaving(List<DiscreteCoordinates> coordinates) {
-        if (currentState == State.SELECT_CELL && unitInMemory == null) { currentState = State.NORMAL;}
+        if (currentState == playerState.SELECT_CELL && unitInMemory == null) { currentState = playerState.NORMAL;}
     }
 
     public void update(float deltaTime){
@@ -74,6 +81,9 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
             if(unit.get(i).isDead()){
                 getOwnerArea().unregisterActor(unit.get(i));
                 unit.remove(i);
+            }
+            if(unit.get(i).isHasBeenUsed()){
+                unit.get(i).getSprite().setAlpha(0.5f);
             }
         }
     }
@@ -102,9 +112,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     /**
      * Center the camera on the player
      */
-    public void centerCamera() {
-        getOwnerArea().setViewCandidate(this);
-    }
+    public void centerCamera() { getOwnerArea().setViewCandidate(this); }
 
     @Override
     public void draw(Canvas canvas) {}
@@ -113,33 +121,27 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     public boolean takeCellSpace() {return false;}
 
     @Override
-    public boolean isCellInteractable() {
-        return false;
-    }
+    public boolean isCellInteractable() { return false; }
 
     @Override
-    public boolean isViewInteractable() {
-        return false;
-    }
+    public boolean isViewInteractable() { return false; }
 
     @Override
-    public boolean wantsCellInteraction(){
-        return true;
-    }
+    public List<DiscreteCoordinates> getFieldOfViewCells() { return null; }
 
     @Override
-    public boolean wantsViewInteraction(){
-        return false;
-    }
+    public boolean wantsCellInteraction() { return true; }
+
+    @Override
+    public boolean wantsViewInteraction() { return false; }
+
+    @Override
+    public void interactWith(Interactable other) {}
 
     @Override
     public void acceptInteraction(AreaInteractionVisitor v) {}
+    //Changed it to public cause I need it in ICWars constructor.
+    public playerState getCurrentState() { return currentState; }
 
-    protected State getCurrentState(){
-        return currentState;
-    }
-
-    protected void memorizeUnit (Unit u){
-        unitInMemory = u;
-    }
+    protected void memorizeUnit (Unit u) { unitInMemory = u; }
 }

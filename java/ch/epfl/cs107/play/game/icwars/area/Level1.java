@@ -13,7 +13,17 @@ public class Level1 extends ICWarsArea {
         return "icwars/Level1";
     }
 
-    public DiscreteCoordinates getPlayerSpawnPosition() {return new DiscreteCoordinates(2,5);}
+    public DiscreteCoordinates getPlayerAllySpawnPosition() { return new DiscreteCoordinates(2,5); }
+
+    public DiscreteCoordinates getPlayerEnemySpawnPosition() { return new DiscreteCoordinates(17,5); }
+
+    public DiscreteCoordinates getTankAllySpawnPosition() { return new DiscreteCoordinates(2,5); }
+
+    public DiscreteCoordinates getTankEnemySpawnPosition() { return new DiscreteCoordinates(8,5); }
+
+    public DiscreteCoordinates getSoldierAllySpawnPosition() { return new DiscreteCoordinates(3,5); }
+
+    public DiscreteCoordinates getSoldierEnemySpawnPosition() { return new DiscreteCoordinates(9,5); }
 
     protected void createArea() {registerActor(new Background(this));}
 }

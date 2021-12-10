@@ -55,8 +55,8 @@ public class RealPlayer extends ICWarsPlayer{
     public void update(float deltaTime) {
         super.update(deltaTime);
         Keyboard keyboard= getOwnerArea().getKeyboard();
-        if (getCurrentState() == State.NORMAL || getCurrentState() == State.SELECT_CELL ||
-                getCurrentState() == State.MOVE_UNIT){  //je sais qu'on peut rendre ça moins long mais
+        if (getCurrentState() == playerState.NORMAL || getCurrentState() == playerState.SELECT_CELL ||
+                getCurrentState() == playerState.MOVE_UNIT){  //je sais qu'on peut rendre ça moins long mais
             //jsais plus cmt ^^. J'y reviendrai plus tard.
             moveIfPressed(Orientation.UP, keyboard.get(Keyboard.UP));
             moveIfPressed(Orientation.LEFT, keyboard.get(Keyboard.LEFT));
@@ -101,24 +101,18 @@ public class RealPlayer extends ICWarsPlayer{
     @Override
     public void draw(Canvas canvas) {
         getSprite().draw(canvas);
-        if((!(selectedUnit ==null)) && (getCurrentState() == State.MOVE_UNIT)){
+        if((!(selectedUnit ==null)) && (getCurrentState() == playerState.MOVE_UNIT)){
             playerGUI.draw(canvas);}
     }
 
     @Override
-    public boolean takeCellSpace() {
-        return false;
-    }
+    public boolean takeCellSpace() { return false; }
 
     @Override
-    public boolean isCellInteractable() {
-        return true;
-    }
+    public boolean isCellInteractable() { return true; }
 
     @Override
-    public boolean isViewInteractable() {
-        return true;
-    }
+    public boolean isViewInteractable() { return true; }
 
     @Override
     public List<DiscreteCoordinates> getCurrentCells() {
@@ -128,25 +122,18 @@ public class RealPlayer extends ICWarsPlayer{
     public void acceptInteraction(AreaInteractionVisitor v) {}
 
     //Is it really needed?
-    protected void setSprite(Sprite s){
-        sprite = s;
-    }
+    protected void setSprite(Sprite s){ sprite = s; }
 
-    protected Sprite getSprite(){
-        return sprite;
-    }
-
+    protected Sprite getSprite(){ return sprite; }
 
     public class ICWarsPlayerInteractionHandler implements ICWarInteractionVisitor{
-
         @Override
         public void interactWith(Unit u) {
-            if (RealPlayer.this.getCurrentState() == State.SELECT_CELL &&
+            if (RealPlayer.this.getCurrentState() == playerState.SELECT_CELL &&
                     u.getFaction() == RealPlayer.this.getFaction()) {
                 RealPlayer.this.memorizeUnit(u);
             }
 
         }
     }
-
 }
