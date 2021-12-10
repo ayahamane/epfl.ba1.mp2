@@ -36,11 +36,6 @@ abstract public class Unit extends ICWarsActor {
                     boolean hasRightEdge = false;
                     boolean hasUpEdge = false;
                     boolean hasDownEdge = false;
-
-
-                    //Code Aya qui essaye de merge les deux lul:
-                    //Merci Aya.
-                    //Code final (askip).
                     //if (0 <=  newPosition.x && newPosition.x < getOwnerArea().getWidth()
                         //&& 0 <= newPosition.y && newPosition.y < getOwnerArea().getHeight()){
                         if( x > -radius && newPosition.x > 0 ) { hasLeftEdge = true; }
