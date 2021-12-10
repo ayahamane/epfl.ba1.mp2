@@ -27,7 +27,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     public ICWarsPlayer(Area area, DiscreteCoordinates position, Faction fac, Unit... units) {
         super(area, position, fac);
         unit = new ArrayList<>(Arrays.asList(units));
-        for(int i = 0;i < units.length; ++i){
+        for(int i = 0; i < units.length; ++i){
             getOwnerArea().registerActor(unit.get(i));
         }
         currentState = playerState.IDLE;
@@ -43,10 +43,6 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
                 if (keyboard.get(Keyboard.ENTER).isReleased()) { currentState = playerState.SELECT_CELL; }
                 if (keyboard.get(Keyboard.TAB).isReleased()) {
                     currentState = playerState.IDLE;
-                    for(int i = 0; i < unit.size(); ++i){
-                        unit.get(i).getSprite().setAlpha(1.f);
-                        unit.get(i).setHasBeenUsed(false);
-                    }
                 }
                 break;
             case SELECT_CELL:
@@ -79,8 +75,7 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
         super.update(deltaTime);
         for(int i = 0; i < unit.size(); ++i){
             if(unit.get(i).isDead()){
-                getOwnerArea().unregisterActor(unit.get(i));
-                unit.remove(i);
+                getOwnerArea().unregisterActor(unit.get(i)); //D'après @741
             }
             if(unit.get(i).isHasBeenUsed()){
                 unit.get(i).getSprite().setAlpha(0.5f);
@@ -141,7 +136,18 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     @Override
     public void acceptInteraction(AreaInteractionVisitor v) {}
     //Changed it to public cause I need it in ICWars constructor.
+
     public playerState getCurrentState() { return currentState; }
 
     protected void memorizeUnit (Unit u) { unitInMemory = u; }
+
+    /**
+     * Makes all players units reusable.
+     */
+    public void unitsReusable(){
+        for(int i = 0; i < unit.size(); ++i){
+            unit.get(i).getSprite().setAlpha(1.f);
+            unit.get(i).setHasBeenUsed(false);
+        }
+    }
 }

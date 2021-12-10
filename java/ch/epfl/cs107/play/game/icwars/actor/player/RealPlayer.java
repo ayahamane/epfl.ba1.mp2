@@ -20,15 +20,10 @@ import java.util.List;
 
 public class RealPlayer extends ICWarsPlayer{
 
-
-
     private Sprite sprite;
     private ICWarsPlayerGUI playerGUI;
-    /// Animation duration in frame number
     private final static int MOVE_DURATION = 1;
     private Unit selectedUnit;
-
-
 
     /**
      * Demo actor
@@ -37,16 +32,16 @@ public class RealPlayer extends ICWarsPlayer{
     public RealPlayer(Area area, DiscreteCoordinates position, Faction fac,
                       String spriteName, Unit... unit) {
         super(area, position, fac, unit);
-        sprite = new Sprite(spriteName, 1.f, 1.f,this);
+        sprite = new Sprite(spriteName, 1.f, 1.f, this);
         resetMotion();
-        if (fac== Faction.ally){
+        if (fac == Faction.ally){
             setSprite(new Sprite("icwars/allyCursor", 1f, 1f, this,
                     null , new Vector(0, 0)));
         } else {
             setSprite(new Sprite("icwars/enemyCursor", 1f, 1f, this, null ,
                     new Vector(0, 0)));
         }
-        playerGUI=new ICWarsPlayerGUI(getOwnerArea().getCameraScaleFactor(), this);
+        playerGUI = new ICWarsPlayerGUI(getOwnerArea().getCameraScaleFactor(), this);
     }
 
 
@@ -54,10 +49,11 @@ public class RealPlayer extends ICWarsPlayer{
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        Keyboard keyboard= getOwnerArea().getKeyboard();
+        Keyboard keyboard = getOwnerArea().getKeyboard();
         if (getCurrentState() == playerState.NORMAL || getCurrentState() == playerState.SELECT_CELL ||
                 getCurrentState() == playerState.MOVE_UNIT){  //je sais qu'on peut rendre ça moins long mais
             //jsais plus cmt ^^. J'y reviendrai plus tard.
+            //Can I improve this method?
             moveIfPressed(Orientation.UP, keyboard.get(Keyboard.UP));
             moveIfPressed(Orientation.LEFT, keyboard.get(Keyboard.LEFT));
             moveIfPressed(Orientation.RIGHT, keyboard.get(Keyboard.RIGHT));
@@ -65,14 +61,6 @@ public class RealPlayer extends ICWarsPlayer{
         }
         changeState();
     }
-    //Can I do this instead in order to improve the method update?
-    /*@Override
-    public void update(float deltaTime, Orientation orientation, Button b) {
-        super.update(deltaTime);
-        Keyboard keyboard= getOwnerArea().getKeyboard();
-        //moveIfPressed(orientation, b);
-        //I chose to use only the line above to avoid duplicated code. Is it correct?
-     }*/
 
     /**
      * Orientate and Move this player in the given orientation if the given button is down
@@ -92,7 +80,7 @@ public class RealPlayer extends ICWarsPlayer{
      * Selects one of the units of the player
      */
     public void selectUnit(int index){
-        if(index<unit.size()){
+        if(index < unit.size()){
             selectedUnit = unit.get(index);
             playerGUI.setSelectedUnit(selectedUnit);
         }
@@ -101,7 +89,7 @@ public class RealPlayer extends ICWarsPlayer{
     @Override
     public void draw(Canvas canvas) {
         getSprite().draw(canvas);
-        if((!(selectedUnit ==null)) && (getCurrentState() == playerState.MOVE_UNIT)){
+        if((!(selectedUnit == null)) && (getCurrentState() == playerState.MOVE_UNIT)){
             playerGUI.draw(canvas);}
     }
 
@@ -115,14 +103,12 @@ public class RealPlayer extends ICWarsPlayer{
     public boolean isViewInteractable() { return true; }
 
     @Override
-    public List<DiscreteCoordinates> getCurrentCells() {
-        return Collections.singletonList(getCurrentMainCellCoordinates());}
+    public List<DiscreteCoordinates> getCurrentCells() { return Collections.singletonList(getCurrentMainCellCoordinates()); }
 
     @Override
     public void acceptInteraction(AreaInteractionVisitor v) {}
 
-    //Is it really needed?
-    protected void setSprite(Sprite s){ sprite = s; }
+    protected void setSprite(Sprite s){ sprite = s; }//Is it really needed?
 
     protected Sprite getSprite(){ return sprite; }
 
@@ -133,7 +119,6 @@ public class RealPlayer extends ICWarsPlayer{
                     u.getFaction() == RealPlayer.this.getFaction()) {
                 RealPlayer.this.memorizeUnit(u);
             }
-
         }
     }
 }

@@ -42,8 +42,8 @@ public class ICWars extends AreaGame {
 
     @Override
     public boolean begin(Window window, FileSystem fileSystem){
-        windowReset=window;
-        fileSystemReset=fileSystem;
+        windowReset = window;
+        fileSystemReset = fileSystem;
         if (super.begin(window, fileSystem)) {
             createAreas();
             areaIndex = 0;
@@ -62,8 +62,8 @@ public class ICWars extends AreaGame {
         Soldier soldier1 = new Soldier(area, area.getSoldierAllySpawnPosition(), ICWarsActor.Faction.ally);
         Tank tank2 = new Tank(area, area.getTankEnemySpawnPosition(), ICWarsActor.Faction.ally);
         Soldier soldier2 = new Soldier(area, area.getSoldierEnemySpawnPosition(), ICWarsActor.Faction.ally);
-        players.add(new RealPlayer(area, area.getPlayerAllySpawnPosition(), ICWarsActor.Faction.ally,"1",tank1,soldier1));
-        players.add(new RealPlayer(area, area.getPlayerEnemySpawnPosition(), ICWarsActor.Faction.enemy,"2",tank2,soldier2));
+        players.add(new RealPlayer(area, area.getPlayerAllySpawnPosition(), ICWarsActor.Faction.ally, "1", tank1, soldier1));
+        players.add(new RealPlayer(area, area.getPlayerEnemySpawnPosition(), ICWarsActor.Faction.enemy, "2",tank2, soldier2));
         for(int i = 0; i < players.size(); ++i) {
             if (players.get(i).getFaction() == ICWarsActor.Faction.ally) {
                 players.get(i).enterArea(area, area.getPlayerAllySpawnPosition());
@@ -72,22 +72,22 @@ public class ICWars extends AreaGame {
             }
             players.get(i).centerCamera();
         }
-        for(int i = 0; i < players.size(); ++i) {//Not sure if that's how and where active player should be initialised.
+        /*for(int i = 0; i < players.size(); ++i) {//Not sure if that's how and where active player should be initialised.
            if(players.get(i).getCurrentState() == ICWarsPlayer.playerState.IDLE){
                activePlayer=players.get(i);
                i= players.size();
            }
-        }
-        gameCurrentState=gameState.INIT;
+        }*/
+        gameCurrentState = gameState.INIT;
     }
 
     @Override
     public void update(float deltaTime) {
-        Keyboard keyboard= getCurrentArea().getKeyboard();
+        Keyboard keyboard = getCurrentArea().getKeyboard();
         super.update(deltaTime);
         changeGameState();
-        if((keyboard.get(Keyboard.N).isReleased())){  //Button N(same que END)
-            if(areaIndex==0){
+        if((keyboard.get(Keyboard.N).isReleased())){//Button N(same que END)
+            if(areaIndex == 0){
                 switchArea();
             } else {
                 System.out.println(end());//Peut être upgraded
@@ -115,8 +115,8 @@ public class ICWars extends AreaGame {
                 if (playersWaitingForCurrentRound.isEmpty()) {
                     gameCurrentState = gameState.END_TURN;
                 } else {
-                    //activePlayer =  //How to choose the new activePlayer?
-                    playersWaitingForCurrentRound.remove(activePlayer);//Can I remove the player this way?
+                    activePlayer = playersWaitingForCurrentRound.get(0);
+                    playersWaitingForCurrentRound.remove(0);
                     gameCurrentState = gameState.START_PLAYER_TURN;
                 }
                 break;
@@ -134,11 +134,7 @@ public class ICWars extends AreaGame {
                     getCurrentArea().unregisterActor(activePlayer);
                 } else {
                     playersWaitingForNextRound.add(activePlayer);
-                    /*for(int i = 0; i < activePlayer.unit.size(); ++i){
-                        unit.get(i).getSprite().setAlpha(1.f);
-                        unit.get(i).setHasBeenUsed(false);
-                    }*/
-                    //Make sure que toutes ses unités redeviennent utilisables.
+                    activePlayer.unitsReusable();
                 }
                 gameCurrentState = gameState.CHOOSE_PLAYER;
                 break;
@@ -148,7 +144,7 @@ public class ICWars extends AreaGame {
                         getCurrentArea().unregisterActor(playersWaitingForNextRound.get(i));
                     }
                 }
-                if(playersWaitingForNextRound.size()==1){//One player left
+                if(playersWaitingForNextRound.size() == 1){//One player left
                     gameCurrentState = gameState.END;
                 } else {
                     for(int i = 0; i < playersWaitingForNextRound.size(); ++i) {
@@ -158,7 +154,7 @@ public class ICWars extends AreaGame {
                 gameCurrentState = gameState.CHOOSE_PLAYER;
                 break;
             case END:
-                if(areaIndex==0){
+                if(areaIndex == 0){
                     switchArea();
                 } else {
                     System.out.println(end());//May be upgraded
