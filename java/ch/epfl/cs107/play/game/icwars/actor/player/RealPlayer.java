@@ -5,17 +5,15 @@ import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
-import ch.epfl.cs107.play.game.icwars.actor.Tank;
 import ch.epfl.cs107.play.game.icwars.actor.Unit;
 import ch.epfl.cs107.play.game.icwars.gui.ICWarsPlayerGUI;
-import ch.epfl.cs107.play.game.icwars.handler.ICWarInteractionVisitor;
+import ch.epfl.cs107.play.game.icwars.handler.ICWarsInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 
-import javax.swing.*;
 import java.util.Collections;
 import java.util.List;
 
@@ -27,6 +25,7 @@ public class RealPlayer extends ICWarsPlayer{
     private Unit selectedUnit;
     private Keyboard keyboard= getOwnerArea().getKeyboard();
     private ICWarsPlayerInteractionHandler handler;
+    private Faction faction;
 
     /**
      * Demo actor
@@ -36,6 +35,8 @@ public class RealPlayer extends ICWarsPlayer{
                       String spriteName, Unit... unit) {
         super(area, position, fac, unit);
         sprite = new Sprite(spriteName, 1.f, 1.f, this);
+        this.handler = new ICWarsPlayerInteractionHandler();
+        this.faction = fac;
         resetMotion();
         if (fac == Faction.ally){
             sprite = new Sprite("icwars/allyCursor", 1f, 1f, this,
@@ -68,25 +69,32 @@ public class RealPlayer extends ICWarsPlayer{
     //pck mettre case et if je trouve ça chelou.
     protected void changeState(){
         switch (getCurrentState()){
-            case IDLE: break;
+            case IDLE:
+                break;
             case NORMAL:
-                if (keyboard.get(Keyboard.ENTER).isReleased()) { setCurrentState(playerState.SELECT_CELL); }
+                if (keyboard.get(Keyboard.ENTER).isReleased()) {
+                    currentState = playerState.SELECT_CELL; }
                 if (keyboard.get(Keyboard.TAB).isReleased()) {
-                    setCurrentState(playerState.IDLE);
-                }
+                    currentState = playerState.IDLE;}
                 break;
             case SELECT_CELL:
-                if (unitInMemory != null){ setCurrentState(playerState.MOVE_UNIT); }
-                //Pas vraiment null mais juste si y a une unit dans sa currentCell.
+                if (unitInMemory != null && !unitInMemory.isHasBeenUsed()){
+                    currentState = playerState.MOVE_UNIT; }
                 break;
             case MOVE_UNIT:
+                System.out.println("Move unit");
                 if (keyboard.get(Keyboard.ENTER).isReleased()) {
-                    unitInMemory.changePosition(this.getCurrentMainCellCoordinates());
-                    unitInMemory.setHasBeenUsed(true);
+                    if (unitInMemory.changePosition(this.getCurrentMainCellCoordinates())){
+                        unitInMemory.setHasBeenUsed(true);
+                        currentState = playerState.NORMAL;
+                    }
                 }
                 break;
             case ACTION:
+                break;
             case ACTION_SELECTION:
+                break;
+            default:
         }
     }
 
@@ -122,33 +130,24 @@ public class RealPlayer extends ICWarsPlayer{
     }
 
     @Override
-    public boolean takeCellSpace() { return false; }
-
-    @Override
-    public boolean isCellInteractable() { return true; }
-
-    @Override
-    public boolean isViewInteractable() { return true; }
-
-    @Override
     public List<DiscreteCoordinates> getCurrentCells() { return Collections.singletonList(getCurrentMainCellCoordinates()); }
 
     @Override
-    public void acceptInteraction(AreaInteractionVisitor v) {}
+    public void acceptInteraction(AreaInteractionVisitor v) {
+        ((ICWarsInteractionVisitor)v).interactWith(this);}
 
-    protected void setSprite(Sprite s){ sprite = s; }//Is it really needed?
+    @Override
+    public void interactWith(Interactable other) {
+        other.acceptInteraction(handler);
+    }
 
-    protected Sprite getSprite(){ return sprite; }
-
-    public class ICWarsPlayerInteractionHandler implements ICWarInteractionVisitor{
+    public class ICWarsPlayerInteractionHandler implements ICWarsInteractionVisitor {
         @Override
         public void interactWith(Unit u) {
-            if (RealPlayer.this.getCurrentState() == playerState.SELECT_CELL &&
-                    u.getFaction() == RealPlayer.this.getFaction() && !u.isHasBeenUsed()) {
-                RealPlayer.this.memorizeUnit(u);
-                RealPlayer.this.playerGUI.setSelectedUnit(u);    //Graphisme
+            if (currentState == playerState.SELECT_CELL && u.getFaction() == faction) {
+                selectedUnit = u;
+                playerGUI.setSelectedUnit(u);    //Graphisme
             }
         }
     }
-
 }

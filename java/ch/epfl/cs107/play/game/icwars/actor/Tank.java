@@ -38,11 +38,6 @@ public class Tank extends Unit {
     protected int getRadius(){
         return TANK_RADIUS;
     }
-
-    @Override
-    public void acceptInteraction(AreaInteractionVisitor v) {
-
-    }
 }
 
 //compilation mistakes are because of methods that should be implemented but they

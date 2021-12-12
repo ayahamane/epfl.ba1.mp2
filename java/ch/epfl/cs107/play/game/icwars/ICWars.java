@@ -28,7 +28,7 @@ public class ICWars extends AreaGame {
     private ICWarsPlayer activePlayer;
     private gameState gameCurrentState;
     protected enum gameState{
-        INIT, CHOOSE_PLAYER, START_PLAYER_TURN, PLAYER_TURN, END_PLAYER_TURN, END_TURN, END;
+        INIT, CHOOSE_PLAYER, START_PLAYER_TURN, PLAYER_TURN, END_PLAYER_TURN, END_TURN, END
     }
 
     /**
@@ -59,8 +59,8 @@ public class ICWars extends AreaGame {
         ICWarsArea area = (ICWarsArea)setCurrentArea(areaKey, true);
         Tank tank1 = new Tank(area, area.getTankAllySpawnPosition(), ICWarsActor.Faction.ally);
         Soldier soldier1 = new Soldier(area, area.getSoldierAllySpawnPosition(), ICWarsActor.Faction.ally);
-        Tank tank2 = new Tank(area, area.getTankEnemySpawnPosition(), ICWarsActor.Faction.ally);
-        Soldier soldier2 = new Soldier(area, area.getSoldierEnemySpawnPosition(), ICWarsActor.Faction.ally);
+        Tank tank2 = new Tank(area, area.getTankEnemySpawnPosition(), ICWarsActor.Faction.enemy);
+        Soldier soldier2 = new Soldier(area, area.getSoldierEnemySpawnPosition(), ICWarsActor.Faction.enemy);
         players.add(new RealPlayer(area, area.getPlayerAllySpawnPosition(), ICWarsActor.Faction.ally, "1", tank1, soldier1));
         players.add(new RealPlayer(area, area.getPlayerEnemySpawnPosition(), ICWarsActor.Faction.enemy, "2",tank2, soldier2));
         for(int i = 0; i < players.size(); ++i) {
@@ -153,6 +153,7 @@ public class ICWars extends AreaGame {
                     System.out.println(end());//May be upgraded
                 }
                 break;
+            default:
         }
     }
 

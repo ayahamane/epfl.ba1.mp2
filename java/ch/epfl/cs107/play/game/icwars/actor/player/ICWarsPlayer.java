@@ -15,13 +15,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ICWarsPlayer extends ICWarsActor implements Interactor {
+public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
 
     public enum playerState{
-        IDLE, NORMAL, SELECT_CELL, MOVE_UNIT, ACTION_SELECTION, ACTION;
+        IDLE, NORMAL, SELECT_CELL, MOVE_UNIT, ACTION_SELECTION, ACTION
     }
     protected List<Unit> unit;
-    private playerState currentState;
+    protected playerState currentState;
     private Keyboard keyboard= getOwnerArea().getKeyboard();
     protected Unit unitInMemory;
 
@@ -34,8 +34,6 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
         currentState = playerState.IDLE;
     }
 
-
-    //Changed it to public because I need it in ICWars.
     public void startTurn(){
         currentState = playerState.NORMAL;
         this.unitsReusable();
@@ -110,21 +108,11 @@ public class ICWarsPlayer extends ICWarsActor implements Interactor {
     @Override
     public boolean wantsViewInteraction() { return false; }
 
-    @Override
-    public void interactWith(Interactable other) {}
-
-    @Override
-    public void acceptInteraction(AreaInteractionVisitor v) {}
-    //Changed it to public cause I need it in ICWars constructor.
-
     public playerState getCurrentState() { return currentState; }
 
-
-    protected void setCurrentState(playerState currState) {
+    /*protected void setCurrentState(playerState currState) {
         currentState = currState;
-    }
-
-    protected void memorizeUnit (Unit u) { unitInMemory = u; }
+    }*/
 
     /**
      * Makes all players units reusable.

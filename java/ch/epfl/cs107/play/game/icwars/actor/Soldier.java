@@ -23,7 +23,7 @@ public class Soldier extends Unit
             setSprite(new Sprite("icwars/friendlySoldier" , 1.5f, 1.5f, this , null , new
                     Vector(-0.25f, -0.25f)));
         } else {
-            setSprite(new Sprite("icwars/enemySolider" , 1.5f, 1.5f, this , null , new
+            setSprite(new Sprite("icwars/enemySoldier" , 1.5f, 1.5f, this , null , new
                     Vector(-0.25f, -0.25f)));
         }
     }
@@ -37,11 +37,6 @@ public class Soldier extends Unit
     @Override
     protected int getRadius(){
         return SOLDIER_RADIUS;
-    }
-
-    @Override
-    public void acceptInteraction(AreaInteractionVisitor v){
-
     }
 
 }

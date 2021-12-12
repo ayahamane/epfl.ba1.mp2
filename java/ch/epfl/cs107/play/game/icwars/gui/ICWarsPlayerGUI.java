@@ -18,12 +18,15 @@ public class ICWarsPlayerGUI implements Graphics {
     }
 
     public void setSelectedUnit(Unit selectedUnit) {
-        selectedUnitGui = selectedUnit;
+        this.selectedUnitGui = selectedUnit;
     }
 
     @Override
     public void draw(Canvas canvas) {
-       selectedUnitGui.drawRangeAndPathTo(icWarsPlayer.getCurrentCells().get(0), canvas);
+        if(selectedUnitGui!=null){
+            selectedUnitGui.drawRangeAndPathTo(icWarsPlayer.getCurrentCells().get(0), canvas);
+        }
+
     }
 }
 
