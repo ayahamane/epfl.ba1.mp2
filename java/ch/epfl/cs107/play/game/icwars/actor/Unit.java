@@ -17,7 +17,7 @@ abstract public class Unit extends ICWarsActor {
     private String name;
     private float hp;
     private Sprite sprite;
-    private ICWarsRange range = new ICWarsRange();
+    private ICWarsRange range;
     private static int radius;
     private boolean hasBeenUsed;
 
@@ -28,6 +28,7 @@ abstract public class Unit extends ICWarsActor {
     }
 
     private void setRange(DiscreteCoordinates position) {
+        range = new ICWarsRange();
         radius = getRadius();
         for (int x = -radius; x <= radius; ++x) {
             for (int y = -radius; y <= radius; ++y) {
@@ -36,14 +37,8 @@ abstract public class Unit extends ICWarsActor {
                 boolean hasRightEdge = false;
                 boolean hasUpEdge = false;
                 boolean hasDownEdge = false;
-//                if ( x < getOwnerArea().getWidth()){
-//                    x = 0;
-//                }
-//                if ( y < getOwnerArea().getHeight()){
-//                    y = 0;
-//                }
-//                if (0 <= newPosition.x && newPosition.x < getOwnerArea().getWidth()
-//                        && 0 <= newPosition.y && newPosition.y < getOwnerArea().getHeight()) {
+                if (0 <= newPosition.x && newPosition.x < getOwnerArea().getWidth()
+                        && 0 <= newPosition.y && newPosition.y < getOwnerArea().getHeight()) {
                     if (x > -radius && newPosition.x > 0) {
                         hasLeftEdge = true;
                     }
@@ -56,14 +51,12 @@ abstract public class Unit extends ICWarsActor {
                     if (y < radius && newPosition.y < getOwnerArea().getHeight() - 1) {
                         hasUpEdge = true;
                     }
-                    //}
-
                     range.addNode(newPosition, hasLeftEdge, hasUpEdge, hasRightEdge, hasDownEdge);
 
                 }
             }
         }
-    //}
+    }
 
     public void draw(Canvas canvas) { sprite.draw(canvas); }
 
