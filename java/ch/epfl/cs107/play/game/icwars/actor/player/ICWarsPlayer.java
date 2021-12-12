@@ -42,7 +42,7 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
 
     @Override
     public void onLeaving(List<DiscreteCoordinates> coordinates) {
-        if (currentState == playerState.SELECT_CELL && unitInMemory == null) {
+        if (currentState == playerState.SELECT_CELL) {
             //Reverifier ces conditions. Apparemment on n'a pas besoin de vérifier qu'elle est vide.
             currentState = playerState.NORMAL;
         }
