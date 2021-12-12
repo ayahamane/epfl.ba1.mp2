@@ -27,35 +27,43 @@ abstract public class Unit extends ICWarsActor {
         hasBeenUsed = false;
     }
 
-    private void setRange(DiscreteCoordinates position){
-            radius = getRadius();
-            for (int x = - radius; x <= radius; ++x) {
-                for (int y = -radius; y <= radius; ++y) {
-                    DiscreteCoordinates newPosition = new DiscreteCoordinates(x+position.x,y+position.y);
-                    boolean hasLeftEdge = false;
-                    boolean hasRightEdge = false;
-                    boolean hasUpEdge = false;
-                    boolean hasDownEdge = false;
-
-                    //Code final (askip).
-                    //if (0 <=  newPosition.x && newPosition.x < getOwnerArea().getWidth()
-                        //&& 0 <= newPosition.y && newPosition.y < getOwnerArea().getHeight()){
-                        if( x > -radius && newPosition.x > 0 ) { hasLeftEdge = true; }
-                        if( x < radius &&  newPosition.x < getOwnerArea().getWidth()-1 ) { hasRightEdge = true; }
-                        if( y > -radius && newPosition.y > 0 ) { hasDownEdge = true; }
-                        if( y < radius && newPosition.y < getOwnerArea().getHeight()-1 ) { hasUpEdge = true; }
+    private void setRange(DiscreteCoordinates position) {
+        radius = getRadius();
+        for (int x = -radius; x <= radius; ++x) {
+            for (int y = -radius; y <= radius; ++y) {
+                DiscreteCoordinates newPosition = new DiscreteCoordinates(x + position.x, y + position.y);
+                boolean hasLeftEdge = false;
+                boolean hasRightEdge = false;
+                boolean hasUpEdge = false;
+                boolean hasDownEdge = false;
+//                if ( x < getOwnerArea().getWidth()){
+//                    x = 0;
+//                }
+//                if ( y < getOwnerArea().getHeight()){
+//                    y = 0;
+//                }
+//                if (0 <= newPosition.x && newPosition.x < getOwnerArea().getWidth()
+//                        && 0 <= newPosition.y && newPosition.y < getOwnerArea().getHeight()) {
+                    if (x > -radius && newPosition.x > 0) {
+                        hasLeftEdge = true;
+                    }
+                    if (x < radius && newPosition.x < getOwnerArea().getWidth() - 1) {
+                        hasRightEdge = true;
+                    }
+                    if (y > -radius && newPosition.y > 0) {
+                        hasDownEdge = true;
+                    }
+                    if (y < radius && newPosition.y < getOwnerArea().getHeight() - 1) {
+                        hasUpEdge = true;
+                    }
                     //}
 
                     range.addNode(newPosition, hasLeftEdge, hasUpEdge, hasRightEdge, hasDownEdge);
 
-                    //Code Mamoun:
-                    //if( n > -radius && position.x+n>0 ) { hasLeftEdge = true; }
-                    //if( n < radius && position.x+n>0 ) { hasRightEdge = true; }
-                    //if( m >= -radius && position.y+m>=0 ) { hasUpEdge = true; }
-                    //if( m <= radius && position.y+m>=0 ) { hasDownEdge = true; }
                 }
             }
-    }
+        }
+    //}
 
     public void draw(Canvas canvas) { sprite.draw(canvas); }
 
