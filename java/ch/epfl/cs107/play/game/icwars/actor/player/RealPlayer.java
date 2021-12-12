@@ -26,6 +26,7 @@ public class RealPlayer extends ICWarsPlayer{
     private Keyboard keyboard= getOwnerArea().getKeyboard();
     private ICWarsPlayerInteractionHandler handler;
     private Faction faction;
+    private boolean canPass = false;
 
     /**
      * Demo actor
@@ -72,13 +73,15 @@ public class RealPlayer extends ICWarsPlayer{
             case IDLE:
                 break;
             case NORMAL:
+                System.out.println("NORMAL");
                 if (keyboard.get(Keyboard.ENTER).isReleased()) {
                     currentState = playerState.SELECT_CELL; }
                 if (keyboard.get(Keyboard.TAB).isReleased()) {
                     currentState = playerState.IDLE;}
                 break;
             case SELECT_CELL:
-                if (unitInMemory != null && !unitInMemory.isHasBeenUsed()){
+                System.out.println("SELECT_UNIT");
+                if (canPass){
                     currentState = playerState.MOVE_UNIT; }
                 break;
             case MOVE_UNIT:
@@ -87,6 +90,7 @@ public class RealPlayer extends ICWarsPlayer{
                     if (unitInMemory.changePosition(this.getCurrentMainCellCoordinates())){
                         unitInMemory.setHasBeenUsed(true);
                         currentState = playerState.NORMAL;
+                        canPass = false;
                     }
                 }
                 break;
@@ -145,8 +149,9 @@ public class RealPlayer extends ICWarsPlayer{
         @Override
         public void interactWith(Unit u) {
             if (currentState == playerState.SELECT_CELL && u.getFaction() == faction) {
-                selectedUnit = u;
-                playerGUI.setSelectedUnit(u);    //Graphisme
+                unitInMemory = u;
+                canPass = true;
+                playerGUI.setSelectedUnit(unitInMemory);    //Graphisme
             }
         }
     }
