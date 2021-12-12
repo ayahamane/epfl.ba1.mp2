@@ -65,28 +65,21 @@ public class RealPlayer extends ICWarsPlayer{
         changeState();
     }
 
-    //Pour cette méthode, l'utilisation des case c qlqch avec lql je suis pas trop habituée,
-    //je vais donc très probablement revenir dessus quand je me serai bien documentée sur ça
-    //pck mettre case et if je trouve ça chelou.
     protected void changeState(){
         switch (getCurrentState()){
             case IDLE:
-                System.out.println("IDLE");
                 break;
             case NORMAL:
-                System.out.println("NORMAL");
                 if (keyboard.get(Keyboard.ENTER).isReleased()) {
                     currentState = playerState.SELECT_CELL; }
                 if (keyboard.get(Keyboard.TAB).isReleased()) {
                     currentState = playerState.IDLE;}
                 break;
             case SELECT_CELL:
-                System.out.println("SELECT_UNIT");
                 if (canPass && !unitInMemory.isHasBeenUsed()){
                     currentState = playerState.MOVE_UNIT; }
                 break;
             case MOVE_UNIT:
-                System.out.println("Move unit");
                 if (keyboard.get(Keyboard.ENTER).isReleased()) {
                     if (unitInMemory.changePosition(this.getCurrentMainCellCoordinates())) {
                         unitInMemory.setHasBeenUsed(true);
@@ -152,7 +145,7 @@ public class RealPlayer extends ICWarsPlayer{
             if (currentState == playerState.SELECT_CELL && u.getFaction() == faction) {
                 unitInMemory = u;
                 canPass = true;
-                playerGUI.setSelectedUnit(u);    //Graphisme
+                playerGUI.setSelectedUnit(u);
             }
         }
     }

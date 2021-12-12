@@ -39,6 +39,3 @@ public class Tank extends Unit {
         return TANK_RADIUS;
     }
 }
-
-//compilation mistakes are because of methods that should be implemented but they
-//didn't say anything about them so idk what to do in them.
