@@ -5,7 +5,7 @@ import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
-import ch.epfl.cs107.play.game.icwars.actor.Unit;
+import ch.epfl.cs107.play.game.icwars.actor.unit.Unit;
 import ch.epfl.cs107.play.game.icwars.gui.ICWarsPlayerGUI;
 import ch.epfl.cs107.play.game.icwars.handler.ICWarsInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -71,22 +71,18 @@ public class RealPlayer extends ICWarsPlayer{
     protected void changeState(){
         switch (getCurrentState()){
             case IDLE:
-                System.out.println("IDLE");
                 break;
             case NORMAL:
-                System.out.println("NORMAL");
                 if (keyboard.get(Keyboard.ENTER).isReleased()) {
                     currentState = playerState.SELECT_CELL; }
                 if (keyboard.get(Keyboard.TAB).isReleased()) {
                     currentState = playerState.IDLE;}
                 break;
             case SELECT_CELL:
-                System.out.println("SELECT_UNIT");
                 if (canPass && !unitInMemory.isHasBeenUsed()){
                     currentState = playerState.MOVE_UNIT; }
                 break;
             case MOVE_UNIT:
-                System.out.println("Move unit");
                 if (keyboard.get(Keyboard.ENTER).isReleased()) {
                     if (unitInMemory.changePosition(this.getCurrentMainCellCoordinates())) {
                         unitInMemory.setHasBeenUsed(true);
