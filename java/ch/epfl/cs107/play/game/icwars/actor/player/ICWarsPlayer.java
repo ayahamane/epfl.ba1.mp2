@@ -3,6 +3,8 @@ package ch.epfl.cs107.play.game.icwars.actor.player;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Interactor;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
+import ch.epfl.cs107.play.game.icwars.actor.Unit;
+import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.game.icwars.actor.unit.Unit;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
@@ -22,11 +24,12 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
     private Keyboard keyboard= getOwnerArea().getKeyboard();
     protected Unit unitInMemory;
 
-    public ICWarsPlayer(Area area, DiscreteCoordinates position, Faction fac, Unit... units) {
+    public ICWarsPlayer(ICWarsArea area, DiscreteCoordinates position, Faction fac, Unit... units) {
         super(area, position, fac);
         unit = new ArrayList<>(Arrays.asList(units));
         for(int i = 0; i < units.length; ++i){
             getOwnerArea().registerActor(unit.get(i));
+            area.addToUnitInArea(unit.get(i));
         }
         currentState = playerState.IDLE;
     }
@@ -44,7 +47,6 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
     @Override
     public void onLeaving(List<DiscreteCoordinates> coordinates) {
         if (currentState == playerState.SELECT_CELL) {
-            //Reverifier ces conditions. Apparemment on n'a pas besoin de vérifier qu'elle est vide.
             currentState = playerState.NORMAL;
         }
     }
@@ -53,7 +55,7 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
         super.update(deltaTime);
         for(int i = 0; i < unit.size(); ++i){
             if(unit.get(i).isDead()){
-                getOwnerArea().unregisterActor(unit.get(i)); //D'après @741
+                getOwnerArea().unregisterActor(unit.get(i));
             }
             if(unit.get(i).isHasBeenUsed()){
                 unit.get(i).getSprite().setAlpha(0.5f);
@@ -110,10 +112,6 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
     public boolean wantsViewInteraction() { return false; }
 
     public playerState getCurrentState() { return currentState; }
-
-    /*protected void setCurrentState(playerState currState) {
-        currentState = currState;
-    }*/
 
     /**
      * Makes all players units reusable.

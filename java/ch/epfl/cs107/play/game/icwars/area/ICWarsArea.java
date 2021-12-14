@@ -1,10 +1,15 @@
 package ch.epfl.cs107.play.game.icwars.area;
 import ch.epfl.cs107.play.game.areagame.Area;
+import ch.epfl.cs107.play.game.icwars.actor.Unit;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Window;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class ICWarsArea extends Area{
+    private List<Unit> unitInArea;
     private ICWarsBehavior behavior;
     private final static float CAMERA_SCALE_FACTOR = 10.f;
     //The camera scale factor was in ICWars at first,
@@ -47,4 +52,12 @@ public abstract class ICWarsArea extends Area{
 
     @Override
     public String getTitle() {return null;}
+
+    /**
+     * Lists all the units of the area
+     */
+    public void addToUnitInArea(Unit unitToMemorise){
+        unitInArea = new ArrayList<Unit>();
+        unitInArea.add(unitToMemorise);
+    }
 }

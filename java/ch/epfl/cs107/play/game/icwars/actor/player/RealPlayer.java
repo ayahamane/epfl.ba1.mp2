@@ -5,6 +5,8 @@ import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.game.icwars.actor.Unit;
+import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.game.icwars.actor.unit.Unit;
 import ch.epfl.cs107.play.game.icwars.gui.ICWarsPlayerGUI;
 import ch.epfl.cs107.play.game.icwars.handler.ICWarsInteractionVisitor;
@@ -32,7 +34,7 @@ public class RealPlayer extends ICWarsPlayer{
      * Demo actor
      *
      */
-    public RealPlayer(Area area, DiscreteCoordinates position, Faction fac,
+    public RealPlayer(ICWarsArea area, DiscreteCoordinates position, Faction fac,
                       String spriteName, Unit... unit) {
         super(area, position, fac, unit);
         sprite = new Sprite(spriteName, 1.f, 1.f, this);
@@ -65,9 +67,6 @@ public class RealPlayer extends ICWarsPlayer{
         changeState();
     }
 
-    //Pour cette méthode, l'utilisation des case c qlqch avec lql je suis pas trop habituée,
-    //je vais donc très probablement revenir dessus quand je me serai bien documentée sur ça
-    //pck mettre case et if je trouve ça chelou.
     protected void changeState(){
         switch (getCurrentState()){
             case IDLE:
@@ -148,7 +147,7 @@ public class RealPlayer extends ICWarsPlayer{
             if (currentState == playerState.SELECT_CELL && u.getFaction() == faction) {
                 unitInMemory = u;
                 canPass = true;
-                playerGUI.setSelectedUnit(u);    //Graphisme
+                playerGUI.setSelectedUnit(u);
             }
         }
     }
