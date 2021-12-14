@@ -7,6 +7,7 @@ import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icwars.ICWars;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
 import ch.epfl.cs107.play.game.icwars.actor.Unit;
+import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
@@ -25,11 +26,12 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
     private Keyboard keyboard= getOwnerArea().getKeyboard();
     protected Unit unitInMemory;
 
-    public ICWarsPlayer(Area area, DiscreteCoordinates position, Faction fac, Unit... units) {
+    public ICWarsPlayer(ICWarsArea area, DiscreteCoordinates position, Faction fac, Unit... units) {
         super(area, position, fac);
         unit = new ArrayList<>(Arrays.asList(units));
         for(int i = 0; i < units.length; ++i){
             getOwnerArea().registerActor(unit.get(i));
+            area.addToUnitInArea(unit.get(i));
         }
         currentState = playerState.IDLE;
     }

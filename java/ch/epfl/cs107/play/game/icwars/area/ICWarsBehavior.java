@@ -83,7 +83,6 @@ public class ICWarsBehavior extends AreaBehavior {
             return true;
         }
 
-
         @Override
         public boolean isCellInteractable() {
             return true;

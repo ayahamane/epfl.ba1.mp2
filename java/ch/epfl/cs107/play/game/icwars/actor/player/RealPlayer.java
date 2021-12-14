@@ -6,6 +6,7 @@ import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icwars.actor.Unit;
+import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.game.icwars.gui.ICWarsPlayerGUI;
 import ch.epfl.cs107.play.game.icwars.handler.ICWarsInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -32,7 +33,7 @@ public class RealPlayer extends ICWarsPlayer{
      * Demo actor
      *
      */
-    public RealPlayer(Area area, DiscreteCoordinates position, Faction fac,
+    public RealPlayer(ICWarsArea area, DiscreteCoordinates position, Faction fac,
                       String spriteName, Unit... unit) {
         super(area, position, fac, unit);
         sprite = new Sprite(spriteName, 1.f, 1.f, this);
