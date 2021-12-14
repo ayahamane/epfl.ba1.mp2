@@ -87,8 +87,8 @@ abstract public class Unit extends ICWarsActor {
         return false;
     }
 
-    public void undergoDamage(float minus){
-        hp = hp - minus;
+    public void undergoDamage(float minus, int defense_Stars){
+        hp = hp - minus + defense_Stars;
         if (hp < 0){
             hp = 0;
         }
@@ -130,7 +130,7 @@ abstract public class Unit extends ICWarsActor {
     //IsThisAnIntrusiveGetter?I think that a sprite doesn't change throughout the time.
     public Sprite getSprite() { return sprite; }
 
-    protected int getRadius() { return radius; }
+    public int getRadius() { return radius; }
 
     //I changed it to public cause I use it in ICWarsPlayer update.
     public boolean isHasBeenUsed() { return hasBeenUsed; }

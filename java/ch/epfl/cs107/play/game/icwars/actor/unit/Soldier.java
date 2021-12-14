@@ -30,7 +30,7 @@ public class Soldier extends Unit
     }
 
     @Override
-    protected int getRadius(){
+    public int getRadius(){
         return SOLDIER_RADIUS;
     }
 

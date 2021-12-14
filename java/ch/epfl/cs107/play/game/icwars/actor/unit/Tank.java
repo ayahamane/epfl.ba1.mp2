@@ -31,7 +31,7 @@ public class Tank extends Unit {
     }
 
     @Override
-    protected int getRadius(){
+    public int getRadius(){
         return TANK_RADIUS;
     }
 }

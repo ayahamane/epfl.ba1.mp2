@@ -3,7 +3,6 @@ package ch.epfl.cs107.play.game.icwars.actor.player;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Interactor;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
-import ch.epfl.cs107.play.game.icwars.actor.Unit;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.game.icwars.actor.unit.Unit;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;

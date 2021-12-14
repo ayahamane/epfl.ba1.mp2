@@ -1,6 +1,7 @@
 package ch.epfl.cs107.play.game.icwars.area;
 import ch.epfl.cs107.play.game.areagame.Area;
-import ch.epfl.cs107.play.game.icwars.actor.Unit;
+import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
+import ch.epfl.cs107.play.game.icwars.actor.unit.Unit;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Window;
@@ -10,6 +11,7 @@ import java.util.List;
 
 public abstract class ICWarsArea extends Area{
     private List<Unit> unitInArea;
+    private List<Integer> unitsToAttack;
     private ICWarsBehavior behavior;
     private final static float CAMERA_SCALE_FACTOR = 10.f;
     //The camera scale factor was in ICWars at first,
@@ -60,4 +62,31 @@ public abstract class ICWarsArea extends Area{
         unitInArea = new ArrayList<Unit>();
         unitInArea.add(unitToMemorise);
     }
+
+
+    /**
+     * Method that selects the potentially attackable units.
+     * @param faction
+     * @param radius
+     * @return
+     */
+    //je comprends pas pourquoi les boucles for ont un souci.
+    public List<Integer> attackableUnits(ICWarsActor.Faction faction, int radius){
+        unitsToAttack = new ArrayList<>();
+        for (int index = 0, index < unitInArea.size(), ++index) {
+            if (unitInArea.get(index).getFaction() != faction){
+                if (true){    //je ne sais pas encore exactement comment faire
+                    //cette condition.
+                    unitsToAttack.add(index);
+                }
+            }
+        }
+        return unitsToAttack;
+    }
+
+    public void applyDamage(int unitToAttack, int damage, int stars){
+        unitInArea.get(unitToAttack).undergoDamage(damage, stars);
+    }
+
+
 }
