@@ -11,7 +11,7 @@ import java.util.List;
 
 public abstract class ICWarsArea extends Area{
     private List<Unit> unitInArea;
-    private List<Integer> unitsToAttack;
+    private ArrayList<Integer> unitsToAttack;
     private ICWarsBehavior behavior;
     private final static float CAMERA_SCALE_FACTOR = 10.f;
     //The camera scale factor was in ICWars at first,
@@ -71,12 +71,15 @@ public abstract class ICWarsArea extends Area{
      * @return
      */
     //je comprends pas pourquoi les boucles for ont un souci.
-    public List<Integer> attackableUnits(ICWarsActor.Faction faction, int radius){
+    public ArrayList<Integer> attackableUnits(ICWarsActor.Faction faction, int radius, int positionX, int positionY){
         unitsToAttack = new ArrayList<>();
-        for (int index = 0, index < unitInArea.size(), ++index) {
+        for (int index = 0; index < unitInArea.size(); ++index) {
             if (unitInArea.get(index).getFaction() != faction){
-                if (true){    //je ne sais pas encore exactement comment faire
-                    //cette condition.
+                int x =  unitInArea.get(index).getCurrentCells().get(0).x;
+                int y = unitInArea.get(index).getCurrentCells().get(0).y;
+                //D'après Piazza la condition qui suit marcherait mais il y a peut-être mieux à faire.
+                double distance = Math.sqrt(Math.pow(positionX - x, 2) + Math.pow(positionY - y, 2));
+                if (distance <= radius){
                     unitsToAttack.add(index);
                 }
             }
@@ -84,9 +87,15 @@ public abstract class ICWarsArea extends Area{
         return unitsToAttack;
     }
 
-    public void applyDamage(int unitToAttack, int damage, int stars){
-        unitInArea.get(unitToAttack).undergoDamage(damage, stars);
+    public void applyDamage(int unitToAttack, int damage){
+        unitInArea.get(unitToAttack).undergoDamage(damage);
     }
+
+    public void centerOnUnit(int index){
+        unitInArea.get(index).centerCamera();
+    }
+
+
 
 
 }

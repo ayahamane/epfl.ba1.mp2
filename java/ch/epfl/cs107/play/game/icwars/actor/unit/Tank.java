@@ -3,8 +3,12 @@ package ch.epfl.cs107.play.game.icwars.actor.unit;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.icwars.actor.unit.Unit;
+import ch.epfl.cs107.play.game.icwars.actor.unit.action.Action;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Vector;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Tank extends Unit {
 
@@ -22,6 +26,12 @@ public class Tank extends Unit {
             setSprite(new Sprite("icwars/enemyTank" , 1.5f, 1.5f, this , null , new
                     Vector(-0.25f, -0.25f)));
         }
+        //Action attack = new Attack(this, getOwnerArea());
+        //Action wait = new Wait(this, getOwnerArea());
+        List<Action> actionList = new ArrayList<>();
+        //actionList.add(attack);
+        //actionList.add(wait);
+        setListOfActions(actionList);
     }
 
 

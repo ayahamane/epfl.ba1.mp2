@@ -1,19 +1,22 @@
 package ch.epfl.cs107.play.game.icwars.actor.unit;
 
 import ch.epfl.cs107.play.game.areagame.Area;
-import ch.epfl.cs107.play.game.areagame.actor.Orientation;
-import ch.epfl.cs107.play.game.areagame.actor.Path;
-import ch.epfl.cs107.play.game.areagame.actor.Sprite;
+import ch.epfl.cs107.play.game.areagame.actor.*;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
+import ch.epfl.cs107.play.game.icwars.actor.unit.action.Action;
+import ch.epfl.cs107.play.game.icwars.area.ICWarsBehavior;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsRange;
 import ch.epfl.cs107.play.game.icwars.handler.ICWarsInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
 
+
+import java.util.Collections;
+import java.util.List;
 import java.util.Queue;
 
-abstract public class Unit extends ICWarsActor {
+abstract public class Unit extends ICWarsActor implements Interactor {
 
     private String name;
     private float hp;
@@ -21,11 +24,20 @@ abstract public class Unit extends ICWarsActor {
     private ICWarsRange range;
     private static int radius;
     private boolean hasBeenUsed;
+    private int cellDefenseStars;
+    private ICWarsUnitInteractionHandler handler;
+    private List<Action> listOfActions;
+
+    //List<String> list2 = Collections.unmodifiableList(list);
 
     public Unit(Area area, DiscreteCoordinates position, Faction fac){
         super(area, position, fac);
         setRange(position);
         hasBeenUsed = false;
+    }
+
+    protected void setListOfActions(List<Action> unitsActions){
+        listOfActions = Collections.unmodifiableList(unitsActions);
     }
 
     private void setRange(DiscreteCoordinates position) {
@@ -87,12 +99,17 @@ abstract public class Unit extends ICWarsActor {
         return false;
     }
 
-    public void undergoDamage(float minus, int defense_Stars){
-        hp = hp - minus + defense_Stars;
+    public void undergoDamage(float minus){
+        hp = hp - minus + cellDefenseStars;
         if (hp < 0){
             hp = 0;
         }
     }
+
+    /**
+     * Center the camera on the unit
+     */
+    public void centerCamera() { getOwnerArea().setViewCandidate(this); }
 
     public void fix(float plus) { hp = hp + plus; }
 
@@ -138,9 +155,31 @@ abstract public class Unit extends ICWarsActor {
     //IsThisAnIntrusiveSetter?
     public void setHasBeenUsed(boolean used) { hasBeenUsed = used; }
 
+    @Override
+    public List<DiscreteCoordinates> getFieldOfViewCells() { return null; }
+
+    @Override
+    public boolean wantsCellInteraction() { return true; }
+
+    @Override
+    public boolean wantsViewInteraction() { return false; }
+
+    @Override
+    public void interactWith(Interactable other){
+        other.acceptInteraction(handler);
+    }
+
 
     public void acceptInteraction(AreaInteractionVisitor v)
     {
         ((ICWarsInteractionVisitor)v).interactWith(this);
+    }
+
+
+    public class ICWarsUnitInteractionHandler implements ICWarsInteractionVisitor {
+        @Override
+        public void interactWith(ICWarsBehavior.ICWarsCellType cellType){
+            cellDefenseStars = cellType.getType();
+        }
     }
 }

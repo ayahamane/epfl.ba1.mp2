@@ -23,12 +23,12 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
     private Keyboard keyboard= getOwnerArea().getKeyboard();
     protected Unit unitInMemory;
 
-    public ICWarsPlayer(ICWarsArea area, DiscreteCoordinates position, Faction fac, Unit... units) {
+    public ICWarsPlayer(Area area, DiscreteCoordinates position, Faction fac, Unit... units) {
         super(area, position, fac);
         unit = new ArrayList<>(Arrays.asList(units));
         for(int i = 0; i < units.length; ++i){
             getOwnerArea().registerActor(unit.get(i));
-            area.addToUnitInArea(unit.get(i));
+            ((ICWarsArea)area).addToUnitInArea(unit.get(i));
         }
         currentState = playerState.IDLE;
     }
