@@ -1,36 +1,58 @@
 package ch.epfl.cs107.play.game.icwars.actor.unit.action;
 
+import ch.epfl.cs107.play.game.actor.ImageGraphics;
+import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
 import ch.epfl.cs107.play.game.icwars.actor.player.ICWarsPlayer;
 import ch.epfl.cs107.play.game.icwars.actor.unit.Unit;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
+import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class Attack extends Action
 {
+
+    ArrayList<Integer> unitsIndex = new ArrayList<Integer>();
+    //Position par défaut de l'unité à attaquer.
+    int unitToAttack = 0;
+
+    private ImageGraphics cursor;
 
     public Attack (Unit u, ICWarsArea a) {
         super(u, a);
         setName("(A)ttack");
         setKey(65);
+        cursor = new ImageGraphics(ResourcePath.getSprite("icwars/UIpackSheet"),
+                1f, 1f, new RegionOfInterest(4*18, 26*18,16,16));
+
     }
 
-    public void draw(Canvas canvas){}
+    public void draw(Canvas canvas){
+        if (unitsIndex != null){
+            getArea().centerOnUnit(unitToAttack);
+            cursor.setAnchor(canvas.getPosition().add(1,0));
+            cursor.draw(canvas);
+        }
+    }
+
 
     public void doAction(float dt, ICWarsPlayer player, Keyboard keyboard){
 
         ICWarsActor.Faction playerFaction = player.getFaction();
         int unitRadius = getUnit().getRadius();
-        //Je suis censée avoir un tableau avec les unités que je "pourrai" attaquer ms
-        //jsp cmt faire pour l'avoir, je ferai ça qd je concretiserai mes idées.
-        List<Integer> unitsIndex = getArea().attackableUnits(playerFaction, unitRadius);
-        int unitToAttack = 0;
-        //Position par défaut de l'unité à attaquer.
+        int x = getUnit().getCurrentCells().get(0).x;
+        int y = getUnit().getCurrentCells().get(0).y;
 
-        if (keyboard.get(keyboard.RIGHT).isReleased() && unitToAttack < unitsIndex.size() - 1 ){
+
+        //Liste d'unités potentiellement attackable que va me livrer Area.
+        unitsIndex = getArea().attackableUnits(playerFaction, unitRadius, x, y);
+
+
+
+        if ((keyboard.get(keyboard.RIGHT).isReleased()) && (unitToAttack < unitsIndex.size() - 1) ){
             ++unitToAttack;
         }
 
@@ -40,29 +62,11 @@ public class Attack extends Action
 
         if (keyboard.get(Keyboard.ENTER).isReleased()){
             int damageToApply = getUnit().getDamage();
-            getArea().applyDamage(unitToAttack, damageToApply, 2); //Les stars sont
-            //la classe Cells que j'ai pas codée, donc je sais pas trop cmt y avoir accés,
-            //y a des indications dans l'énoncé mais je verrai ça plus tard.
-        }
-
-        //NEW:
-        if(listCibleàAttaquer.isEmpty() || keyboard.get(Keyboard.TAB).isReleased()){
+            getArea().applyDamage(unitToAttack, damageToApply);
+            getUnit().setHasBeenUsed(true);
             player.centerCamera();
-            // EHHHHHHHH OHHHHHHHHHH!!!!!!!!!!!!!!!!!!!!!!!!
-            //QUESTION POUR LINA: Est-ce que je peux fiare une méthode setCurrentState
-            // en public dans ICWarsPlayer?
-            currentState = ICWarsPlayer.playerState.ACTION_SELECTION;
+            player.setCurrentState(ICWarsPlayer.playerState.NORMAL);
         }
-        //Instructions:
-       /* Complétez également la méthode doAction de Attack de sorte que si la liste des cibles à
-        attaquer et vide (ou si le clavier perçoit la touche Tab), la caméra se recentre sur le joueur
-        qui doit repasser en état SELECT_ACTION. La méthode doAttack ne fera alors rien de plus (le
-       but est ici de redonner une chance de jouer au joueur s’il a inutilement essayé de déclencher
-                une attaque alors qu’aucune cible n’est atteignable*/
-        //Suite:
-        //Complétez enfin la méthode draw de ICWarsPlayerGUI de sorte à
-
-
     }
 
 

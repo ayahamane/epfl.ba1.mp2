@@ -8,9 +8,11 @@ import ch.epfl.cs107.play.window.Window;
 public class ICWarsBehavior extends AreaBehavior {
     public enum ICWarsCellType{
         //I changed the first element to a type int.(A)
-        NONE(0,0), // Should never be used except
+        NONE(0,0),
+        // Should never be used except
         // in the toType method
-        ROAD(-16777216, 0), // the second value is the number
+        ROAD(-16777216, 0),
+        // the second value is the number
         // of defense stars
         PLAIN(-14112955, 1),
         WOOD(-65536, 3),
@@ -30,6 +32,11 @@ public class ICWarsBehavior extends AreaBehavior {
                     return ict;
             }
             return null; //There was an error with NULL, so i replaced it with a null.
+        }
+
+        public int getType(){
+            int t = type;
+            return t;
         }
     }
 
