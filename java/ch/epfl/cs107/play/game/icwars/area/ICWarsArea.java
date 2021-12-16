@@ -27,8 +27,9 @@ public abstract class ICWarsArea extends Area{
     @Override
     public final float getCameraScaleFactor() {return CAMERA_SCALE_FACTOR;}
 
+    //Améliorer ça avec new tableau d'unités
     public abstract DiscreteCoordinates getPlayerAllySpawnPosition();
-    //I added those methods, can I improve these?
+
     public abstract DiscreteCoordinates getPlayerEnemySpawnPosition();
 
     public abstract DiscreteCoordinates getTankAllySpawnPosition();
@@ -70,14 +71,13 @@ public abstract class ICWarsArea extends Area{
      * @param radius
      * @return
      */
-    //je comprends pas pourquoi les boucles for ont un souci.
     public List<Integer> attackableUnits(ICWarsActor.Faction faction, int radius){
         unitsToAttack = new ArrayList<>();
-        for (int index = 0, index < unitInArea.size(), ++index) {
-            if (unitInArea.get(index).getFaction() != faction){
+        for (int i = 0; i < unitInArea.size(); ++i) {
+            if (unitInArea.get(i).getFaction() != faction){
                 if (true){    //je ne sais pas encore exactement comment faire
                     //cette condition.
-                    unitsToAttack.add(index);
+                    unitsToAttack.add(i);
                 }
             }
         }

@@ -133,7 +133,7 @@ abstract public class Unit extends ICWarsActor {
     public int getRadius() { return radius; }
 
     //I changed it to public cause I use it in ICWarsPlayer update.
-    public boolean isHasBeenUsed() { return hasBeenUsed; }
+    public boolean hasBeenUsed() { return hasBeenUsed; }
 
     //IsThisAnIntrusiveSetter?
     public void setHasBeenUsed(boolean used) { hasBeenUsed = used; }
