@@ -24,7 +24,7 @@ abstract public class Unit extends ICWarsActor implements Interactor {
     private ICWarsRange range;
     private static int radius;
     private boolean hasBeenUsed;
-    private int defenseStars;
+    private int cellDefenseStars;
     private ICWarsUnitInteractionHandler handler;
     private List<Action> listOfActions;
 
@@ -100,7 +100,7 @@ abstract public class Unit extends ICWarsActor implements Interactor {
     }
 
     public void undergoDamage(float minus){
-        hp = hp - minus + defenseStars;
+        hp = hp - minus + cellDefenseStars;
         if (hp < 0){
             hp = 0;
         }
@@ -184,6 +184,7 @@ abstract public class Unit extends ICWarsActor implements Interactor {
     public class ICWarsUnitInteractionHandler implements ICWarsInteractionVisitor {
         @Override
         public void interactWith(ICWarsBehavior.ICWarsCellType cellType){
+            cellDefenseStars = cellType.getDefenseStar();
             defenseStars = cellType.getType();
         }
     }
