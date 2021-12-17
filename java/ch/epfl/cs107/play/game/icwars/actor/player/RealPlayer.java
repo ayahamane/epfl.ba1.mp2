@@ -1,6 +1,5 @@
 package ch.epfl.cs107.play.game.icwars.actor.player;
 
-import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
@@ -78,7 +77,7 @@ public class RealPlayer extends ICWarsPlayer{
                     currentState = playerState.IDLE;}
                 break;
             case SELECT_CELL:
-                if (canPass && !unitInMemory.isHasBeenUsed()){
+                if (canPass && !unitInMemory.hasBeenUsed()){
                     currentState = playerState.MOVE_UNIT; }
                 break;
             case MOVE_UNIT:
@@ -89,10 +88,45 @@ public class RealPlayer extends ICWarsPlayer{
                         canPass = false;
                     }
                 }
-                break;
-            case ACTION:
+                //NEW:
+                if (keyboard.get(Keyboard.ENTER).isReleased()) {
+                    if (unitInMemory.hasBeenUsed()) {
+                        currentState = playerState.ACTION_SELECTION;
+                    }
+                }
+                //Instructions:
+                //si la touche Enter est perçue, on va plutôt
+                //tester si l’unité sélectionnée a pu être bougée
+                // et si oui,
+                // transiter vers l’état ACTION_SELECTION
+                //Suite:
+                //Complétez également la méthode doAction de Attack de sorte...
+
+                // EHHHHHHHH OHHHHHHHHHH!!!!!!!!!!!!!!!!!!!!!!!!
+                //QUESTION POUR LINA: est ce que tu setHasBeenUsed(true) somewhere dautre que MOVEUNIT??
+                //Cause on me demande de changer MOVEUNIT et seulement y tester si
+                // l’unité sélectionnée a pu être bougée
+
                 break;
             case ACTION_SELECTION:
+                //NEW:
+                for( int i=0; i<selectedUnit.listActionSpécifique.size(); ++i){
+                    if(keyboard.get(Keyboard.act).isReleased()){
+                        actionàExecuter = act;
+                        currentState = playerState.ACTION;
+                    }
+                }
+                //Instructions:
+                /*player parcourt liste ActionSpécifiques à selectedUnit.
+                Si pour une action donnée, act, la clé associée à cette action est appuyée
+                est sur le clavier, le joueur passe à l’état ACTION (en mémorisant act comme
+                l’action à exécuter)*/
+                break;
+            case ACTION:
+                //NEW:
+                actionàExecuter.doAction();
+                //Instructions:
+                //le joueur invoque la méthode doAction sur l’action mémorisée
                 break;
             default:
         }

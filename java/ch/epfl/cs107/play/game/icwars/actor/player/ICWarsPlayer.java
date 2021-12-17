@@ -1,6 +1,5 @@
 package ch.epfl.cs107.play.game.icwars.actor.player;
 
-import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Interactor;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
@@ -56,7 +55,7 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
             if(unit.get(i).isDead()){
                 getOwnerArea().unregisterActor(unit.get(i));
             }
-            if(unit.get(i).isHasBeenUsed()){
+            if(unit.get(i).hasBeenUsed()){
                 unit.get(i).getSprite().setAlpha(0.5f);
             }
         }
