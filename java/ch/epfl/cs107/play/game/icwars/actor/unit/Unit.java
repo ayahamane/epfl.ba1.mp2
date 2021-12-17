@@ -34,6 +34,7 @@ abstract public class Unit extends ICWarsActor implements Interactor {
         super(area, position, fac);
         setRange(position);
         hasBeenUsed = false;
+        handler = new ICWarsUnitInteractionHandler();
     }
 
     protected void setListOfActions(List<Action> unitsActions){

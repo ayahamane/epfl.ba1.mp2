@@ -84,18 +84,13 @@ public class RealPlayer extends ICWarsPlayer{
                     currentState = playerState.MOVE_UNIT; }
                 break;
             case MOVE_UNIT:
-               /* if (keyboard.get(Keyboard.ENTER).isReleased()) {
+             if (keyboard.get(Keyboard.ENTER).isReleased()) {
                     if (unitInMemory.changePosition(this.getCurrentMainCellCoordinates())) {
                         unitInMemory.setHasBeenUsed(true);
                         currentState = playerState.NORMAL;
                         canPass = false;
                     }
-                }*/
-                //NEW:
-                if (keyboard.get(Keyboard.ENTER).isReleased()) {
-                    if (unitInMemory.hasBeenUsed()) {
-                        //Pour moi, unité selectionnée et inMemory are the same thing,
-                        //Est-ce que tu es d'accord?
+                    if (unitInMemory.hasBeenUsed()){
                         currentState = playerState.ACTION_SELECTION;
                     }
                 }
@@ -107,8 +102,8 @@ public class RealPlayer extends ICWarsPlayer{
             case ACTION_SELECTION:
                 //NEW:
                 List<Action> list= new ArrayList<>();
-                for(int i = 0; i< selectedUnit.getListOfActionsSize(); ++i){
-                    list.add(selectedUnit.getElementListOfActions(i));
+                for(int i = 0; i< unitInMemory.getListOfActionsSize(); ++i){
+                    list.add(unitInMemory.getElementListOfActions(i));
                 }
                 for( int i=0; i<list.size(); ++i){
                     int theKey = list.get(i).getKey();
