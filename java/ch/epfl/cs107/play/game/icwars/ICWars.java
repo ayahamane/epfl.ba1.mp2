@@ -124,7 +124,8 @@ public class ICWars extends AreaGame {
                 break;
             case END_PLAYER_TURN:
                 if(activePlayer.isDefeated()){
-                    getCurrentArea().unregisterActor(activePlayer);
+                    //getCurrentArea().unregisterActor(activePlayer);
+                    activePlayer.leaveArea();
                 } else {
                     playersWaitingForNextRound.add(activePlayer);
                     activePlayer.unitsReusable();
@@ -132,12 +133,13 @@ public class ICWars extends AreaGame {
                 gameCurrentState = gameState.CHOOSE_PLAYER;
                 break;
             case END_TURN:
-                for(int i = 0; i < playersWaitingForNextRound.size(); ++i) {
-                    if(playersWaitingForNextRound.get(i).isDefeated()){
-                        getCurrentArea().unregisterActor(playersWaitingForNextRound.get(i));
+                for(ICWarsPlayer player : playersWaitingForNextRound) {
+                    if(player.isDefeated()){
+                        //getCurrentArea().unregisterActor(playersWaitingForNextRound.get(i));
+                        player.leaveArea();
                     }
                 }
-                if(playersWaitingForNextRound.size() == 1){//One player left
+                if(playersWaitingForNextRound.size() == 1){
                     gameCurrentState = gameState.END;
                 } else {
                     for(int i = 0; i < playersWaitingForNextRound.size(); ++i) {

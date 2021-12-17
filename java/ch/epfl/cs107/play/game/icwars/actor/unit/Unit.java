@@ -5,6 +5,7 @@ import ch.epfl.cs107.play.game.areagame.actor.*;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
 import ch.epfl.cs107.play.game.icwars.actor.unit.action.Action;
+import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsBehavior;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsRange;
 import ch.epfl.cs107.play.game.icwars.handler.ICWarsInteractionVisitor;
@@ -28,16 +29,14 @@ abstract public class Unit extends ICWarsActor implements Interactor {
     private ICWarsUnitInteractionHandler handler;
     private List<Action> listOfActions;
 
-    //List<String> list2 = Collections.unmodifiableList(list);
-
-    public Unit(Area area, DiscreteCoordinates position, Faction fac){
+    public Unit(ICWarsArea area, DiscreteCoordinates position, Faction fac) {
         super(area, position, fac);
         setRange(position);
         hasBeenUsed = false;
         handler = new ICWarsUnitInteractionHandler();
     }
 
-    protected void setListOfActions(List<Action> unitsActions){
+    protected void setListOfActions(List<Action> unitsActions) {
         listOfActions = Collections.unmodifiableList(unitsActions);
     }
 
@@ -54,71 +53,70 @@ abstract public class Unit extends ICWarsActor implements Interactor {
                 if (0 <= newPosition.x && newPosition.x < getOwnerArea().getWidth()
                         && 0 <= newPosition.y && newPosition.y < getOwnerArea().getHeight()) {
                     if (x > -radius && newPosition.x > 0) {
-                        hasLeftEdge = true;
-                    }
+                        hasLeftEdge = true;}
                     if (x < radius && newPosition.x < getOwnerArea().getWidth() - 1) {
-                        hasRightEdge = true;
-                    }
+                        hasRightEdge = true;}
                     if (y > -radius && newPosition.y > 0) {
-                        hasDownEdge = true;
-                    }
+                        hasDownEdge = true;}
                     if (y < radius && newPosition.y < getOwnerArea().getHeight() - 1) {
-                        hasUpEdge = true;
-                    }
+                        hasUpEdge = true;}
                     range.addNode(newPosition, hasLeftEdge, hasUpEdge, hasRightEdge, hasDownEdge);
-
                 }
             }
         }
     }
 
-    public void draw(Canvas canvas) { sprite.draw(canvas); }
+    public void draw(Canvas canvas) {
+        sprite.draw(canvas);
+    }
 
     /**
      * Draw the unit's range and a path from the unit position to
-     destination
+     * destination
+     *
      * @param destination path destination
-     * @param canvas canvas
+     * @param canvas      canvas
      */
     public void drawRangeAndPathTo(DiscreteCoordinates destination,
-                                          Canvas canvas) {
+                                   Canvas canvas) {
         range.draw(canvas);
         Queue<Orientation> path =
                 range.shortestPath(getCurrentMainCellCoordinates(),
                         destination);
-        //Draw path only if it exists (destination inside the range)
-        if (path != null){
+        if (path != null) {
             new Path(getCurrentMainCellCoordinates().toVector(),
                     path).draw(canvas);
         }
     }
 
-    public boolean isDead(){
-        if (hp == 0){
-            return true;
-        }
-        return false;
+    public boolean isDead() {
+        return (hp <= 0);
     }
 
-    public void undergoDamage(float minus){
+    public void undergoDamage(float minus) {
         hp = hp - minus + cellDefenseStars;
-        if (hp < 0){
+        if (hp < 0) {
             hp = 0;
+            leaveArea();
         }
     }
 
     /**
      * Center the camera on the unit
      */
-    public void centerCamera() { getOwnerArea().setViewCandidate(this); }
+    public void centerCamera() {
+        getOwnerArea().setViewCandidate(this);
+    }
 
-    public void fix(float plus) { hp = hp + plus; }
+    public void fix(float plus) {
+        hp = hp + plus;
+    }
 
     abstract public int getDamage();
 
     @Override
     public boolean changePosition(DiscreteCoordinates newPosition) {
-        if ((range.nodeExists(newPosition)&&(super.changePosition(newPosition)))){
+        if ((range.nodeExists(newPosition) && (super.changePosition(newPosition)))) {
             setRange(newPosition);
             return true;
         }
@@ -126,64 +124,93 @@ abstract public class Unit extends ICWarsActor implements Interactor {
     }
 
     @Override
-    public boolean takeCellSpace() { return true; }
+    public boolean takeCellSpace() {
+        return true;
+    }
 
-    /**@return (boolean): true if this is able to have cell interactions*/
-    public boolean isCellInteractable() { return true; }
+    /**
+     * @return (boolean): true if this is able to have cell interactions
+     */
+    public boolean isCellInteractable() {
+        return true;
+    }
 
-    /**@return (boolean): true if this is able to have view interactions*/
-    public boolean isViewInteractable() { return false; }
+    /**
+     * @return (boolean): true if this is able to have view interactions
+     */
+    public boolean isViewInteractable() {
+        return false;
+    }
 
-    public String getName() { return name; }
+    public String getName() {
+        return name;
+    }
 
-    public float getHp() { return hp; }
+    public float getHp() {
+        return hp;
+    }
 
-    //These methods are here to help us in the coming code. Can we keep them?
-    protected void setName(String n) { name = n; }
+    protected void setName(String n) {
+        name = n;
+    }
 
-    protected void setHp(float energy) { hp = energy; }
+    protected void setHp(float energy) {
+        hp = energy;
+    }
 
-    protected void setSprite(Sprite s) { sprite = s; }
+    protected void setSprite(Sprite s) {
+        sprite = s;
+    }
 
-    //IsThisAnIntrusiveGetter?I think that a sprite doesn't change throughout the time.
-    public Sprite getSprite() { return sprite; }
+    public Sprite getSprite() {
+        return sprite;
+    }
 
-    public int getRadius() { return radius; }
+    public int getRadius() {
+        return radius;
+    }
 
-    //I changed it to public cause I use it in ICWarsPlayer update.
-    public boolean hasBeenUsed() { return hasBeenUsed; }
+    public boolean hasBeenUsed() {
+        return hasBeenUsed;
+    }
 
     //IsThisAnIntrusiveSetter?
-    public void setHasBeenUsed(boolean used) { hasBeenUsed = used; }
+    public void setHasBeenUsed(boolean used) {
+        hasBeenUsed = used;
+    }
 
     @Override
-    public List<DiscreteCoordinates> getFieldOfViewCells() { return null; }
+    public List<DiscreteCoordinates> getFieldOfViewCells() {
+        return null;
+    }
 
     @Override
-    public boolean wantsCellInteraction() { return true; }
+    public boolean wantsCellInteraction() {
+        return true;
+    }
 
     @Override
-    public boolean wantsViewInteraction() { return false; }
+    public boolean wantsViewInteraction() {
+        return false;
+    }
 
     @Override
-    public void interactWith(Interactable other){
+    public void interactWith(Interactable other) {
         other.acceptInteraction(handler);
     }
 
 
-    public void acceptInteraction(AreaInteractionVisitor v)
-    {
-        ((ICWarsInteractionVisitor)v).interactWith(this);
+    public void acceptInteraction(AreaInteractionVisitor v) {
+        ((ICWarsInteractionVisitor) v).interactWith(this);
     }
 
-    public List<Action> getListOfActions(){ return listOfActions; }
-
-    public int getListOfActionsSize() { return listOfActions.size(); }
-
+    public List<Action> getListOfActions() {
+        return listOfActions;
+    }
 
     public class ICWarsUnitInteractionHandler implements ICWarsInteractionVisitor {
         @Override
-        public void interactWith(ICWarsBehavior.ICWarsCellType cellType){
+        public void interactWith(ICWarsBehavior.ICWarsCell cellType) {
             cellDefenseStars = cellType.getDefenseStar();
         }
     }

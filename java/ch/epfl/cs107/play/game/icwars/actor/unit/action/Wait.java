@@ -22,8 +22,9 @@ public class Wait extends Action
     }
 
     public void doAction(float dt, ICWarsPlayer player, Keyboard keyboard){
-        System.out.println("Je suis à WAIT");
+        System.out.println("WAIT");
         getUnit().setHasBeenUsed(true);
         player.setCurrentState(ICWarsPlayer.playerState.NORMAL);
     }
+
 }

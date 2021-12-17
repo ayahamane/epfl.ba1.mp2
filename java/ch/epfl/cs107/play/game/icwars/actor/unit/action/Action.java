@@ -14,8 +14,8 @@ abstract public class Action implements Graphics
 
     private Unit unit;
     private ICWarsArea area;
-    private static String name;
-    private static int key;//A METTRE EN FINAL
+    private String name;
+    private int key;//A METTRE EN FINAL
 
     public Action (Unit u, ICWarsArea a){
         unit = u;

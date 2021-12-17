@@ -23,13 +23,14 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
     private Keyboard keyboard= getOwnerArea().getKeyboard();
     protected Unit unitInMemory;
 
-    public ICWarsPlayer(Area area, DiscreteCoordinates position, Faction fac, Unit... units) {
+    public ICWarsPlayer(ICWarsArea area, DiscreteCoordinates position, Faction fac, Unit... units) {
         super(area, position, fac);
         unit = new ArrayList<>(Arrays.asList(units));
         for(int i = 0; i < units.length; ++i){
             getOwnerArea().registerActor(unit.get(i));
-            ((ICWarsArea)area).addToUnitInArea(unit.get(i));
+            area.addToUnitInArea(unit.get(i));
         }
+
         currentState = playerState.IDLE;
     }
 
@@ -52,12 +53,13 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
 
     public void update(float deltaTime){
         super.update(deltaTime);
-        for(int i = 0; i < unit.size(); ++i){
-            if(unit.get(i).isDead()){
-                getOwnerArea().unregisterActor(unit.get(i));
-            }
-            if(unit.get(i).hasBeenUsed()){
-                unit.get(i).getSprite().setAlpha(0.5f);
+        for(Unit u : unit){
+            /*if(u.isDead()){
+                //getOwnerArea().unregisterActor(unit.get(i));
+                u.leaveArea();
+            }*/
+            if(u.hasBeenUsed()){
+                u.getSprite().setAlpha(0.5f);
             }
         }
     }
@@ -67,10 +69,11 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
      */
     @Override
     public void leaveArea(){
-        super.leaveArea();
-        for(int i = 0; i < unit.size(); ++i){
-            getOwnerArea().unregisterActor(unit.get(i));
+        for(Unit u : unit){
+            //getOwnerArea().unregisterActor(unit.get(i));
+            u.leaveArea();
         }
+        super.leaveArea();
     }
 
     /**

@@ -18,7 +18,7 @@ public class Tank extends Unit {
     final static int TANK_RADIUS = 4;
     private final static int damage = 7;
 
-    public Tank (Area area, DiscreteCoordinates position, Faction fac){
+    public Tank (ICWarsArea area, DiscreteCoordinates position, Faction fac){
         super(area, position, fac);
         setHp((float) 10);
         setName("Tank");

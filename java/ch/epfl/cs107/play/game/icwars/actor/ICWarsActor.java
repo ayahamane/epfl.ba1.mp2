@@ -3,6 +3,7 @@ package ch.epfl.cs107.play.game.icwars.actor;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.MovableAreaEntity;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
+import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
 import java.util.Collections;
@@ -16,7 +17,7 @@ abstract public class ICWarsActor extends MovableAreaEntity {
 
     private Faction faction;
 
-    public ICWarsActor (Area area, DiscreteCoordinates position, Faction fac){
+    public ICWarsActor (ICWarsArea area, DiscreteCoordinates position, Faction fac){
             super(area, Orientation.UP, position);
             faction = fac;
     }

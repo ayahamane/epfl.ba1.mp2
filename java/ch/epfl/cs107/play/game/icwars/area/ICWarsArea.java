@@ -1,4 +1,5 @@
 package ch.epfl.cs107.play.game.icwars.area;
+
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
 import ch.epfl.cs107.play.game.icwars.actor.unit.Unit;
@@ -9,25 +10,29 @@ import ch.epfl.cs107.play.window.Window;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ICWarsArea extends Area{
-    private List<Unit> unitInArea;
-    private ArrayList<Integer> unitsToAttack;
+public abstract class ICWarsArea extends Area {
+    private List<Unit> unitInArea = new ArrayList<>();
     private ICWarsBehavior behavior;
     private final static float CAMERA_SCALE_FACTOR = 10.f;
     //The camera scale factor was in ICWars at first,
     // but in the subject she said that it should be here.
     //Also,I changed it to a private instead of a public
+
     /**
      * Create the area by adding it all actors
      * called by begin method
      * Note it set the Behavior as needed !
      */
     protected abstract void createArea();
+
     /// EnigmeArea extends Area
     @Override
-    public final float getCameraScaleFactor() {return CAMERA_SCALE_FACTOR;}
+    public final float getCameraScaleFactor() {
+        return CAMERA_SCALE_FACTOR;
+    }
 
     public abstract DiscreteCoordinates getPlayerAllySpawnPosition();
+
     //I added those methods, can I improve these?
     public abstract DiscreteCoordinates getPlayerEnemySpawnPosition();
 
@@ -39,7 +44,7 @@ public abstract class ICWarsArea extends Area{
 
     public abstract DiscreteCoordinates getSoldierEnemySpawnPosition();
 
-   // Demo2Area implements Playable
+    // Demo2Area implements Playable
     @Override
     public boolean begin(Window window, FileSystem fileSystem) {
         if (super.begin(window, fileSystem)) {
@@ -53,32 +58,33 @@ public abstract class ICWarsArea extends Area{
     }
 
     @Override
-    public String getTitle() {return null;}
+    public String getTitle() {
+        return null;
+    }
 
     /**
      * Lists all the units of the area
      */
-    public void addToUnitInArea(Unit unitToMemorise){
-        unitInArea = new ArrayList<Unit>();
+    public void addToUnitInArea(Unit unitToMemorise) {
         unitInArea.add(unitToMemorise);
     }
 
 
     /**
      * Method that selects the potentially attackable units.
+     *
      * @param faction
      * @param radius
      * @return
      */
-    public ArrayList<Integer> attackableUnits(ICWarsActor.Faction faction, int radius, int positionX, int positionY){
-        unitsToAttack = new ArrayList<>();
+    public ArrayList<Integer> attackableUnits(ICWarsActor.Faction faction, int radius, int positionX, int positionY) {
+        ArrayList<Integer> unitsToAttack = new ArrayList<>();
         for (int index = 0; index < unitInArea.size(); ++index) {
-            if (unitInArea.get(index).getFaction() != faction){
-                int x =  unitInArea.get(index).getCurrentCells().get(0).x;
+            if (unitInArea.get(index).getFaction() != faction) {
+                int x = unitInArea.get(index).getCurrentCells().get(0).x;
                 int y = unitInArea.get(index).getCurrentCells().get(0).y;
-                //D'après Piazza la condition qui suit marcherait mais il y a peut-être mieux à faire.
                 double distance = Math.sqrt(Math.pow(positionX - x, 2) + Math.pow(positionY - y, 2));
-                if (distance <= radius){
+                if (distance <= radius) {
                     unitsToAttack.add(index);
                 }
             }
@@ -86,11 +92,20 @@ public abstract class ICWarsArea extends Area{
         return unitsToAttack;
     }
 
-    public void applyDamage(int unitToAttack, int damage){
-        unitInArea.get(unitToAttack).undergoDamage(damage);
+    //TEST
+    public void size() {
+        System.out.println(unitInArea.size());
     }
 
-    public void centerOnUnit(int index){
+    public void applyDamage(int unitToAttack, int damage) {
+        unitInArea.get(unitToAttack).undergoDamage(damage);
+        if (unitInArea.get(unitToAttack).isDead()) {
+            unitInArea.remove(unitToAttack);
+        }
+    }
+
+    public void centerOnUnit(int index) {
         unitInArea.get(index).centerCamera();
     }
+
 }
