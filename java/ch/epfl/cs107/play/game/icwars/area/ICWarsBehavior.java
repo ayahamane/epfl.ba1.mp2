@@ -34,7 +34,7 @@ public class ICWarsBehavior extends AreaBehavior {
             return null; //There was an error with NULL, so i replaced it with a null.
         }
 
-        public int getType(){
+        public int getDefenseStar(){
             int t = type;
             return t;
         }
