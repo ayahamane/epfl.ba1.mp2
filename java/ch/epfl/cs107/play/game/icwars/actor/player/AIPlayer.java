@@ -115,8 +115,8 @@ public class AIPlayer extends ICWarsPlayer{
                 }
                 coordsNearestUnit = getCurrentMainCellCoordinates();
                 newCoords(coordsNearestUnit);
-//                if(waitFor())
-//                currentState = playerState.MOVE_UNIT;
+                //if(waitFor())
+                currentState = playerState.MOVE_UNIT;
 
                 break;
             case MOVE_UNIT:
@@ -168,24 +168,24 @@ public class AIPlayer extends ICWarsPlayer{
     @Override
     public void interactWith(Interactable other) {}
 
-    /**
+  /*  *//**
      * Ensures that value time elapsed before returning true
      * @param dt elapsed time
      * @param value waiting time (in seconds)
      * @return true if value seconds has elapsed , false otherwise
-     */
-//    private boolean waitFor(float value , float dt) {
-//        if (counting) {
-//            counter += dt;
-//            if (counter > value) {
-//                counting = false;
-//                return true;
-//            }
-//
-//        } else {
-//            counter = 0f;
-//            counting = true;
-//        }
-//        return false;
-//    }
+     *//*
+    private boolean waitFor(float value , float dt) {
+        if (counting) {
+            counter += dt;
+            if (counter > value) {
+                counting = false;
+                return true;
+            }
+
+        } else {
+            counter = 0f;
+            counting = true;
+        }
+        return false;
+    }*/
 }

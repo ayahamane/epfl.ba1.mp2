@@ -87,20 +87,15 @@ public class RealPlayer extends ICWarsPlayer{
              if (keyboard.get(Keyboard.ENTER).isReleased()) {
                     if (unitInMemory.changePosition(this.getCurrentMainCellCoordinates())) {
                         unitInMemory.setHasBeenUsed(true);
-                        currentState = playerState.NORMAL;
+                        //currentState = playerState.NORMAL;
                         canPass = false;
                     }
                     if (unitInMemory.hasBeenUsed()){
                         currentState = playerState.ACTION_SELECTION;
                     }
                 }
-                //QUESTION POUR LINA: est ce que tu setHasBeenUsed(true) somewhere dautre que MOVEUNIT??
-                //Cause on me demande de changer MOVEUNIT et seulement y tester si
-                // l’unité sélectionnée a pu être bougée
-
                 break;
             case ACTION_SELECTION:
-                //NEW:
                 List<Action> list= new ArrayList<>();
                 for(int i = 0; i< unitInMemory.getListOfActionsSize(); ++i){
                     list.add(unitInMemory.getElementListOfActions(i));
