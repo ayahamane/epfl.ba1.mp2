@@ -92,10 +92,6 @@ public abstract class ICWarsArea extends Area {
         return unitsToAttack;
     }
 
-    //TEST
-    public void size() {
-        System.out.println(unitInArea.size());
-    }
 
     public void applyDamage(int unitToAttack, int damage) {
         unitInArea.get(unitToAttack).undergoDamage(damage);
@@ -105,6 +101,7 @@ public abstract class ICWarsArea extends Area {
     }
 
     public void centerOnUnit(int index) {
+        System.out.println(index);
         unitInArea.get(index).centerCamera();
     }
 

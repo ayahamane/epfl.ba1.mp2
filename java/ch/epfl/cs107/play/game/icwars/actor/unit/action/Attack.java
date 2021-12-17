@@ -37,7 +37,6 @@ public class Attack extends Action {
     }
     @Override
     public void doAction(float dt, ICWarsPlayer player, Keyboard keyboard) {
-        getArea().size();
         ICWarsActor.Faction playerFaction = player.getFaction();
         int unitRadius = getUnit().getRadius();
         int x = getUnit().getCurrentCells().get(0).x;
@@ -45,20 +44,31 @@ public class Attack extends Action {
         attackableUnitsIndex = new ArrayList<>();
         attackableUnitsIndex = getArea().attackableUnits(playerFaction, unitRadius, x, y);
         if (firstTimeSet && !attackableUnitsIndex.isEmpty()) {
-            unitToAttack = attackableUnitsIndex.get(0);
+            unitToAttack = 0;
             firstTimeSet = false;
         }
-        getArea().centerOnUnit(unitToAttack);
 
-        if ((keyboard.get(keyboard.RIGHT).isReleased())) {
-            unitToAttack = attackableUnitsIndex.get((unitToAttack + 1) % (attackableUnitsIndex.size()));
+        if (keyboard.get(keyboard.RIGHT).isReleased()) {
+            if (unitToAttack < attackableUnitsIndex.size() - 1) {
+                System.out.println(unitToAttack);
+                ++unitToAttack;
+                System.out.println(unitToAttack);
+            }
+            else if (unitToAttack == attackableUnitsIndex.size() - 1) {
+                unitToAttack = 0;
+            }
         }
 
         if (keyboard.get(keyboard.LEFT).isReleased()) {
-            unitToAttack = attackableUnitsIndex.get(attackableUnitsIndex.size()-1 +
-                    Math.abs(unitToAttack - 1) % (attackableUnitsIndex.size()));
+            if (unitToAttack > 0) {
+                --unitToAttack;
+            } else if (unitToAttack == 0) {
+                unitToAttack = attackableUnitsIndex.size() - 1;
+            }
         }
-
+        if (!attackableUnitsIndex.isEmpty()){
+            getArea().centerOnUnit(attackableUnitsIndex.get(unitToAttack));
+        }
         if (keyboard.get(Keyboard.ENTER).isReleased()) {
             int damageToApply = getUnit().getDamage();
             getArea().applyDamage(attackableUnitsIndex.get(unitToAttack), damageToApply);
