@@ -36,6 +36,7 @@ public class Attack extends Action {
     }
 
     public void doAction(float dt, ICWarsPlayer player, Keyboard keyboard){
+        System.out.println("Je suis à ATTACK!");
         ICWarsActor.Faction playerFaction = player.getFaction();
         int unitRadius = getUnit().getRadius();
         int x = getUnit().getCurrentCells().get(0).x;

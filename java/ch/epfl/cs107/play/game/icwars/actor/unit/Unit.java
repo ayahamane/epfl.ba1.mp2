@@ -176,7 +176,7 @@ abstract public class Unit extends ICWarsActor implements Interactor {
         ((ICWarsInteractionVisitor)v).interactWith(this);
     }
 
-    public Action getElementListOfActions(int i){ return listOfActions.get(i); }
+    public List<Action> getListOfActions(){ return listOfActions; }
 
     public int getListOfActionsSize() { return listOfActions.size(); }
 

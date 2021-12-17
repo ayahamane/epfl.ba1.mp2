@@ -31,8 +31,8 @@ public class Soldier extends Unit
         Action attack = new Attack(this, (ICWarsArea)(getOwnerArea()));
         Action wait = new Wait(this, ((ICWarsArea) getOwnerArea()));
         List<Action> actionList = new ArrayList<>();
-        actionList.add(attack);
         actionList.add(wait);
+        actionList.add(attack);
         setListOfActions(actionList);
     }
 

@@ -30,16 +30,13 @@ public class ICWarsPlayerGUI implements Graphics {
 
     @Override
     public void draw(Canvas canvas) {
-        if(selectedUnitGui!=null){
+        if(selectedUnitGui!=null && icWarsPlayer.getCurrentState() == ICWarsPlayer.playerState.MOVE_UNIT){
             selectedUnitGui.drawRangeAndPathTo(icWarsPlayer.getCurrentCells().get(0), canvas);
         }
         if(icWarsPlayer.getCurrentState() == ICWarsPlayer.playerState.ACTION_SELECTION) {
             //Here, I need the private listofActions :(
             //That's why I added this forloop.
-            List<Action> listGui= new ArrayList<>();
-            for(int i = 0; i< selectedUnitGui.getListOfActionsSize(); ++i){
-                listGui.add(selectedUnitGui.getElementListOfActions(i));
-            }
+            List<Action> listGui= selectedUnitGui.getListOfActions();
             actionsPanel.setActions(listGui);
             actionsPanel.draw(canvas);
         }

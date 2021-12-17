@@ -125,7 +125,7 @@ public class AIPlayer extends ICWarsPlayer{
             case ACTION_SELECTION:
                 List<Action> list= new ArrayList<>();
                 for(int i = 0; i< selectedUnitAi.getListOfActionsSize(); ++i){
-                    list.add(selectedUnitAi.getElementListOfActions(i));
+                  //  list.add(selectedUnitAi.getElementListOfActions(i));
                 }
                 for( int i=0; i<list.size(); ++i){
                     int theKey = list.get(i).getKey();

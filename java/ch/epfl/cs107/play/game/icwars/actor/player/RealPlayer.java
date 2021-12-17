@@ -94,11 +94,12 @@ public class RealPlayer extends ICWarsPlayer{
                 }
                 break;
             case ACTION_SELECTION:
-                List<Action> list= new ArrayList<>();
-                for(int i = 0; i< unitInMemory.getListOfActionsSize(); ++i){
-                    list.add(unitInMemory.getElementListOfActions(i));
+                List<Action> list= unitInMemory.getListOfActions();
+                for( int i=0; i<list.size(); ++i){
+                    System.out.println("je suis à ACTION");
                 }
                 for( int i=0; i<list.size(); ++i){
+                    System.out.println("je suis à ACTION_SELECTION");
                     int theKey = list.get(i).getKey();
                     if(keyboard.get(theKey).isReleased()){
                         actionToExecute = list.get(i) ;
@@ -107,7 +108,7 @@ public class RealPlayer extends ICWarsPlayer{
                 }
                 break;
             case ACTION:
-                System.out.print("ACTION");
+                System.out.println("ACTION");
                 actionToExecute.doAction(dt,this, keyboard);
                 break;
             default:
