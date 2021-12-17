@@ -1,5 +1,6 @@
 package ch.epfl.cs107.play.game.icwars.actor.player;
 
+import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Interactor;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
@@ -82,11 +83,31 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
         return false;
     }
 
-
     /**
      * Center the camera on the player
      */
     public void centerCamera() { getOwnerArea().setViewCandidate(this); }
+
+
+    /**
+     * Makes all players units reusable.
+     */
+    public void unitsReusable(){
+        for(int i = 0; i < unit.size(); ++i){
+            unit.get(i).getSprite().setAlpha(1.f);
+            unit.get(i).setHasBeenUsed(false);
+        }
+    }
+
+    /**
+     *Returns true if player ended his turn.
+     */
+    public boolean playerEndedTurn(){
+        if(currentState == ICWarsPlayer.playerState.IDLE){
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public void draw(Canvas canvas) {}
@@ -110,24 +131,4 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
     public boolean wantsViewInteraction() { return false; }
 
     public playerState getCurrentState() { return currentState; }
-
-    /**
-     * Makes all players units reusable.
-     */
-    public void unitsReusable(){
-        for(int i = 0; i < unit.size(); ++i){
-            unit.get(i).getSprite().setAlpha(1.f);
-            unit.get(i).setHasBeenUsed(false);
-        }
-    }
-
-    /**
-     *Returns true if player ended his turn.
-     */
-    public boolean playerEndedTurn(){
-        if(currentState == ICWarsPlayer.playerState.IDLE){
-          return true;
-        }
-        return false;
-    }
 }

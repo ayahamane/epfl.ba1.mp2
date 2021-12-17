@@ -4,6 +4,7 @@ import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.game.icwars.actor.unit.action.Action;
 import ch.epfl.cs107.play.game.icwars.actor.unit.action.Attack;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.game.icwars.actor.unit.Unit;
@@ -15,6 +16,7 @@ import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -28,6 +30,7 @@ public class RealPlayer extends ICWarsPlayer{
     private ICWarsPlayerInteractionHandler handler;
     private Faction faction;
     private boolean canPass = false;
+    private Action actionToExecute;
 
     /**
      * Demo actor
@@ -63,10 +66,10 @@ public class RealPlayer extends ICWarsPlayer{
             moveIfPressed(Orientation.RIGHT, keyboard.get(Keyboard.RIGHT));
             moveIfPressed(Orientation.DOWN, keyboard.get(Keyboard.DOWN));
         }
-        changeState();
+        changeState(deltaTime);
     }
 
-    protected void changeState(){
+    protected void changeState(float dt){
         switch (getCurrentState()){
             case IDLE:
                 break;
@@ -81,28 +84,21 @@ public class RealPlayer extends ICWarsPlayer{
                     currentState = playerState.MOVE_UNIT; }
                 break;
             case MOVE_UNIT:
-                if (keyboard.get(Keyboard.ENTER).isReleased()) {
+               /* if (keyboard.get(Keyboard.ENTER).isReleased()) {
                     if (unitInMemory.changePosition(this.getCurrentMainCellCoordinates())) {
                         unitInMemory.setHasBeenUsed(true);
                         currentState = playerState.NORMAL;
                         canPass = false;
                     }
-                }
+                }*/
                 //NEW:
                 if (keyboard.get(Keyboard.ENTER).isReleased()) {
                     if (unitInMemory.hasBeenUsed()) {
+                        //Pour moi, unité selectionnée et inMemory are the same thing,
+                        //Est-ce que tu es d'accord?
                         currentState = playerState.ACTION_SELECTION;
                     }
                 }
-                //Instructions:
-                //si la touche Enter est perçue, on va plutôt
-                //tester si l’unité sélectionnée a pu être bougée
-                // et si oui,
-                // transiter vers l’état ACTION_SELECTION
-                //Suite:
-                //Complétez également la méthode doAction de Attack de sorte...
-
-                // EHHHHHHHH OHHHHHHHHHH!!!!!!!!!!!!!!!!!!!!!!!!
                 //QUESTION POUR LINA: est ce que tu setHasBeenUsed(true) somewhere dautre que MOVEUNIT??
                 //Cause on me demande de changer MOVEUNIT et seulement y tester si
                 // l’unité sélectionnée a pu être bougée
@@ -110,23 +106,21 @@ public class RealPlayer extends ICWarsPlayer{
                 break;
             case ACTION_SELECTION:
                 //NEW:
-                for( int i=0; i<selectedUnit.listActionSpécifique.size(); ++i){
-                    if(keyboard.get(Keyboard.act).isReleased()){
-                        actionàExecuter = act;
+                List<Action> list= new ArrayList<>();
+                for(int i = 0; i< selectedUnit.getListOfActionsSize(); ++i){
+                    list.add(selectedUnit.getElementListOfActions(i));
+                }
+                for( int i=0; i<list.size(); ++i){
+                    int theKey = list.get(i).getKey();
+                    if(keyboard.get(theKey).isReleased()){
+                        actionToExecute = list.get(i) ;
                         currentState = playerState.ACTION;
                     }
                 }
-                //Instructions:
-                /*player parcourt liste ActionSpécifiques à selectedUnit.
-                Si pour une action donnée, act, la clé associée à cette action est appuyée
-                est sur le clavier, le joueur passe à l’état ACTION (en mémorisant act comme
-                l’action à exécuter)*/
                 break;
             case ACTION:
                 //NEW:
-                actionàExecuter.doAction();
-                //Instructions:
-                //le joueur invoque la méthode doAction sur l’action mémorisée
+                actionToExecute.doAction(dt,this, keyboard);
                 break;
             default:
         }
@@ -172,9 +166,10 @@ public class RealPlayer extends ICWarsPlayer{
 
     @Override
     public void interactWith(Interactable other) {
-        other.acceptInteraction(handler);
+        if (!isDisplacementOccurs()) {
+            other.acceptInteraction(handler);
+        }
     }
-
     public class ICWarsPlayerInteractionHandler implements ICWarsInteractionVisitor {
         @Override
         public void interactWith(Unit u) {

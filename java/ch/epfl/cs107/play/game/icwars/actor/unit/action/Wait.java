@@ -25,7 +25,4 @@ public class Wait extends Action
         getUnit().setHasBeenUsed(true);
         player.setCurrentState(ICWarsPlayer.playerState.NORMAL);
     }
-
-
-
 }

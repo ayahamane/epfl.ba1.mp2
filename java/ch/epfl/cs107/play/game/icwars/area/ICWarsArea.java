@@ -70,7 +70,6 @@ public abstract class ICWarsArea extends Area{
      * @param radius
      * @return
      */
-    //je comprends pas pourquoi les boucles for ont un souci.
     public ArrayList<Integer> attackableUnits(ICWarsActor.Faction faction, int radius, int positionX, int positionY){
         unitsToAttack = new ArrayList<>();
         for (int index = 0; index < unitInArea.size(); ++index) {
@@ -94,8 +93,4 @@ public abstract class ICWarsArea extends Area{
     public void centerOnUnit(int index){
         unitInArea.get(index).centerCamera();
     }
-
-
-
-
 }

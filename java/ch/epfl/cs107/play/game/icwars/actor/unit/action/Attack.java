@@ -12,13 +12,10 @@ import ch.epfl.cs107.play.window.Keyboard;
 
 import java.util.ArrayList;
 
-public class Attack extends Action
-{
+public class Attack extends Action {
 
-    ArrayList<Integer> unitsIndex = new ArrayList<Integer>();
-    //Position par défaut de l'unité à attaquer.
-    int unitToAttack = 0;
-
+    private ArrayList<Integer> attackableUnitsIndex = new ArrayList<Integer>();
+    private int unitToAttack = 0; //Position par défaut de l'unité à attaquer.
     private ImageGraphics cursor;
 
     public Attack (Unit u, ICWarsArea a) {
@@ -31,28 +28,21 @@ public class Attack extends Action
     }
 
     public void draw(Canvas canvas){
-        if (unitsIndex != null){
+        if (attackableUnitsIndex != null){
             getArea().centerOnUnit(unitToAttack);
             cursor.setAnchor(canvas.getPosition().add(1,0));
             cursor.draw(canvas);
         }
     }
 
-
     public void doAction(float dt, ICWarsPlayer player, Keyboard keyboard){
-
         ICWarsActor.Faction playerFaction = player.getFaction();
         int unitRadius = getUnit().getRadius();
         int x = getUnit().getCurrentCells().get(0).x;
         int y = getUnit().getCurrentCells().get(0).y;
+        attackableUnitsIndex = getArea().attackableUnits(playerFaction, unitRadius, x, y);
 
-
-        //Liste d'unités potentiellement attackable que va me livrer Area.
-        unitsIndex = getArea().attackableUnits(playerFaction, unitRadius, x, y);
-
-
-
-        if ((keyboard.get(keyboard.RIGHT).isReleased()) && (unitToAttack < unitsIndex.size() - 1) ){
+        if ((keyboard.get(keyboard.RIGHT).isReleased()) && (unitToAttack < attackableUnitsIndex.size() - 1) ){
             ++unitToAttack;
         }
 
@@ -67,7 +57,11 @@ public class Attack extends Action
             player.centerCamera();
             player.setCurrentState(ICWarsPlayer.playerState.NORMAL);
         }
+        //NEW:
+        if(attackableUnitsIndex.isEmpty() || keyboard.get(Keyboard.TAB).isReleased()){
+            player.centerCamera();
+            player.setCurrentState(ICWarsPlayer.playerState.ACTION_SELECTION);
+            //J'ai un setCurrentState public, is it okey?
+        }
     }
-
-
 }

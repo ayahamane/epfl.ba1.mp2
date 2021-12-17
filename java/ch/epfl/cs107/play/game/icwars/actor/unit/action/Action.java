@@ -7,13 +7,15 @@ import ch.epfl.cs107.play.game.icwars.actor.unit.Unit;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.window.Keyboard;
 
+import java.security.Key;
+
 abstract public class Action implements Graphics
 {
 
     private Unit unit;
     private ICWarsArea area;
     private static String name;
-    private static int key;
+    private static int key;//A METTRE EN FINAL
 
     public Action (Unit u, ICWarsArea a){
         unit = u;
@@ -21,6 +23,10 @@ abstract public class Action implements Graphics
     }
 
     abstract public void doAction(float dt, ICWarsPlayer player, Keyboard keyboard);
+
+    public void doAutoAction(){
+        //Fonctionnement d'actions lorqu'utilisées par un AIPlayer
+    }
 
     protected void setName(String n){
         name = n;
@@ -38,4 +44,7 @@ abstract public class Action implements Graphics
         return area;
     }
 
+    public int getKey(){return key;}
+
+    public String getName(){return name;}
 }

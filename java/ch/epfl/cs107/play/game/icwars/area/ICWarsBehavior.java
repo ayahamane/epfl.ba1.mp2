@@ -6,7 +6,8 @@ import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.window.Window;
 
 public class ICWarsBehavior extends AreaBehavior {
-    public enum ICWarsCellType{
+
+    public enum ICWarsCellType {
         //I changed the first element to a type int.(A)
         NONE(0,0),
         // Should never be used except
@@ -21,6 +22,10 @@ public class ICWarsBehavior extends AreaBehavior {
         CITY(-1,2);
 
         final int type;
+
+        public String typeToString(){
+            return toString();
+        }
 
         ICWarsCellType(int i, int type){
             this.type = type;
