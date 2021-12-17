@@ -8,6 +8,7 @@ import ch.epfl.cs107.play.game.icwars.actor.unit.action.Action;
 import ch.epfl.cs107.play.game.icwars.actor.unit.action.Attack;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.game.icwars.actor.unit.Unit;
+import ch.epfl.cs107.play.game.icwars.area.ICWarsBehavior;
 import ch.epfl.cs107.play.game.icwars.gui.ICWarsPlayerGUI;
 import ch.epfl.cs107.play.game.icwars.handler.ICWarsInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -22,9 +23,11 @@ import java.util.List;
 
 public class RealPlayer extends ICWarsPlayer{
 
+    private ICWarsBehavior.ICWarsCellType cellTypePlayer;
     private Sprite sprite;
+    private Unit posUnit;
     private ICWarsPlayerGUI playerGUI;
-    private final static int MOVE_DURATION = 1;
+    private final static int MOVE_DURATION = 3;
     private Unit selectedUnit;
     private Keyboard keyboard= getOwnerArea().getKeyboard();
     private ICWarsPlayerInteractionHandler handler;
@@ -74,6 +77,8 @@ public class RealPlayer extends ICWarsPlayer{
             case IDLE:
                 break;
             case NORMAL:
+                posUnit = null;
+                actionToExecute = null;
                 if (keyboard.get(Keyboard.ENTER).isReleased()) {
                     currentState = playerState.SELECT_CELL; }
                 if (keyboard.get(Keyboard.TAB).isReleased()) {
@@ -105,7 +110,6 @@ public class RealPlayer extends ICWarsPlayer{
                     }
                 break;
             case ACTION:
-                System.out.println("ACTION");
                 actionToExecute.doAction(dt,this, keyboard);
                 break;
             default:
@@ -140,6 +144,9 @@ public class RealPlayer extends ICWarsPlayer{
     public void draw(Canvas canvas) {
         if(!(getCurrentState() == playerState.IDLE)){sprite.draw(canvas);}
         playerGUI.draw(canvas);
+        if(actionToExecute!=null){
+            actionToExecute.draw(canvas);
+        }
     }
 
     @Override
@@ -159,11 +166,18 @@ public class RealPlayer extends ICWarsPlayer{
     public class ICWarsPlayerInteractionHandler implements ICWarsInteractionVisitor {
         @Override
         public void interactWith(Unit u) {
+            posUnit = u;
+            playerGUI.setPosUnit(u);
             if (currentState == playerState.SELECT_CELL && u.getFaction() == faction) {
                 unitInMemory = u;
                 canPass = true;
                 playerGUI.setSelectedUnit(u);
             }
+        }
+
+        public void interactWith(ICWarsBehavior.ICWarsCell cellType){
+            cellTypePlayer = cellType.getI();
+            playerGUI.setCellTypePlayerGUI(cellTypePlayer);
         }
     }
 }

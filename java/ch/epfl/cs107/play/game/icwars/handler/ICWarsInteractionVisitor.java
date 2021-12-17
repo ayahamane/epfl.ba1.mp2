@@ -11,8 +11,10 @@ public interface ICWarsInteractionVisitor extends AreaInteractionVisitor{
 
     //Added right now
 
-    default void interactWith(ICWarsPlayer player){}
+    default void interactWith(ICWarsPlayer player){
+    }
 
-    default void interactWith (ICWarsBehavior.ICWarsCellType cellType){}
+    default void interactWith(ICWarsBehavior.ICWarsCell cellType){
+    }
 
 }

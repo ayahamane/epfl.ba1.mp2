@@ -14,56 +14,63 @@ import java.util.ArrayList;
 
 public class Attack extends Action {
 
-    private ArrayList<Integer> attackableUnitsIndex = new ArrayList<Integer>();
+    private ArrayList<Integer> attackableUnitsIndex;
     private int unitToAttack = 0;
     private ImageGraphics cursor;
+    boolean firstTimeSet = true;
 
-    public Attack (Unit u, ICWarsArea a) {
+    public Attack(Unit u, ICWarsArea a) {
         super(u, a);
         setName("(A)ttack");
         setKey(65);
         cursor = new ImageGraphics(ResourcePath.getSprite("icwars/UIpackSheet"),
-                1f, 1f, new RegionOfInterest(4*18, 26*18,16,16));
+                1f, 1f, new RegionOfInterest(4 * 18, 26 * 18, 16, 16));
 
     }
 
-    public void draw(Canvas canvas){
-        if (attackableUnitsIndex != null){
-            getArea().centerOnUnit(unitToAttack);
-            cursor.setAnchor(canvas.getPosition().add(1,0));
+    @Override
+    public void draw(Canvas canvas) {
+        if (attackableUnitsIndex != null && !attackableUnitsIndex.isEmpty()) {
+            cursor.setAnchor(canvas.getPosition().add(1, 0));
             cursor.draw(canvas);
         }
     }
 
-    public void doAction(float dt, ICWarsPlayer player, Keyboard keyboard){
+    public void doAction(float dt, ICWarsPlayer player, Keyboard keyboard) {
         System.out.println("ATTACK");
         getArea().size();
         ICWarsActor.Faction playerFaction = player.getFaction();
         int unitRadius = getUnit().getRadius();
         int x = getUnit().getCurrentCells().get(0).x;
         int y = getUnit().getCurrentCells().get(0).y;
+        attackableUnitsIndex = new ArrayList<>();
         attackableUnitsIndex = getArea().attackableUnits(playerFaction, unitRadius, x, y);
-        System.out.println(attackableUnitsIndex.size());
+        if (firstTimeSet) {
+            unitToAttack = attackableUnitsIndex.get(0);
+            firstTimeSet = false;
+        }
+        getArea().centerOnUnit(unitToAttack);
 
-
-        if ((keyboard.get(keyboard.RIGHT).isReleased()) && (unitToAttack < attackableUnitsIndex.size() - 1) ){
-            ++unitToAttack;
+        if ((keyboard.get(keyboard.RIGHT).isReleased())) {
+            unitToAttack = attackableUnitsIndex.get((unitToAttack + 1) % (attackableUnitsIndex.size()));
         }
 
-        if (keyboard.get(keyboard.LEFT).isReleased() && unitToAttack > 0){
-            --unitToAttack;
+        if (keyboard.get(keyboard.LEFT).isReleased()) {
+            unitToAttack = attackableUnitsIndex.get((unitToAttack - 1) % (attackableUnitsIndex.size()));
         }
 
-        if (keyboard.get(Keyboard.ENTER).isReleased()){
+        if (keyboard.get(Keyboard.ENTER).isReleased()) {
             int damageToApply = getUnit().getDamage();
             getArea().applyDamage(unitToAttack, damageToApply);
             getUnit().setHasBeenUsed(true);
             player.centerCamera();
+            firstTimeSet = true;
             player.setCurrentState(ICWarsPlayer.playerState.NORMAL);
         }
 
-        if(attackableUnitsIndex.isEmpty() || keyboard.get(Keyboard.TAB).isReleased()){
-          player.centerCamera();player.setCurrentState(ICWarsPlayer.playerState.ACTION_SELECTION);
+        if (attackableUnitsIndex.isEmpty() || keyboard.get(Keyboard.TAB).isReleased()) {
+            player.centerCamera();
+            player.setCurrentState(ICWarsPlayer.playerState.ACTION_SELECTION);
         }
     }
 }

@@ -3,9 +3,11 @@ package ch.epfl.cs107.play.game.icwars.area;
 import ch.epfl.cs107.play.game.areagame.AreaBehavior;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.game.icwars.handler.ICWarsInteractionVisitor;
 import ch.epfl.cs107.play.window.Window;
 
 public class ICWarsBehavior extends AreaBehavior {
+
 
     public enum ICWarsCellType {
         //I changed the first element to a type int.(A)
@@ -21,26 +23,27 @@ public class ICWarsBehavior extends AreaBehavior {
         MOUNTAIN(-256, 4),
         CITY(-1,2);
 
-        final int type;
-
+        private final int star;
+        private int i;
         public String typeToString(){
             return toString();
         }
 
         ICWarsCellType(int i, int type){
-            this.type = type;
+            this.i = i;
+            this.star = type;
         }
 
         public static ICWarsCellType toType(int type){
             for(ICWarsCellType ict : ICWarsCellType.values()){
-                if(ict.type == type)
+                if(ict.i == type)
                     return ict;
             }
             return null; //There was an error with NULL, so i replaced it with a null.
         }
 
         public int getDefenseStar(){
-            int t = type;
+            int t = star;
             return t;
         }
     }
@@ -68,6 +71,15 @@ public class ICWarsBehavior extends AreaBehavior {
     public class ICWarsCell extends AreaBehavior.Cell {
         /// Type of the cell following the enum
         private final ICWarsCellType type;
+
+        public ICWarsCellType getI(){
+            return type;
+        }
+
+        public int getDefenseStar(){
+            int t = type.star;
+            return t;
+        }
 
         /**
          * Default ICWarsCell Constructor
@@ -106,7 +118,12 @@ public class ICWarsBehavior extends AreaBehavior {
         }
 
         @Override
-        public void acceptInteraction(AreaInteractionVisitor v) {
+        public void acceptInteraction(AreaInteractionVisitor v)
+        {
+            ((ICWarsInteractionVisitor)v).interactWith(this);
         }
+
+
+
     }
 }
