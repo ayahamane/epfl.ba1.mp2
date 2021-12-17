@@ -179,13 +179,11 @@ abstract public class Unit extends ICWarsActor implements Interactor {
 
     public int getListOfActionsSize() { return listOfActions.size(); }
 
-    public int getDefenseStars() { return defenseStars; }
 
     public class ICWarsUnitInteractionHandler implements ICWarsInteractionVisitor {
         @Override
         public void interactWith(ICWarsBehavior.ICWarsCellType cellType){
             cellDefenseStars = cellType.getDefenseStar();
-            defenseStars = cellType.getType();
         }
     }
 }
