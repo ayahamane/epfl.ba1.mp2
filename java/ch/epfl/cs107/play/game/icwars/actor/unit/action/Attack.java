@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class Attack extends Action {
 
     private ArrayList<Integer> attackableUnitsIndex;
-    private int unitToAttack = 0;
+    private int unitToAttack;
     private ImageGraphics cursor;
     boolean firstTimeSet = true;
 
@@ -37,7 +37,6 @@ public class Attack extends Action {
     }
 
     public void doAction(float dt, ICWarsPlayer player, Keyboard keyboard) {
-        System.out.println("ATTACK");
         getArea().size();
         ICWarsActor.Faction playerFaction = player.getFaction();
         int unitRadius = getUnit().getRadius();
@@ -45,7 +44,7 @@ public class Attack extends Action {
         int y = getUnit().getCurrentCells().get(0).y;
         attackableUnitsIndex = new ArrayList<>();
         attackableUnitsIndex = getArea().attackableUnits(playerFaction, unitRadius, x, y);
-        if (firstTimeSet) {
+        if (firstTimeSet && !attackableUnitsIndex.isEmpty()) {
             unitToAttack = attackableUnitsIndex.get(0);
             firstTimeSet = false;
         }
@@ -56,7 +55,8 @@ public class Attack extends Action {
         }
 
         if (keyboard.get(keyboard.LEFT).isReleased()) {
-            unitToAttack = attackableUnitsIndex.get((unitToAttack - 1) % (attackableUnitsIndex.size()));
+            unitToAttack = attackableUnitsIndex.get(attackableUnitsIndex.size()-1 +
+                    Math.abs(unitToAttack - 1) % (attackableUnitsIndex.size()));
         }
 
         if (keyboard.get(Keyboard.ENTER).isReleased()) {

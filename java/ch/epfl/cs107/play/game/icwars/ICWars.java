@@ -139,7 +139,7 @@ public class ICWars extends AreaGame {
                         player.leaveArea();
                     }
                 }
-                if(playersWaitingForNextRound.size() == 1){//One player left
+                if(playersWaitingForNextRound.size() == 1){
                     gameCurrentState = gameState.END;
                 } else {
                     for(int i = 0; i < playersWaitingForNextRound.size(); ++i) {

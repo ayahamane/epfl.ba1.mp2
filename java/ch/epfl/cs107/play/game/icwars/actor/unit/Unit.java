@@ -29,8 +29,6 @@ abstract public class Unit extends ICWarsActor implements Interactor {
     private ICWarsUnitInteractionHandler handler;
     private List<Action> listOfActions;
 
-    //List<String> list2 = Collections.unmodifiableList(list);
-
     public Unit(ICWarsArea area, DiscreteCoordinates position, Faction fac) {
         super(area, position, fac);
         setRange(position);
@@ -55,19 +53,14 @@ abstract public class Unit extends ICWarsActor implements Interactor {
                 if (0 <= newPosition.x && newPosition.x < getOwnerArea().getWidth()
                         && 0 <= newPosition.y && newPosition.y < getOwnerArea().getHeight()) {
                     if (x > -radius && newPosition.x > 0) {
-                        hasLeftEdge = true;
-                    }
+                        hasLeftEdge = true;}
                     if (x < radius && newPosition.x < getOwnerArea().getWidth() - 1) {
-                        hasRightEdge = true;
-                    }
+                        hasRightEdge = true;}
                     if (y > -radius && newPosition.y > 0) {
-                        hasDownEdge = true;
-                    }
+                        hasDownEdge = true;}
                     if (y < radius && newPosition.y < getOwnerArea().getHeight() - 1) {
-                        hasUpEdge = true;
-                    }
+                        hasUpEdge = true;}
                     range.addNode(newPosition, hasLeftEdge, hasUpEdge, hasRightEdge, hasDownEdge);
-
                 }
             }
         }
@@ -90,7 +83,6 @@ abstract public class Unit extends ICWarsActor implements Interactor {
         Queue<Orientation> path =
                 range.shortestPath(getCurrentMainCellCoordinates(),
                         destination);
-        //Draw path only if it exists (destination inside the range)
         if (path != null) {
             new Path(getCurrentMainCellCoordinates().toVector(),
                     path).draw(canvas);
@@ -158,7 +150,6 @@ abstract public class Unit extends ICWarsActor implements Interactor {
         return hp;
     }
 
-    //These methods are here to help us in the coming code. Can we keep them?
     protected void setName(String n) {
         name = n;
     }
@@ -171,7 +162,6 @@ abstract public class Unit extends ICWarsActor implements Interactor {
         sprite = s;
     }
 
-    //IsThisAnIntrusiveGetter?I think that a sprite doesn't change throughout the time.
     public Sprite getSprite() {
         return sprite;
     }
@@ -180,7 +170,6 @@ abstract public class Unit extends ICWarsActor implements Interactor {
         return radius;
     }
 
-    //I changed it to public cause I use it in ICWarsPlayer update.
     public boolean hasBeenUsed() {
         return hasBeenUsed;
     }
