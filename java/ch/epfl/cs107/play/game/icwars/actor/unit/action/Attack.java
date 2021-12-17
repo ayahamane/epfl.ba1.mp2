@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class Attack extends Action {
 
     private ArrayList<Integer> attackableUnitsIndex = new ArrayList<Integer>();
-    private int unitToAttack = 0; //Position par défaut de l'unité à attaquer.
+    private int unitToAttack = 0;
     private ImageGraphics cursor;
 
     public Attack (Unit u, ICWarsArea a) {
@@ -36,11 +36,15 @@ public class Attack extends Action {
     }
 
     public void doAction(float dt, ICWarsPlayer player, Keyboard keyboard){
+        System.out.println("ATTACK");
+        getArea().size();
         ICWarsActor.Faction playerFaction = player.getFaction();
         int unitRadius = getUnit().getRadius();
         int x = getUnit().getCurrentCells().get(0).x;
         int y = getUnit().getCurrentCells().get(0).y;
         attackableUnitsIndex = getArea().attackableUnits(playerFaction, unitRadius, x, y);
+        System.out.println(attackableUnitsIndex.size());
+
 
         if ((keyboard.get(keyboard.RIGHT).isReleased()) && (unitToAttack < attackableUnitsIndex.size() - 1) ){
             ++unitToAttack;
@@ -57,11 +61,9 @@ public class Attack extends Action {
             player.centerCamera();
             player.setCurrentState(ICWarsPlayer.playerState.NORMAL);
         }
-        //NEW:
+
         if(attackableUnitsIndex.isEmpty() || keyboard.get(Keyboard.TAB).isReleased()){
-            player.centerCamera();
-            player.setCurrentState(ICWarsPlayer.playerState.ACTION_SELECTION);
-            //J'ai un setCurrentState public, is it okey?
+          player.centerCamera();player.setCurrentState(ICWarsPlayer.playerState.ACTION_SELECTION);
         }
     }
 }

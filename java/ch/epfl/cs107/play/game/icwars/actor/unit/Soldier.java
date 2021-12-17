@@ -17,7 +17,7 @@ public class Soldier extends Unit
     private final static int SOLDIER_RADIUS = 2;
     private final static int damage = 2;
 
-    public Soldier (Area area, DiscreteCoordinates position, Faction fac){
+    public Soldier (ICWarsArea area, DiscreteCoordinates position, Faction fac){
         super(area, position, fac);
         setHp((float) 5);
         setName("Soldier");
@@ -31,8 +31,8 @@ public class Soldier extends Unit
         Action attack = new Attack(this, (ICWarsArea)(getOwnerArea()));
         Action wait = new Wait(this, ((ICWarsArea) getOwnerArea()));
         List<Action> actionList = new ArrayList<>();
-        actionList.add(attack);
         actionList.add(wait);
+        actionList.add(attack);
         setListOfActions(actionList);
     }
 

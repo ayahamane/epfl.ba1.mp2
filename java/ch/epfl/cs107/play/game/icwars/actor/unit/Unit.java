@@ -5,6 +5,7 @@ import ch.epfl.cs107.play.game.areagame.actor.*;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
 import ch.epfl.cs107.play.game.icwars.actor.unit.action.Action;
+import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsBehavior;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsRange;
 import ch.epfl.cs107.play.game.icwars.handler.ICWarsInteractionVisitor;
@@ -30,7 +31,7 @@ abstract public class Unit extends ICWarsActor implements Interactor {
 
     //List<String> list2 = Collections.unmodifiableList(list);
 
-    public Unit(Area area, DiscreteCoordinates position, Faction fac){
+    public Unit(ICWarsArea area, DiscreteCoordinates position, Faction fac){
         super(area, position, fac);
         setRange(position);
         hasBeenUsed = false;
@@ -176,10 +177,7 @@ abstract public class Unit extends ICWarsActor implements Interactor {
         ((ICWarsInteractionVisitor)v).interactWith(this);
     }
 
-    public Action getElementListOfActions(int i){ return listOfActions.get(i); }
-
-    public int getListOfActionsSize() { return listOfActions.size(); }
-
+    public List<Action> getListOfActions(){ return listOfActions; }
 
     public class ICWarsUnitInteractionHandler implements ICWarsInteractionVisitor {
         @Override

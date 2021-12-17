@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class ICWarsArea extends Area{
-    private List<Unit> unitInArea;
+    private List<Unit> unitInArea = new ArrayList<Unit>();
     private ArrayList<Integer> unitsToAttack;
     private ICWarsBehavior behavior;
     private final static float CAMERA_SCALE_FACTOR = 10.f;
@@ -59,7 +59,6 @@ public abstract class ICWarsArea extends Area{
      * Lists all the units of the area
      */
     public void addToUnitInArea(Unit unitToMemorise){
-        unitInArea = new ArrayList<Unit>();
         unitInArea.add(unitToMemorise);
     }
 
@@ -74,16 +73,21 @@ public abstract class ICWarsArea extends Area{
         unitsToAttack = new ArrayList<>();
         for (int index = 0; index < unitInArea.size(); ++index) {
             if (unitInArea.get(index).getFaction() != faction){
-                int x =  unitInArea.get(index).getCurrentCells().get(0).x;
-                int y = unitInArea.get(index).getCurrentCells().get(0).y;
-                //D'après Piazza la condition qui suit marcherait mais il y a peut-être mieux à faire.
-                double distance = Math.sqrt(Math.pow(positionX - x, 2) + Math.pow(positionY - y, 2));
-                if (distance <= radius){
-                    unitsToAttack.add(index);
-                }
+//                int x =  unitInArea.get(index).getCurrentCells().get(0).x;
+//                int y = unitInArea.get(index).getCurrentCells().get(0).y;
+//                //D'après Piazza la condition qui suit marcherait mais il y a peut-être mieux à faire.
+//                double distance = Math.sqrt(Math.pow(positionX - x, 2) + Math.pow(positionY - y, 2));
+//                if (distance <= radius){
+                unitsToAttack.add(index);
+//                }
             }
         }
         return unitsToAttack;
+    }
+
+    //TEST
+    public void size(){
+        System.out.println(unitInArea.size());
     }
 
     public void applyDamage(int unitToAttack, int damage){

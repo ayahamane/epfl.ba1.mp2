@@ -7,6 +7,7 @@ import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icwars.actor.unit.Unit;
 import ch.epfl.cs107.play.game.icwars.actor.unit.action.Action;
+import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.game.icwars.gui.ICWarsPlayerGUI;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Vector;
@@ -31,7 +32,7 @@ public class AIPlayer extends ICWarsPlayer{
     private int newX;
     private int newY;
 
-    public AIPlayer(Area area, DiscreteCoordinates position, Faction fac, String spriteName, Unit... units) {
+    public AIPlayer(ICWarsArea area, DiscreteCoordinates position, Faction fac, String spriteName, Unit... units) {
         super(area, position, fac, units);
         sprite = new Sprite(spriteName, 1.f, 1.f, this);
         this.faction = fac; //Not needed si?
@@ -124,9 +125,9 @@ public class AIPlayer extends ICWarsPlayer{
                 break;
             case ACTION_SELECTION:
                 List<Action> list= new ArrayList<>();
-                for(int i = 0; i< selectedUnitAi.getListOfActionsSize(); ++i){
+                /*for(int i = 0; i< selectedUnitAi.getListOfActionsSize(); ++i){
                     list.add(selectedUnitAi.getElementListOfActions(i));
-                }
+                }*/
                 for( int i=0; i<list.size(); ++i){
                     int theKey = list.get(i).getKey();
                     if(keyboard.get(theKey).isReleased()){

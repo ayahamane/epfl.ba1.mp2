@@ -31,7 +31,7 @@ public class RealPlayer extends ICWarsPlayer{
     private Faction faction;
     private boolean canPass = false;
     private Action actionToExecute;
-
+    List<Action> list;
     /**
      * Demo actor
      *
@@ -51,7 +51,7 @@ public class RealPlayer extends ICWarsPlayer{
                     new Vector(0, 0));
         }
         playerGUI = new ICWarsPlayerGUI(getOwnerArea().getCameraScaleFactor(), this);
-    }
+        }
 
     @Override
     public void update(float deltaTime) {
@@ -94,20 +94,18 @@ public class RealPlayer extends ICWarsPlayer{
                 }
                 break;
             case ACTION_SELECTION:
-                List<Action> list= new ArrayList<>();
-                for(int i = 0; i< unitInMemory.getListOfActionsSize(); ++i){
-                    list.add(unitInMemory.getElementListOfActions(i));
-                }
-                for( int i=0; i<list.size(); ++i){
-                    int theKey = list.get(i).getKey();
-                    if(keyboard.get(theKey).isReleased()){
-                        actionToExecute = list.get(i) ;
-                        currentState = playerState.ACTION;
+                System.out.println("ACTION_SELECTION");
+                list = unitInMemory.getListOfActions();
+                    for( int i = 0; i < list.size(); ++i){
+                        int theKey = list.get(i).getKey();
+                        if(keyboard.get(theKey).isReleased()){
+                            actionToExecute = list.get(i);
+                            currentState = playerState.ACTION;
+                        }
                     }
-                }
                 break;
             case ACTION:
-                System.out.print("ACTION");
+                System.out.println("ACTION");
                 actionToExecute.doAction(dt,this, keyboard);
                 break;
             default:
@@ -141,8 +139,7 @@ public class RealPlayer extends ICWarsPlayer{
     @Override
     public void draw(Canvas canvas) {
         if(!(getCurrentState() == playerState.IDLE)){sprite.draw(canvas);}
-        if((!(unitInMemory == null)) && (getCurrentState() == playerState.MOVE_UNIT)){
-            playerGUI.draw(canvas);}
+        playerGUI.draw(canvas);
     }
 
     @Override
@@ -158,6 +155,7 @@ public class RealPlayer extends ICWarsPlayer{
             other.acceptInteraction(handler);
         }
     }
+
     public class ICWarsPlayerInteractionHandler implements ICWarsInteractionVisitor {
         @Override
         public void interactWith(Unit u) {
