@@ -24,9 +24,7 @@ abstract public class Action implements Graphics
 
     abstract public void doAction(float dt, ICWarsPlayer player, Keyboard keyboard);
 
-    public void doAutoAction(){
-        //Fonctionnement d'actions lorqu'utilisées par un AIPlayer
-    }
+    abstract public void doAutoAction(float dt, ICWarsPlayer player);
 
     protected void setName(String n){
         name = n;

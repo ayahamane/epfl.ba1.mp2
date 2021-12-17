@@ -27,4 +27,9 @@ public class Wait extends Action
         player.setCurrentState(ICWarsPlayer.playerState.NORMAL);
     }
 
+    @Override
+    public void doAutoAction(float dt, ICWarsPlayer player) {
+
+    }
+
 }

@@ -35,7 +35,7 @@ public class Attack extends Action {
             cursor.draw(canvas);
         }
     }
-
+    @Override
     public void doAction(float dt, ICWarsPlayer player, Keyboard keyboard) {
         getArea().size();
         ICWarsActor.Faction playerFaction = player.getFaction();
@@ -61,7 +61,7 @@ public class Attack extends Action {
 
         if (keyboard.get(Keyboard.ENTER).isReleased()) {
             int damageToApply = getUnit().getDamage();
-            getArea().applyDamage(unitToAttack, damageToApply);
+            getArea().applyDamage(attackableUnitsIndex.get(unitToAttack), damageToApply);
             getUnit().setHasBeenUsed(true);
             player.centerCamera();
             firstTimeSet = true;
@@ -73,4 +73,20 @@ public class Attack extends Action {
             player.setCurrentState(ICWarsPlayer.playerState.ACTION_SELECTION);
         }
     }
+
+    @Override
+    public void doAutoAction(float dt, ICWarsPlayer player) {
+        //Duplicated code!!!!!
+        ICWarsActor.Faction playerFaction = player.getFaction();
+        int unitRadius = getUnit().getRadius();
+        int x = getUnit().getCurrentCells().get(0).x;
+        int y = getUnit().getCurrentCells().get(0).y;
+        attackableUnitsIndex = new ArrayList<>();
+        attackableUnitsIndex = getArea().attackableUnits(playerFaction, unitRadius, x, y);
+        //unitToAttack =
+        getArea().applyDamage(attackableUnitsIndex.get(unitToAttack), getUnit().getDamage());
+    }
+
+
+
 }

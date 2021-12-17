@@ -21,6 +21,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class AIPlayer extends ICWarsPlayer{
+    private float counter;
+    private boolean counting;
     private Sprite sprite;
     private Unit selectedUnitAi;
     private ICWarsPlayerGUI playerGUI;
@@ -31,11 +33,12 @@ public class AIPlayer extends ICWarsPlayer{
     private DiscreteCoordinates coordsNearestUnit;
     private int newX;
     private int newY;
+    private List<Action> list;
 
     public AIPlayer(ICWarsArea area, DiscreteCoordinates position, Faction fac, String spriteName, Unit... units) {
         super(area, position, fac, units);
         sprite = new Sprite(spriteName, 1.f, 1.f, this);
-        this.faction = fac; //Not needed si?
+        this.faction = fac;
         resetMotion();
         if (fac == Faction.ally){
             sprite = new Sprite("icwars/allyCursor", 1f, 1f, this,
@@ -51,7 +54,6 @@ public class AIPlayer extends ICWarsPlayer{
     public void update(float deltaTime) {
         super.update(deltaTime);
         changeState(deltaTime);
-        Keyboard keyboard = getOwnerArea().getKeyboard();
         coordsNearestUnit = getCurrentMainCellCoordinates();
     }
 
@@ -110,34 +112,28 @@ public class AIPlayer extends ICWarsPlayer{
             case IDLE:
                 break;
             case NORMAL:
-                //Comment sélectionner chacune de ses unités en séquence?
-                for(int i = 0; i<unit.size();++i){
-                    selectUnitAi(i);
-                }
+                selectUnitAi();
                 coordsNearestUnit = getCurrentMainCellCoordinates();
                 newCoords(coordsNearestUnit);
-                //if(waitFor())
-                currentState = playerState.MOVE_UNIT;
-
+                if(waitFor(15,dt)){
+                currentState = playerState.MOVE_UNIT;}
                 break;
             case MOVE_UNIT:
                 selectedUnitAi.changePosition(coordsNearestUnit);
                 break;
             case ACTION_SELECTION:
-                List<Action> list= new ArrayList<>();
-                /*for(int i = 0; i< selectedUnitAi.getListOfActionsSize(); ++i){
-                    list.add(selectedUnitAi.getElementListOfActions(i));
-                }*/
+                list = unitInMemory.getListOfActions();
                 for( int i=0; i<list.size(); ++i){
                     int theKey = list.get(i).getKey();
                     if(keyboard.get(theKey).isReleased()){
                         actionToExecute = list.get(i) ;
-                        currentState = playerState.ACTION;
+                        if(waitFor(15,dt)){
+                        currentState = playerState.ACTION;}
                     }
                 }
                 break;
             case ACTION:
-                actionToExecute.doAction(dt,this, keyboard);
+                actionToExecute.doAutoAction(dt,this);
                 break;
             default:
         }
@@ -146,12 +142,14 @@ public class AIPlayer extends ICWarsPlayer{
     /**
      * Selects one of the units of the player
      */
-    public void selectUnitAi(int index){
-        if(index < unit.size()){
-            selectedUnitAi = unit.get(index);
+    public void selectUnitAi(){
+        int i = 0;
+        while(i<unit.size())
+            selectedUnitAi = unit.get(i);
             playerGUI.setSelectedUnit(selectedUnitAi);
+            if(selectedUnitAi.hasBeenUsed()){
+                ++i;}
         }
-    }
 
     @Override
     public void draw(Canvas canvas) {
@@ -174,7 +172,7 @@ public class AIPlayer extends ICWarsPlayer{
      * @param dt elapsed time
      * @param value waiting time (in seconds)
      * @return true if value seconds has elapsed , false otherwise
-     *//*
+     */
     private boolean waitFor(float value , float dt) {
         if (counting) {
             counter += dt;
@@ -188,5 +186,5 @@ public class AIPlayer extends ICWarsPlayer{
             counting = true;
         }
         return false;
-    }*/
+    }
 }
