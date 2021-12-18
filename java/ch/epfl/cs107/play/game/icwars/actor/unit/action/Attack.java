@@ -9,7 +9,6 @@ import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
-
 import java.util.ArrayList;
 
 public class Attack extends Action {
@@ -41,6 +40,9 @@ public class Attack extends Action {
         int unitRadius = getUnit().getRadius();
         int x = getUnit().getCurrentCells().get(0).x;
         int y = getUnit().getCurrentCells().get(0).y;
+
+        // sound test
+
         attackableUnitsIndex = new ArrayList<>();
         attackableUnitsIndex = getArea().attackableUnits(playerFaction, unitRadius, x, y);
         if (firstTimeSet && !attackableUnitsIndex.isEmpty()) {

@@ -23,6 +23,7 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
     private Keyboard keyboard= getOwnerArea().getKeyboard();
     protected Unit unitInMemory;
 
+
     public ICWarsPlayer(ICWarsArea area, DiscreteCoordinates position, Faction fac, Unit... units) {
         super(area, position, fac);
         unit = new ArrayList<>(Arrays.asList(units));

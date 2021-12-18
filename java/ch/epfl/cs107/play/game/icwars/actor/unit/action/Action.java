@@ -7,6 +7,8 @@ import ch.epfl.cs107.play.game.icwars.actor.unit.Unit;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.window.Keyboard;
 
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.IOException;
 import java.security.Key;
 
 abstract public class Action implements Graphics
@@ -22,7 +24,7 @@ abstract public class Action implements Graphics
         area = a;
     }
 
-    abstract public void doAction(float dt, ICWarsPlayer player, Keyboard keyboard);
+    abstract public void doAction(float dt, ICWarsPlayer player, Keyboard keyboard) throws UnsupportedAudioFileException, IOException;
 
     public void doAutoAction(){
         //Fonctionnement d'actions lorqu'utilisées par un AIPlayer
