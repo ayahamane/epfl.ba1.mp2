@@ -171,7 +171,6 @@ public class RealPlayer extends ICWarsPlayer{
                 playerGUI.setSelectedUnit(u);
             }
         }
-
         public void interactWith(ICWarsBehavior.ICWarsCell cellType){
             cellTypePlayer = cellType.getI();
             playerGUI.setCellTypePlayerGUI(cellTypePlayer);

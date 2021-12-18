@@ -9,8 +9,6 @@ public interface ICWarsInteractionVisitor extends AreaInteractionVisitor{
 
     default void interactWith(Unit u){}
 
-    //Added right now
-
     default void interactWith(ICWarsPlayer player){
     }
 
