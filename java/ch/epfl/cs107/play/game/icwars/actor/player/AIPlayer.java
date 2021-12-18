@@ -96,6 +96,7 @@ public class AIPlayer extends ICWarsPlayer{
             }
         }
         DiscreteCoordinates newPosition = new DiscreteCoordinates(finalAbcsissa, finalOrdinate);
+        System.out.println("X = " + newPosition.x + "Y = "+ newPosition.y );
         return newPosition;
     }
 
@@ -106,12 +107,13 @@ public class AIPlayer extends ICWarsPlayer{
             case NORMAL:
                 selectUnitAi();
                 coordsNearestUnit = ((ICWarsArea)getOwnerArea()).getCoordsNearestUnit(selectedUnitAi);
-                newCoords(coordsNearestUnit);
+                //System.out.println("X = " + coordsNearestUnit.x + "Y = "+ coordsNearestUnit.y );
+                //newCoords(coordsNearestUnit);
                 if(waitFor(3,dt)){
                 currentState = playerState.MOVE_UNIT;}
                 break;
             case MOVE_UNIT:
-                selectedUnitAi.changePosition(coordsNearestUnit);
+                selectedUnitAi.changePosition(newCoords(coordsNearestUnit));
                 if(waitFor(3,dt)){
                     currentState = playerState.ACTION;
                 }
@@ -174,22 +176,5 @@ public class AIPlayer extends ICWarsPlayer{
             counting = true;
         }
         return false;
-    }
-
-    public class ICWarsPlayerInteractionHandler implements ICWarsInteractionVisitor {
-        @Override
-        public void interactWith(Unit u) {
-            posUnit = u;
-            playerGUI.setPosUnit(u);
-            if (currentState == playerState.SELECT_CELL && u.getFaction() == faction) {
-                unitInMemory = u;
-                //canPass = true;
-                playerGUI.setSelectedUnit(u);
-            }
-        }
-        public void interactWith(ICWarsBehavior.ICWarsCell cellType){
-            cellTypePlayer = cellType.getI();
-            playerGUI.setCellTypePlayerGUI(cellTypePlayer);
-        }
     }
 }
