@@ -10,6 +10,8 @@ import ch.epfl.cs107.play.window.Window;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ch.epfl.cs107.play.math.DiscreteCoordinates.distanceBetween;
+
 public abstract class ICWarsArea extends Area {
     private List<Unit> unitInArea = new ArrayList<>();
     private ICWarsBehavior behavior;
@@ -87,9 +89,29 @@ public abstract class ICWarsArea extends Area {
                 if (distance <= radius) {
                     unitsToAttack.add(index);
                 }
+                System.out.println("unitInArea" + unitInArea.size());
+                System.out.println("unitsToAttack " + unitsToAttack.size());
             }
         }
         return unitsToAttack;
+    }
+
+    /**
+     * Method that selects the potentially attackable units for the AIPlayer.
+     *
+     * @param attackableUnits
+     * @return
+     */
+    public int autoAttackableUnit(ArrayList<Integer> attackableUnits) {
+        int previousValue = Integer.MAX_VALUE;
+        int unitToAutoAttack = 0;
+        for (int index = 0; index < attackableUnits.size(); ++index) {
+                if((int)unitInArea.get(attackableUnits.get(index)).getHp()<previousValue){
+                    unitToAutoAttack = attackableUnits.get(index);
+                    previousValue = (int)unitInArea.get(attackableUnits.get(index)).getHp();
+            }
+        }
+        return unitToAutoAttack;
     }
 
 
@@ -101,8 +123,26 @@ public abstract class ICWarsArea extends Area {
     }
 
     public void centerOnUnit(int index) {
-        System.out.println(index);
+        //System.out.println(index);
         unitInArea.get(index).centerCamera();
     }
 
+    /**
+     * Returns the position of the nearest unit to attack.
+     */
+    public DiscreteCoordinates getCoordsNearestUnit(Unit unitAi){
+        DiscreteCoordinates coordsNearestUnit = new DiscreteCoordinates(0,0);
+        float previousDistance = (float)Double.MAX_VALUE;
+        for (int index = 0; index < unitInArea.size(); ++index) {
+            if (unitAi.getFaction() != unitInArea.get(index).getFaction()) {   //Lists for enemyUnit/allyUnit separated
+                float potentialDistance = distanceBetween(unitAi.getCurrentCells().get(0), unitInArea.get(index).getCurrentCells().get(0));
+                if (potentialDistance < previousDistance) {
+                        previousDistance = potentialDistance;
+                        coordsNearestUnit = unitInArea.get(index).getCurrentCells().get(0);
+                }
+            }
+        }
+        return coordsNearestUnit;
+    };
 }
+

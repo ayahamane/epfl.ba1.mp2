@@ -2,6 +2,7 @@ package ch.epfl.cs107.play.game.icwars;
 
 import ch.epfl.cs107.play.game.areagame.AreaGame;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
+import ch.epfl.cs107.play.game.icwars.actor.player.AIPlayer;
 import ch.epfl.cs107.play.game.icwars.actor.unit.Soldier;
 import ch.epfl.cs107.play.game.icwars.actor.unit.Tank;
 import ch.epfl.cs107.play.game.icwars.actor.player.ICWarsPlayer;
@@ -10,6 +11,7 @@ import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.game.icwars.area.Level0;
 import ch.epfl.cs107.play.game.icwars.area.Level1;
 import ch.epfl.cs107.play.io.FileSystem;
+import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
@@ -62,7 +64,7 @@ public class ICWars extends AreaGame {
         Tank tank2 = new Tank(area, area.getTankEnemySpawnPosition(), ICWarsActor.Faction.enemy);
         Soldier soldier2 = new Soldier(area, area.getSoldierEnemySpawnPosition(), ICWarsActor.Faction.enemy);
         players.add(new RealPlayer(area, area.getPlayerAllySpawnPosition(), ICWarsActor.Faction.ally, "1", tank1, soldier1));
-        players.add(new RealPlayer(area, area.getPlayerEnemySpawnPosition(), ICWarsActor.Faction.enemy, "2",tank2, soldier2));
+        players.add(new AIPlayer(area, area.getPlayerEnemySpawnPosition(), ICWarsActor.Faction.enemy, "2",tank2, soldier2));
         for(int i = 0; i < players.size(); ++i) {
             if (players.get(i).getFaction() == ICWarsActor.Faction.ally) {
                 players.get(i).enterArea(area, area.getPlayerAllySpawnPosition());

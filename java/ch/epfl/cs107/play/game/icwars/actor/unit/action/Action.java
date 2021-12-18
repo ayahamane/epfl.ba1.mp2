@@ -8,6 +8,7 @@ import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.window.Keyboard;
 
 import java.security.Key;
+import java.util.List;
 
 abstract public class Action implements Graphics
 {
@@ -24,7 +25,7 @@ abstract public class Action implements Graphics
 
     abstract public void doAction(float dt, ICWarsPlayer player, Keyboard keyboard);
 
-    abstract public void doAutoAction(float dt, ICWarsPlayer player);
+    abstract public void doAutoAction(float dt, ICWarsPlayer player, List<Action> list);
 
     protected void setName(String n){
         name = n;
