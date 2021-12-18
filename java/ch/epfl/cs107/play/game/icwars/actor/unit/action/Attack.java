@@ -94,6 +94,7 @@ public class Attack extends Action {
         attackableUnitsIndex = getArea().attackableUnits(playerFaction, unitRadius, x, y);
         if (!attackableUnitsIndex.isEmpty() && attackableUnitsIndex != null) {
             unitToAttack = getArea().autoAttackableUnit(attackableUnitsIndex);
+            System.out.println(unitToAttack);
             getArea().applyDamage(attackableUnitsIndex.get(unitToAttack), getUnit().getDamage());
         }
     }

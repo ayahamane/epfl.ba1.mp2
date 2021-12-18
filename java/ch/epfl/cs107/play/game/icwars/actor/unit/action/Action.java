@@ -18,14 +18,14 @@ abstract public class Action implements Graphics
     private Unit unit;
     private ICWarsArea area;
     private String name;
-    private int key;//A METTRE EN FINAL
+    private int key;
 
     public Action (Unit u, ICWarsArea a){
         unit = u;
         area = a;
     }
 
-    abstract public void doAction(float dt, ICWarsPlayer player, Keyboard keyboard) throws UnsupportedAudioFileException, IOException;
+    abstract public void doAction(float dt, ICWarsPlayer player, Keyboard keyboard);
 
     abstract public void doAutoAction(float dt, ICWarsPlayer player, List<Action> list);
 
