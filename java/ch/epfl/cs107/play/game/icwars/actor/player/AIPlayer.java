@@ -56,15 +56,14 @@ public class AIPlayer extends ICWarsPlayer{
     /**
      * Returns the new position of the selected unit.
      */
-    private DiscreteCoordinates newCoords(DiscreteCoordinates position){
-        System.out.println(position);
-//        if(0 <= position.x && position.x < getOwnerArea().getWidth()
-//                && 0 <= position.y && position.y < getOwnerArea().getHeight()) {
-//            if (-selectedUnitAi.getRadius() <= position.x && position.x <= selectedUnitAi.getRadius()
-//                    && -selectedUnitAi.getRadius() <= position.y && position.y <= -selectedUnitAi.getRadius()) {
-//                return position;
-//            }
-//        }
+    private DiscreteCoordinates newCoords( DiscreteCoordinates position){
+        if(0 <= position.x && position.x < getOwnerArea().getWidth()
+                && 0 <= position.y && position.y < getOwnerArea().getHeight()) {
+            if (-selectedUnitAi.getRadius() <= position.x && position.x <= selectedUnitAi.getRadius()
+                    && -selectedUnitAi.getRadius() <= position.y && position.y <= -selectedUnitAi.getRadius()) {
+                return position;
+            }
+        }
         DiscreteCoordinates abscissa1 = new DiscreteCoordinates(-selectedUnitAi.getRadius(),
                 (int) selectedUnitAi.getPosition().y);
         DiscreteCoordinates abscissa2 = new DiscreteCoordinates(selectedUnitAi.getRadius(),
@@ -97,7 +96,7 @@ public class AIPlayer extends ICWarsPlayer{
             }
         }
         DiscreteCoordinates newPosition = new DiscreteCoordinates(finalAbcsissa, finalOrdinate);
-        System.out.println(newPosition);
+        System.out.println("X = " + newPosition.x + "Y = "+ newPosition.y );
         return newPosition;
     }
 
@@ -108,12 +107,13 @@ public class AIPlayer extends ICWarsPlayer{
             case NORMAL:
                 selectUnitAi();
                 coordsNearestUnit = ((ICWarsArea)getOwnerArea()).getCoordsNearestUnit(selectedUnitAi);
-                newCoords(coordsNearestUnit);
+                //System.out.println("X = " + coordsNearestUnit.x + "Y = "+ coordsNearestUnit.y );
+                //newCoords(coordsNearestUnit);
                 if(waitFor(3,dt)){
                 currentState = playerState.MOVE_UNIT;}
                 break;
             case MOVE_UNIT:
-                selectedUnitAi.changePosition(coordsNearestUnit);
+                selectedUnitAi.changePosition(newCoords(coordsNearestUnit));
                 if(waitFor(3,dt)){
                     currentState = playerState.ACTION;
                 }
@@ -176,22 +176,5 @@ public class AIPlayer extends ICWarsPlayer{
             counting = true;
         }
         return false;
-    }
-
-    public class ICWarsPlayerInteractionHandler implements ICWarsInteractionVisitor {
-        @Override
-        public void interactWith(Unit u) {
-            posUnit = u;
-            playerGUI.setPosUnit(u);
-            if (currentState == playerState.SELECT_CELL && u.getFaction() == faction) {
-                unitInMemory = u;
-                //canPass = true;
-                playerGUI.setSelectedUnit(u);
-            }
-        }
-        public void interactWith(ICWarsBehavior.ICWarsCell cellType){
-            cellTypePlayer = cellType.getI();
-            playerGUI.setCellTypePlayerGUI(cellTypePlayer);
-        }
     }
 }
