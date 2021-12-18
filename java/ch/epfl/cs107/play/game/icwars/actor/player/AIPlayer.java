@@ -10,6 +10,7 @@ import ch.epfl.cs107.play.game.icwars.actor.unit.action.Action;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsBehavior;
 import ch.epfl.cs107.play.game.icwars.gui.ICWarsPlayerGUI;
+import ch.epfl.cs107.play.game.icwars.handler.ICWarsInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Canvas;
@@ -27,7 +28,8 @@ public class AIPlayer extends ICWarsPlayer{
     private Faction faction;
     private DiscreteCoordinates coordsNearestUnit;
     private List<Action> list;
-
+    private Unit posUnit;
+    private ICWarsBehavior.ICWarsCellType cellTypePlayer;
 
     public AIPlayer(ICWarsArea area, DiscreteCoordinates position, Faction fac, String spriteName, Unit... units) {
         super(area, position, fac, units);
@@ -128,7 +130,6 @@ public class AIPlayer extends ICWarsPlayer{
      */
     public void selectUnitAi(){
         int i = 0;
-        System.out.println(unit.size());
         while(i < unit.size()) {
             selectedUnitAi = unit.get(i);
             playerGUI.setSelectedUnit(selectedUnitAi);
@@ -173,5 +174,22 @@ public class AIPlayer extends ICWarsPlayer{
             counting = true;
         }
         return false;
+    }
+
+    public class ICWarsPlayerInteractionHandler implements ICWarsInteractionVisitor {
+        @Override
+        public void interactWith(Unit u) {
+            posUnit = u;
+            playerGUI.setPosUnit(u);
+            if (currentState == playerState.SELECT_CELL && u.getFaction() == faction) {
+                unitInMemory = u;
+                //canPass = true;
+                playerGUI.setSelectedUnit(u);
+            }
+        }
+        public void interactWith(ICWarsBehavior.ICWarsCell cellType){
+            cellTypePlayer = cellType.getI();
+            playerGUI.setCellTypePlayerGUI(cellTypePlayer);
+        }
     }
 }

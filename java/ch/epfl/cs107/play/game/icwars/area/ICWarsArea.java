@@ -89,8 +89,6 @@ public abstract class ICWarsArea extends Area {
                 if (distance <= radius) {
                     unitsToAttack.add(index);
                 }
-                System.out.println("unitInArea" + unitInArea.size());
-                System.out.println("unitsToAttack " + unitsToAttack.size());
             }
         }
         return unitsToAttack;
@@ -107,7 +105,7 @@ public abstract class ICWarsArea extends Area {
         int unitToAutoAttack = 0;
         for (int index = 0; index < attackableUnits.size(); ++index) {
                 if((int)unitInArea.get(attackableUnits.get(index)).getHp()<previousValue){
-                    unitToAutoAttack = attackableUnits.get(index);
+                    unitToAutoAttack = index;
                     previousValue = (int)unitInArea.get(attackableUnits.get(index)).getHp();
             }
         }
@@ -123,7 +121,6 @@ public abstract class ICWarsArea extends Area {
     }
 
     public void centerOnUnit(int index) {
-        //System.out.println(index);
         unitInArea.get(index).centerCamera();
     }
 
@@ -134,7 +131,7 @@ public abstract class ICWarsArea extends Area {
         DiscreteCoordinates coordsNearestUnit = new DiscreteCoordinates(0,0);
         float previousDistance = (float)Double.MAX_VALUE;
         for (int index = 0; index < unitInArea.size(); ++index) {
-            if (unitAi.getFaction() != unitInArea.get(index).getFaction()) {   //Lists for enemyUnit/allyUnit separated
+            if (unitAi.getFaction() != unitInArea.get(index).getFaction()) {
                 float potentialDistance = distanceBetween(unitAi.getCurrentCells().get(0), unitInArea.get(index).getCurrentCells().get(0));
                 if (potentialDistance < previousDistance) {
                         previousDistance = potentialDistance;
@@ -143,6 +140,6 @@ public abstract class ICWarsArea extends Area {
             }
         }
         return coordsNearestUnit;
-    };
+    }
 }
 
