@@ -91,15 +91,12 @@ public class RealPlayer extends ICWarsPlayer{
             case MOVE_UNIT:
              if (keyboard.get(Keyboard.ENTER).isReleased()) {
                     if (unitInMemory.changePosition(this.getCurrentMainCellCoordinates())) {
-                        // unitInMemory.setHasBeenUsed(true);
-                        //currentState = playerState.NORMAL;
                         currentState = playerState.ACTION_SELECTION;
-                        canPass = false; //Not sure if we should keep it.
+                        canPass = false;
                     }
                 }
                 break;
             case ACTION_SELECTION:
-                System.out.println("ACTION_SELECTION");
                 list = unitInMemory.getListOfActions();
                     for( int i = 0; i < list.size(); ++i){
                         int theKey = list.get(i).getKey();

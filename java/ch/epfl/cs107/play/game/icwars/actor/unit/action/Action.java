@@ -10,6 +10,7 @@ import ch.epfl.cs107.play.window.Keyboard;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 import java.security.Key;
+import java.util.List;
 
 abstract public class Action implements Graphics
 {
@@ -26,9 +27,7 @@ abstract public class Action implements Graphics
 
     abstract public void doAction(float dt, ICWarsPlayer player, Keyboard keyboard) throws UnsupportedAudioFileException, IOException;
 
-    public void doAutoAction(){
-        //Fonctionnement d'actions lorqu'utilisées par un AIPlayer
-    }
+    abstract public void doAutoAction(float dt, ICWarsPlayer player, List<Action> list);
 
     protected void setName(String n){
         name = n;

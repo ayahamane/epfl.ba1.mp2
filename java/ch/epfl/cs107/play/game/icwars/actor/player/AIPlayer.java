@@ -8,34 +8,31 @@ import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icwars.actor.unit.Unit;
 import ch.epfl.cs107.play.game.icwars.actor.unit.action.Action;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
+import ch.epfl.cs107.play.game.icwars.area.ICWarsBehavior;
 import ch.epfl.cs107.play.game.icwars.gui.ICWarsPlayerGUI;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Vector;
-import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Canvas;
-import ch.epfl.cs107.play.window.Keyboard;
-
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static ch.epfl.cs107.play.math.DiscreteCoordinates.distanceBetween;
+
 public class AIPlayer extends ICWarsPlayer{
+    private float counter;
+    private boolean counting;
     private Sprite sprite;
     private Unit selectedUnitAi;
     private ICWarsPlayerGUI playerGUI;
-    private Keyboard keyboard= getOwnerArea().getKeyboard();
     private Faction faction;
-    private boolean canPass = false;
-    private Action actionToExecute;
     private DiscreteCoordinates coordsNearestUnit;
-    private int newX;
-    private int newY;
+    private List<Action> list;
+
 
     public AIPlayer(ICWarsArea area, DiscreteCoordinates position, Faction fac, String spriteName, Unit... units) {
         super(area, position, fac, units);
         sprite = new Sprite(spriteName, 1.f, 1.f, this);
-        this.faction = fac; //Not needed si?
+        this.faction = fac;
         resetMotion();
         if (fac == Faction.ally){
             sprite = new Sprite("icwars/allyCursor", 1f, 1f, this,
@@ -51,93 +48,76 @@ public class AIPlayer extends ICWarsPlayer{
     public void update(float deltaTime) {
         super.update(deltaTime);
         changeState(deltaTime);
-        Keyboard keyboard = getOwnerArea().getKeyboard();
         coordsNearestUnit = getCurrentMainCellCoordinates();
     }
 
     /**
      * Returns the new position of the selected unit.
      */
-    //QUESTION: Méthode à faire valider d'URGENCE!!!
-    public DiscreteCoordinates newCoords( DiscreteCoordinates position){
-
-        DiscreteCoordinates abscissa1=new DiscreteCoordinates(-selectedUnitAi.getRadius(),position.y);
-        DiscreteCoordinates abscissa2=new DiscreteCoordinates(selectedUnitAi.getRadius(),position.y);
-        DiscreteCoordinates ordinate1=new DiscreteCoordinates(position.x,-selectedUnitAi.getRadius());
-        DiscreteCoordinates ordinate2=new DiscreteCoordinates(position.x,selectedUnitAi.getRadius());
-
-        double abscissaNegative = distanceBetween(abscissa1,position);
-        double abscissaPositive = distanceBetween(position,abscissa2);
-        double ordinateNegative = distanceBetween(ordinate1,position);
-        double ordinatePositive = distanceBetween(position,ordinate2);
-
+    private DiscreteCoordinates newCoords( DiscreteCoordinates position){
         if(0 <= position.x && position.x < getOwnerArea().getWidth()
-                && 0 <= position.y && position.y < getOwnerArea().getHeight()){
-            if(-selectedUnitAi.getRadius() <= position.x && position.x <= selectedUnitAi.getRadius()
-                    && -selectedUnitAi.getRadius() <= position.y && position.y <= -selectedUnitAi.getRadius()){
+                && 0 <= position.y && position.y < getOwnerArea().getHeight()) {
+            if (-selectedUnitAi.getRadius() <= position.x && position.x <= selectedUnitAi.getRadius()
+                    && -selectedUnitAi.getRadius() <= position.y && position.y <= -selectedUnitAi.getRadius()) {
                 return position;
-            } else {
-                if(abscissaPositive<abscissaNegative){
-                    newX = selectedUnitAi.getRadius();
-                } else {
-                    newX = -selectedUnitAi.getRadius();
-                }
-                if(ordinatePositive<ordinateNegative){
-                    newY = selectedUnitAi.getRadius();
-                } else {
-                    newY = -selectedUnitAi.getRadius();
-                }
-                return new DiscreteCoordinates(newX,newY);
             }
         }
-        return null;
+        DiscreteCoordinates abscissa1 = new DiscreteCoordinates(-selectedUnitAi.getRadius(),
+                (int) selectedUnitAi.getPosition().y);
+        DiscreteCoordinates abscissa2 = new DiscreteCoordinates(selectedUnitAi.getRadius(),
+                (int) selectedUnitAi.getPosition().y);
+        float leftEdge = distanceBetween(abscissa1, position);
+        float rightEdge = distanceBetween(abscissa2, position);
+        int finalAbcsissa;
+        if (leftEdge < rightEdge) {
+            finalAbcsissa = -selectedUnitAi.getRadius();
+        } else {
+            finalAbcsissa = selectedUnitAi.getRadius();
+        }
+        DiscreteCoordinates ordinate1 = new DiscreteCoordinates(finalAbcsissa, -selectedUnitAi.getRadius());
+        DiscreteCoordinates ordinate2 = new DiscreteCoordinates(finalAbcsissa, selectedUnitAi.getRadius());
+        float lowEdge = distanceBetween(ordinate1, position);
+        float highEdge = distanceBetween(ordinate2, position);
+        int finalOrdinate;
+        float previousOrdinate;
+        if (lowEdge < highEdge) {
+            finalOrdinate = -selectedUnitAi.getRadius();
+            previousOrdinate = lowEdge;
+        } else {
+            finalOrdinate = selectedUnitAi.getRadius();
+            previousOrdinate = highEdge;
+        }
+        for (int i = finalOrdinate + 1; i < selectedUnitAi.getRadius(); ++i) {
+            DiscreteCoordinates positionToTest = new DiscreteCoordinates(finalAbcsissa, i);
+            if (distanceBetween(positionToTest, position) < previousOrdinate) {
+                finalOrdinate = i;
+            }
+        }
+        DiscreteCoordinates newPosition = new DiscreteCoordinates(finalAbcsissa, finalOrdinate);
+        return newPosition;
     }
 
-    /**
-     * Return the euclidean Distance between two discrete coordinate
-     * @param a (DiscreteCoordinates). Not null
-     * @param b (DiscreteCoordinates). Not null
-     * @return (float): the euclidean distance between the two coordinates
-     */
-    //QUESTION: Est-ce que je peux utiliser la méthode déjà codée??
-    public static double distanceBetween(DiscreteCoordinates a, DiscreteCoordinates b){
-        return  Math.sqrt((a.x-b.x)*(a.x-b.x) + (a.y-b.y)*(a.y-b.y));
-    }
-
-    //QUESTION: Méthode à faire valider d'URGENCE!!!
     protected void changeState(float dt){
         switch (getCurrentState()){
             case IDLE:
                 break;
             case NORMAL:
-                //Comment sélectionner chacune de ses unités en séquence?
-                for(int i = 0; i<unit.size();++i){
-                    selectUnitAi(i);
-                }
-                coordsNearestUnit = getCurrentMainCellCoordinates();
+                selectUnitAi();
+                coordsNearestUnit = ((ICWarsArea)getOwnerArea()).getCoordsNearestUnit(selectedUnitAi);
                 newCoords(coordsNearestUnit);
-                //if(waitFor())
-                currentState = playerState.MOVE_UNIT;
-
+                if(waitFor(3,dt)){
+                currentState = playerState.MOVE_UNIT;}
                 break;
             case MOVE_UNIT:
                 selectedUnitAi.changePosition(coordsNearestUnit);
-                break;
-            case ACTION_SELECTION:
-                List<Action> list= new ArrayList<>();
-                /*for(int i = 0; i< selectedUnitAi.getListOfActionsSize(); ++i){
-                    list.add(selectedUnitAi.getElementListOfActions(i));
-                }*/
-                for( int i=0; i<list.size(); ++i){
-                    int theKey = list.get(i).getKey();
-                    if(keyboard.get(theKey).isReleased()){
-                        actionToExecute = list.get(i) ;
-                        currentState = playerState.ACTION;
-                    }
+                if(waitFor(3,dt)){
+                    currentState = playerState.ACTION;
                 }
                 break;
             case ACTION:
-                actionToExecute.doAction(dt,this, keyboard);
+                list = selectedUnitAi.getListOfActions();
+                selectedUnitAi.getListOfActions().get(0).doAutoAction(dt,this, list = selectedUnitAi.getListOfActions());
+                currentState = playerState.IDLE;
                 break;
             default:
         }
@@ -146,18 +126,24 @@ public class AIPlayer extends ICWarsPlayer{
     /**
      * Selects one of the units of the player
      */
-    public void selectUnitAi(int index){
-        if(index < unit.size()){
-            selectedUnitAi = unit.get(index);
+    public void selectUnitAi(){
+        int i = 0;
+        System.out.println(unit.size());
+        while(i < unit.size()) {
+            selectedUnitAi = unit.get(i);
             playerGUI.setSelectedUnit(selectedUnitAi);
+            if (selectedUnitAi.hasBeenUsed()) {
+                ++i;
+            } else {
+                break;
+            }
         }
     }
 
     @Override
     public void draw(Canvas canvas) {
         if(!(getCurrentState() == playerState.IDLE)){sprite.draw(canvas);}
-        if((!(unitInMemory == null)) && (getCurrentState() == playerState.MOVE_UNIT)){
-            playerGUI.draw(canvas);}
+        playerGUI.draw(canvas);
     }
 
     @Override
@@ -169,12 +155,12 @@ public class AIPlayer extends ICWarsPlayer{
     @Override
     public void interactWith(Interactable other) {}
 
-  /*  *//**
+  /**
      * Ensures that value time elapsed before returning true
      * @param dt elapsed time
      * @param value waiting time (in seconds)
      * @return true if value seconds has elapsed , false otherwise
-     *//*
+     */
     private boolean waitFor(float value , float dt) {
         if (counting) {
             counter += dt;
@@ -182,11 +168,10 @@ public class AIPlayer extends ICWarsPlayer{
                 counting = false;
                 return true;
             }
-
         } else {
             counter = 0f;
             counting = true;
         }
         return false;
-    }*/
+    }
 }
