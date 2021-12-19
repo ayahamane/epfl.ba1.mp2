@@ -7,6 +7,7 @@ import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Window;
 
+import javax.sound.midi.spi.SoundbankReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -129,14 +130,32 @@ public abstract class ICWarsArea extends Area {
      */
     public DiscreteCoordinates getCoordsNearestUnit(Unit unitAi){
         DiscreteCoordinates coordsNearestUnit = new DiscreteCoordinates(0,0);
-        float previousDistance = (float)Double.MAX_VALUE;
+        double previousDistance = 0;
+        boolean a = true;
         for (int index = 0; index < unitInArea.size(); ++index) {
+            if(a){
+                previousDistance = Double.MAX_VALUE;
+                System.out.println("firstPrevious distance: " +previousDistance);
+            }
+            a = false;
+            //System.out.println("In the forLoop");
             if (unitAi.getFaction() != unitInArea.get(index).getFaction()) {
-                float potentialDistance = distanceBetween(unitAi.getCurrentCells().get(0), unitInArea.get(index).getCurrentCells().get(0));
+                //System.out.println("Different faction");
+                DiscreteCoordinates unitAiPosition = new DiscreteCoordinates((int)unitAi.getPosition().x,
+                        (int)unitAi.getPosition().y);
+                DiscreteCoordinates unitInAreaPosition = new DiscreteCoordinates((int)unitInArea.get(index).getPosition().x,
+                        (int)unitInArea.get(index).getPosition().y);
+                double potentialDistance = distanceBetween(unitAiPosition, unitInAreaPosition);
                 if (potentialDistance < previousDistance) {
+                    System.out.println("Dans potentialDistance < previousDistance");
+                    System.out.println("Previous distance: " + previousDistance);
+                    System.out.println("Potential distance: " + potentialDistance);
                         previousDistance = potentialDistance;
-                        coordsNearestUnit = unitInArea.get(index).getCurrentCells().get(0);
+                        coordsNearestUnit = unitInAreaPosition;
                 }
+                //if (potentialDistance == previousDistance) {
+                //    coordsNearestUnit = unitInAreaPosition;
+                //}
             }
         }
         return coordsNearestUnit;
