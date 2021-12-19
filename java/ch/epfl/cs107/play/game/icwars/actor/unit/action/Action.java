@@ -7,6 +7,8 @@ import ch.epfl.cs107.play.game.icwars.actor.unit.Unit;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.window.Keyboard;
 
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.IOException;
 import java.security.Key;
 import java.util.List;
 
@@ -16,7 +18,7 @@ abstract public class Action implements Graphics
     private Unit unit;
     private ICWarsArea area;
     private String name;
-    private int key;//A METTRE EN FINAL
+    private int key;
 
     public Action (Unit u, ICWarsArea a){
         unit = u;

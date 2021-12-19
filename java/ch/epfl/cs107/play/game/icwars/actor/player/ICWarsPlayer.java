@@ -1,7 +1,9 @@
 package ch.epfl.cs107.play.game.icwars.actor.player;
 
+import ch.epfl.cs107.play.game.actor.SoundAcoustics;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Interactor;
+import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.game.icwars.actor.unit.Unit;
@@ -22,6 +24,8 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
     protected playerState currentState;
     private Keyboard keyboard= getOwnerArea().getKeyboard();
     protected Unit unitInMemory;
+    private static SoundAcoustics sound = new SoundAcoustics(ResourcePath.getSound("canon"));
+
 
     public ICWarsPlayer(ICWarsArea area, DiscreteCoordinates position, Faction fac, Unit... units) {
         super(area, position, fac);
