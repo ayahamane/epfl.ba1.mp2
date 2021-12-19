@@ -58,13 +58,12 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
     public void update(float deltaTime){
         super.update(deltaTime);
         for(Unit u : unit){
-            /*if(u.isDead()){
-                //getOwnerArea().unregisterActor(unit.get(i));
-                u.leaveArea();
-            }*/
             if(u.hasBeenUsed()){
                 u.getSprite().setAlpha(0.5f);
             }
+            //if(u.isDead()){
+            //    unit.remove(u);
+            //}
         }
     }
 
@@ -73,8 +72,7 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
      */
     @Override
     public void leaveArea(){
-        for(Unit u : unit){
-            //getOwnerArea().unregisterActor(unit.get(i));
+       for(Unit u : unit){
             u.leaveArea();
         }
         super.leaveArea();

@@ -34,7 +34,7 @@ public class RealPlayer extends ICWarsPlayer{
     private Faction faction;
     private boolean canPass = false;
     private Action actionToExecute;
-    List<Action> list;
+    private List<Action> list;
     /**
      * Demo actor
      *
@@ -139,7 +139,7 @@ public class RealPlayer extends ICWarsPlayer{
 
     @Override
     public void draw(Canvas canvas) {
-        if(!(getCurrentState() == playerState.IDLE)){sprite.draw(canvas);}
+        if(!(getCurrentState() == playerState.IDLE) && !this.isDefeated()){sprite.draw(canvas);}
         playerGUI.draw(canvas);
         if(actionToExecute!=null){
             actionToExecute.draw(canvas);
