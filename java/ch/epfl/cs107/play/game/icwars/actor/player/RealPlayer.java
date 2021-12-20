@@ -5,7 +5,6 @@ import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icwars.actor.unit.action.Action;
-import ch.epfl.cs107.play.game.icwars.actor.unit.action.Attack;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.game.icwars.actor.unit.Unit;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsBehavior;
@@ -16,8 +15,6 @@ import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
-
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 

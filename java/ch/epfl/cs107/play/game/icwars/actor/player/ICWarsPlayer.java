@@ -72,7 +72,7 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
      */
     @Override
     public void leaveArea(){
-       for(int i = 0; i< unit.size(); ++i){
+        for(int i = 0; i< unit.size(); ++i){
             unit.get(i).leaveArea();
         }
         super.leaveArea();

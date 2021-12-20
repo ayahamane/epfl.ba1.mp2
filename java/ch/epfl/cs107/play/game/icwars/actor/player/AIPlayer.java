@@ -1,23 +1,18 @@
 package ch.epfl.cs107.play.game.icwars.actor.player;
 
-import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
-import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icwars.actor.unit.Unit;
 import ch.epfl.cs107.play.game.icwars.actor.unit.action.Action;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
-import ch.epfl.cs107.play.game.icwars.area.ICWarsBehavior;
 import ch.epfl.cs107.play.game.icwars.gui.ICWarsPlayerGUI;
-import ch.epfl.cs107.play.game.icwars.handler.ICWarsInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Canvas;
 import java.util.Collections;
 import java.util.List;
 
-import static ch.epfl.cs107.play.math.DiscreteCoordinates.distanceBetween;
 
 public class AIPlayer extends ICWarsPlayer{
     private float counter;
@@ -28,6 +23,7 @@ public class AIPlayer extends ICWarsPlayer{
     private Faction faction;
     private DiscreteCoordinates coordsNearestUnit;
     private List<Action> list;
+    private boolean canMove;
 
     public AIPlayer(ICWarsArea area, DiscreteCoordinates position, Faction fac, String spriteName, Unit... units) {
         super(area, position, fac, units);
@@ -87,9 +83,10 @@ public class AIPlayer extends ICWarsPlayer{
             case IDLE:
                 break;
             case NORMAL:
+                canMove = false;
                 selectUnitAi();
                 setCurrentPosition(selectedUnitAi.getPosition());
-                if(waitFor(2,dt)){
+                if(waitFor(2,dt) && canMove){
                     coordsNearestUnit = ((ICWarsArea)getOwnerArea()).getCoordsNearestUnit(selectedUnitAi);
                     currentState = playerState.MOVE_UNIT;
                 }
@@ -119,6 +116,7 @@ public class AIPlayer extends ICWarsPlayer{
             if (!unit.get(i).isDead()) {
                 selectedUnitAi = unit.get(i);
                 playerGUI.setSelectedUnit(selectedUnitAi);
+                canMove = true;
                 break;
             }
         }
