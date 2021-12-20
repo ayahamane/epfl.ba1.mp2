@@ -8,6 +8,7 @@ import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.game.icwars.actor.unit.Unit;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.window.Audio;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 
@@ -24,7 +25,6 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
     protected playerState currentState;
     private Keyboard keyboard= getOwnerArea().getKeyboard();
     protected Unit unitInMemory;
-    private static SoundAcoustics sound = new SoundAcoustics(ResourcePath.getSound("canon"));
 
 
     public ICWarsPlayer(ICWarsArea area, DiscreteCoordinates position, Faction fac, Unit... units) {
@@ -54,6 +54,7 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
             currentState = playerState.NORMAL;
         }
     }
+
 
     public void update(float deltaTime){
         super.update(deltaTime);

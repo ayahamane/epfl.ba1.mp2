@@ -130,13 +130,18 @@ public class AIPlayer extends ICWarsPlayer{
                 selectUnitAi();
                 setCurrentPosition(selectedUnitAi.getPosition());
                 coordsNearestUnit = ((ICWarsArea)getOwnerArea()).getCoordsNearestUnit(selectedUnitAi);
-                //System.out.println("X = " + coordsNearestUnit.x + "Y = "+ coordsNearestUnit.y );
+                System.out.println("coordsNearestUnit dans AIPlayer après le getOwnerArea");
+                System.out.println("X = " + coordsNearestUnit.x + "Y = "+ coordsNearestUnit.y );
                 //newCoords(coordsNearestUnit);
                 if(waitFor(3,dt)){
-                currentState = playerState.MOVE_UNIT;}
+                    currentState = playerState.MOVE_UNIT;
+                    System.out.println("coordsNearestUnit dans AIPlayer alors qu'on est dans le WAIT");
+                    System.out.println("X = " + coordsNearestUnit.x + "Y = "+ coordsNearestUnit.y );
+                }
                 break;
             case MOVE_UNIT:
-                System.out.println("CoordsNearestUnit: "+ coordsNearestUnit.x + coordsNearestUnit.y);
+                System.out.println("coordsNearestUnit dans AIPlayer alors qu'on est dans MOVE_UNIT");
+                System.out.println("X = " + coordsNearestUnit.x + "Y = "+ coordsNearestUnit.y );
                 selectedUnitAi.changePosition(newCoords(coordsNearestUnit));
                 setCurrentPosition(selectedUnitAi.getPosition());
                 if(waitFor(3,dt)){

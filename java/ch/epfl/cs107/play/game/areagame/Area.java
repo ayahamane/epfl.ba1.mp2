@@ -275,7 +275,6 @@ public abstract class Area implements Playable, PauseMenu.Pausable {
             // Render actors
             for (Actor actor : actors) {
                 actor.update(deltaTime);
-                actor.bip(window);   //Added for sounds.
             }
             
             Draggable currentDraggedElement = DragHelper.getCurrentDraggedElement();

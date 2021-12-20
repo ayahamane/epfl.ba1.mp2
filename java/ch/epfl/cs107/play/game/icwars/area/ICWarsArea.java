@@ -1,10 +1,13 @@
 package ch.epfl.cs107.play.game.icwars.area;
 
+import ch.epfl.cs107.play.game.actor.SoundAcoustics;
 import ch.epfl.cs107.play.game.areagame.Area;
+import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
 import ch.epfl.cs107.play.game.icwars.actor.unit.Unit;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.window.Audio;
 import ch.epfl.cs107.play.window.Window;
 
 import javax.sound.midi.spi.SoundbankReader;
@@ -14,12 +17,14 @@ import java.util.List;
 import static ch.epfl.cs107.play.math.DiscreteCoordinates.distanceBetween;
 
 public abstract class ICWarsArea extends Area {
+
     private List<Unit> unitInArea = new ArrayList<>();
     private ICWarsBehavior behavior;
     private final static float CAMERA_SCALE_FACTOR = 10.f;
     //The camera scale factor was in ICWars at first,
     // but in the subject she said that it should be here.
     //Also,I changed it to a private instead of a public
+
 
     /**
      * Create the area by adding it all actors
@@ -59,6 +64,7 @@ public abstract class ICWarsArea extends Area {
         }
         return false;
     }
+
 
     @Override
     public String getTitle() {
@@ -130,34 +136,35 @@ public abstract class ICWarsArea extends Area {
      */
     public DiscreteCoordinates getCoordsNearestUnit(Unit unitAi){
         DiscreteCoordinates coordsNearestUnit = new DiscreteCoordinates(0,0);
-        double previousDistance = 0;
+        DiscreteCoordinates unitAiPosition = new DiscreteCoordinates((int)unitAi.getPosition().x,
+                (int)unitAi.getPosition().y);
         boolean a = true;
+        double previousDistance = (float)Double.MAX_VALUE;
+        System.out.println("firstPrevious distance: " +previousDistance);
         for (int index = 0; index < unitInArea.size(); ++index) {
-            if(a){
-                previousDistance = Double.MAX_VALUE;
-                System.out.println("firstPrevious distance: " +previousDistance);
-            }
-            a = false;
-            //System.out.println("In the forLoop");
+                System.out.println("index" + index + "Previous distance: " +previousDistance);
             if (unitAi.getFaction() != unitInArea.get(index).getFaction()) {
-                //System.out.println("Different faction");
-                DiscreteCoordinates unitAiPosition = new DiscreteCoordinates((int)unitAi.getPosition().x,
-                        (int)unitAi.getPosition().y);
+                System.out.println("Different faction valid");
                 DiscreteCoordinates unitInAreaPosition = new DiscreteCoordinates((int)unitInArea.get(index).getPosition().x,
                         (int)unitInArea.get(index).getPosition().y);
                 double potentialDistance = distanceBetween(unitAiPosition, unitInAreaPosition);
+                System.out.println("potential distance : " + potentialDistance);
                 if (potentialDistance < previousDistance) {
-                    System.out.println("Dans potentialDistance < previousDistance");
+                    System.out.println("C'est le cas : potentialDistance < previousDistance");
                     System.out.println("Previous distance: " + previousDistance);
                     System.out.println("Potential distance: " + potentialDistance);
-                        previousDistance = potentialDistance;
-                        coordsNearestUnit = unitInAreaPosition;
+                    previousDistance = potentialDistance;
+                    coordsNearestUnit = unitInAreaPosition;
+                    System.out.println("Previous distance: " + previousDistance);
+                    System.out.println("Potential distance: " + potentialDistance);
                 }
                 //if (potentialDistance == previousDistance) {
                 //    coordsNearestUnit = unitInAreaPosition;
                 //}
             }
         }
+        System.out.println("Retour : Position x :" + coordsNearestUnit.x);
+        System.out.println("Retour : Position y :" + coordsNearestUnit.y);
         return coordsNearestUnit;
     }
 }

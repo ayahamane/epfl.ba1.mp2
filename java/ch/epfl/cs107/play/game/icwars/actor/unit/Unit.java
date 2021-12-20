@@ -1,8 +1,10 @@
 package ch.epfl.cs107.play.game.icwars.actor.unit;
 
+import ch.epfl.cs107.play.game.actor.SoundAcoustics;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.*;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
 import ch.epfl.cs107.play.game.icwars.actor.unit.action.Action;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
@@ -10,6 +12,7 @@ import ch.epfl.cs107.play.game.icwars.area.ICWarsBehavior;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsRange;
 import ch.epfl.cs107.play.game.icwars.handler.ICWarsInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.window.Audio;
 import ch.epfl.cs107.play.window.Canvas;
 
 
@@ -28,6 +31,7 @@ abstract public class Unit extends ICWarsActor implements Interactor {
     private int cellDefenseStars;
     private ICWarsUnitInteractionHandler handler;
     private List<Action> listOfActions;
+    private final static SoundAcoustics sound = new SoundAcoustics(ResourcePath.getSound("canon"));
 
     public Unit(ICWarsArea area, DiscreteCoordinates position, Faction fac) {
         super(area, position, fac);
@@ -95,10 +99,17 @@ abstract public class Unit extends ICWarsActor implements Interactor {
 
     public void undergoDamage(float minus) {
         hp = hp - minus + cellDefenseStars;
+        sound.shouldBeStarted();
         if (hp < 0) {
             hp = 0;
             leaveArea();
         }
+    }
+
+    @Override
+    public void bip(Audio audio){
+        super.bip(audio);
+        sound.bip(audio);
     }
 
     /**
