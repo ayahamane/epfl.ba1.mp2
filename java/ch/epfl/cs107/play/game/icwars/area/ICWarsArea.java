@@ -136,35 +136,28 @@ public abstract class ICWarsArea extends Area {
      */
     public DiscreteCoordinates getCoordsNearestUnit(Unit unitAi){
         DiscreteCoordinates coordsNearestUnit = new DiscreteCoordinates(0,0);
-        DiscreteCoordinates unitAiPosition = new DiscreteCoordinates((int)unitAi.getPosition().x,
-                (int)unitAi.getPosition().y);
-        boolean a = true;
-        double previousDistance = (float)Double.MAX_VALUE;
-        System.out.println("firstPrevious distance: " +previousDistance);
+        double previousDistance = 0;
         for (int index = 0; index < unitInArea.size(); ++index) {
-                System.out.println("index" + index + "Previous distance: " +previousDistance);
             if (unitAi.getFaction() != unitInArea.get(index).getFaction()) {
-                System.out.println("Different faction valid");
-                DiscreteCoordinates unitInAreaPosition = new DiscreteCoordinates((int)unitInArea.get(index).getPosition().x,
-                        (int)unitInArea.get(index).getPosition().y);
+                DiscreteCoordinates unitAiPosition = new DiscreteCoordinates((int) unitAi.getPosition().x,
+                        (int) unitAi.getPosition().y);
+                DiscreteCoordinates unitInAreaPosition = new DiscreteCoordinates((int) unitInArea.get(index).getPosition().x,
+                        (int) unitInArea.get(index).getPosition().y);
                 double potentialDistance = distanceBetween(unitAiPosition, unitInAreaPosition);
-                System.out.println("potential distance : " + potentialDistance);
-                if (potentialDistance < previousDistance) {
-                    System.out.println("C'est le cas : potentialDistance < previousDistance");
-                    System.out.println("Previous distance: " + previousDistance);
-                    System.out.println("Potential distance: " + potentialDistance);
+                if (index == 0) {
                     previousDistance = potentialDistance;
                     coordsNearestUnit = unitInAreaPosition;
-                    System.out.println("Previous distance: " + previousDistance);
-                    System.out.println("Potential distance: " + potentialDistance);
+                } else {
+                    if (potentialDistance < previousDistance) {
+                        previousDistance = potentialDistance;
+                        coordsNearestUnit = unitInAreaPosition;
+                    }
                 }
                 //if (potentialDistance == previousDistance) {
                 //    coordsNearestUnit = unitInAreaPosition;
                 //}
             }
         }
-        System.out.println("Retour : Position x :" + coordsNearestUnit.x);
-        System.out.println("Retour : Position y :" + coordsNearestUnit.y);
         return coordsNearestUnit;
     }
 }

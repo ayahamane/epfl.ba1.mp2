@@ -5,7 +5,6 @@ import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icwars.actor.unit.action.Action;
-import ch.epfl.cs107.play.game.icwars.actor.unit.action.Attack;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.game.icwars.actor.unit.Unit;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsBehavior;
@@ -16,8 +15,6 @@ import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
-
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -34,7 +31,8 @@ public class RealPlayer extends ICWarsPlayer{
     private Faction faction;
     private boolean canPass = false;
     private Action actionToExecute;
-    List<Action> list;
+    private List<Action> list;
+
     /**
      * Demo actor
      *
@@ -61,9 +59,7 @@ public class RealPlayer extends ICWarsPlayer{
         super.update(deltaTime);
         Keyboard keyboard = getOwnerArea().getKeyboard();
         if (getCurrentState() == playerState.NORMAL || getCurrentState() == playerState.SELECT_CELL ||
-                getCurrentState() == playerState.MOVE_UNIT){  //je sais qu'on peut rendre ça moins long mais
-            //jsais plus cmt ^^. J'y reviendrai plus tard.
-            //Can I improve this method?
+                getCurrentState() == playerState.MOVE_UNIT){
             moveIfPressed(Orientation.UP, keyboard.get(Keyboard.UP));
             moveIfPressed(Orientation.LEFT, keyboard.get(Keyboard.LEFT));
             moveIfPressed(Orientation.RIGHT, keyboard.get(Keyboard.RIGHT));
@@ -139,7 +135,7 @@ public class RealPlayer extends ICWarsPlayer{
 
     @Override
     public void draw(Canvas canvas) {
-        if(!(getCurrentState() == playerState.IDLE)){sprite.draw(canvas);}
+        if(!(getCurrentState() == playerState.IDLE) && !this.isDefeated()){sprite.draw(canvas);}
         playerGUI.draw(canvas);
         if(actionToExecute!=null){
             actionToExecute.draw(canvas);

@@ -1,8 +1,6 @@
 package ch.epfl.cs107.play.game.icwars.actor.player;
 
-import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
-import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icwars.actor.unit.Unit;
@@ -28,8 +26,7 @@ public class AIPlayer extends ICWarsPlayer{
     private Faction faction;
     private DiscreteCoordinates coordsNearestUnit;
     private List<Action> list;
-    private Unit posUnit;
-    private ICWarsBehavior.ICWarsCellType cellTypePlayer;
+    private boolean canMove;
 
     public AIPlayer(ICWarsArea area, DiscreteCoordinates position, Faction fac, String spriteName, Unit... units) {
         super(area, position, fac, units);
@@ -57,67 +54,30 @@ public class AIPlayer extends ICWarsPlayer{
      * Returns the new position of the selected unit.
      */
     private DiscreteCoordinates newCoords( DiscreteCoordinates position){
+        int finalAbcsissa = (int)selectedUnitAi.getPosition().x;
+        int finalOrdinate = (int)selectedUnitAi.getPosition().y;
         if(0 <= position.x && position.x < getOwnerArea().getWidth()
                 && 0 <= position.y && position.y < getOwnerArea().getHeight()) {
-            if (-selectedUnitAi.getRadius() <= position.x && position.x <= selectedUnitAi.getRadius()
-                    && -selectedUnitAi.getRadius() <= position.y && position.y <= -selectedUnitAi.getRadius()) {
-                //System.out.println("On est ds le radius");
-                return position;
-            }
-            DiscreteCoordinates abscissa1 = new DiscreteCoordinates(-selectedUnitAi.getRadius(),
-                    (int) selectedUnitAi.getPosition().y);
-            DiscreteCoordinates abscissa2 = new DiscreteCoordinates(selectedUnitAi.getRadius(),
-                    (int) selectedUnitAi.getPosition().y);
-            float leftEdge = distanceBetween(abscissa1, position);
-            float rightEdge = distanceBetween(abscissa2, position);
-            int finalAbcsissa = (int) selectedUnitAi.getPosition().x;
-            if (leftEdge < rightEdge) {
-                finalAbcsissa = -selectedUnitAi.getRadius();
-                System.out.println("FinalAbscissa pour leftEdge < rightEdge: " + finalAbcsissa);
-            }
-            if(leftEdge > rightEdge){
-                finalAbcsissa = selectedUnitAi.getRadius();
-                System.out.println("FinalAbscissa pour else: " + finalAbcsissa);
-            }
-            DiscreteCoordinates ordinate1 = new DiscreteCoordinates(finalAbcsissa, -selectedUnitAi.getRadius());
-            DiscreteCoordinates ordinate2 = new DiscreteCoordinates(finalAbcsissa, selectedUnitAi.getRadius());
-            DiscreteCoordinates intermediatePosition = new DiscreteCoordinates(finalAbcsissa, (int) selectedUnitAi.getPosition().y);
-            float lowEdge = distanceBetween(ordinate1, position);
-            float highEdge = distanceBetween(ordinate2, position);
-            int finalOrdinate = (int) selectedUnitAi.getPosition().y;
-            float previousDistance = distanceBetween(intermediatePosition, position);
-            if (lowEdge < highEdge) { //On prend pas en compte le cas où c'est égale
-                finalOrdinate = -selectedUnitAi.getRadius();
-                previousDistance = lowEdge;
-                System.out.println("PreviousFinalOrdinate pour lowEdge < highEdge: " + finalOrdinate);
-                for (int i = finalOrdinate + 1; i < (int) selectedUnitAi.getPosition().y; ++i) {
-                    System.out.println("in the forLoop1");
-                    DiscreteCoordinates positionToTest = new DiscreteCoordinates(finalAbcsissa, i);
-                    if (distanceBetween(positionToTest, position) < previousDistance) {
-                        finalOrdinate = i;
-                         System.out.println("distanceBetween(positionToTest, position) < previousDistance");
-                         System.out.println("NewFinalOrdinate: " + finalOrdinate);
-                    }
+            if (selectedUnitAi.getPosition().x - selectedUnitAi.getRadius() <= position.x
+                    && position.x <= selectedUnitAi.getPosition().x + selectedUnitAi.getRadius()
+                    && selectedUnitAi.getPosition().y - selectedUnitAi.getRadius() <= position.y
+                    && position.y <= selectedUnitAi.getPosition().y + selectedUnitAi.getRadius()) {
+                return new DiscreteCoordinates(finalAbcsissa, finalOrdinate);
+            } else {
+                if(position.x < selectedUnitAi.getPosition().x - selectedUnitAi.getRadius()){
+                    finalAbcsissa = (int)(selectedUnitAi.getPosition().x - selectedUnitAi.getRadius());
                 }
-            }
-            if (lowEdge > highEdge) {
-                finalOrdinate = selectedUnitAi.getRadius();
-                previousDistance = highEdge;
-                System.out.println("PreviousFinalOrdinate pour else: " + finalOrdinate);
-                for (int i = finalOrdinate - 1; i > (int) selectedUnitAi.getPosition().y; --i) {
-                    System.out.println("in the forLoop2");
-                    DiscreteCoordinates positionToTest = new DiscreteCoordinates(finalAbcsissa, i);
-                    if (distanceBetween(positionToTest, position) < previousDistance) {
-                        finalOrdinate = i;
-                         System.out.println("distanceBetween(positionToTest, position) < previousDistance");
-                         System.out.println("NewFinalOrdinate: " + finalOrdinate);
-                    }
+                if(position.x > selectedUnitAi.getPosition().x + selectedUnitAi.getRadius()){
+                    finalAbcsissa = (int)(selectedUnitAi.getPosition().x + selectedUnitAi.getRadius());
                 }
+                if(position.y < selectedUnitAi.getPosition().y - selectedUnitAi.getRadius()){
+                    finalOrdinate = (int)(selectedUnitAi.getPosition().y - selectedUnitAi.getRadius());
+                }
+                if(position.y > selectedUnitAi.getPosition().y + selectedUnitAi.getRadius()){
+                    finalOrdinate = (int)(selectedUnitAi.getPosition().y + selectedUnitAi.getRadius());
+                }
+                return new DiscreteCoordinates(finalAbcsissa, finalOrdinate);
             }
-
-            DiscreteCoordinates newPosition = new DiscreteCoordinates(finalAbcsissa, finalOrdinate);
-            System.out.println("newX = " + newPosition.x + " newY = " + newPosition.y);
-            return newPosition;
         }
         return null;
     }
@@ -127,30 +87,25 @@ public class AIPlayer extends ICWarsPlayer{
             case IDLE:
                 break;
             case NORMAL:
+                canMove = false;
                 selectUnitAi();
                 setCurrentPosition(selectedUnitAi.getPosition());
-                coordsNearestUnit = ((ICWarsArea)getOwnerArea()).getCoordsNearestUnit(selectedUnitAi);
-                System.out.println("coordsNearestUnit dans AIPlayer après le getOwnerArea");
-                System.out.println("X = " + coordsNearestUnit.x + "Y = "+ coordsNearestUnit.y );
-                //newCoords(coordsNearestUnit);
-                if(waitFor(3,dt)){
+                if(waitFor(2,dt) && canMove){
+                    coordsNearestUnit = ((ICWarsArea)getOwnerArea()).getCoordsNearestUnit(selectedUnitAi);
                     currentState = playerState.MOVE_UNIT;
-                    System.out.println("coordsNearestUnit dans AIPlayer alors qu'on est dans le WAIT");
-                    System.out.println("X = " + coordsNearestUnit.x + "Y = "+ coordsNearestUnit.y );
                 }
                 break;
             case MOVE_UNIT:
-                System.out.println("coordsNearestUnit dans AIPlayer alors qu'on est dans MOVE_UNIT");
-                System.out.println("X = " + coordsNearestUnit.x + "Y = "+ coordsNearestUnit.y );
                 selectedUnitAi.changePosition(newCoords(coordsNearestUnit));
                 setCurrentPosition(selectedUnitAi.getPosition());
-                if(waitFor(3,dt)){
+                if(waitFor(2,dt)) {
                     currentState = playerState.ACTION;
                 }
                 break;
             case ACTION:
                 list = selectedUnitAi.getListOfActions();
-                selectedUnitAi.getListOfActions().get(0).doAutoAction(dt,this, list = selectedUnitAi.getListOfActions());
+                selectedUnitAi.getListOfActions().get(0).doAutoAction(dt,this, list);
+                selectedUnitAi.setHasBeenUsed(true);
                 currentState = playerState.IDLE;
                 break;
             default:
@@ -160,14 +115,12 @@ public class AIPlayer extends ICWarsPlayer{
     /**
      * Selects one of the units of the player
      */
-    public void selectUnitAi(){
-        int i = 0;
-        while(i < unit.size()) {
-            selectedUnitAi = unit.get(i);
-            playerGUI.setSelectedUnit(selectedUnitAi);
-            if (selectedUnitAi.hasBeenUsed()) {
-                ++i;
-            } else {
+    public void selectUnitAi() {
+        for (int i = 0; i < unit.size(); ++i) {
+            if (!unit.get(i).isDead()) {
+                selectedUnitAi = unit.get(i);
+                playerGUI.setSelectedUnit(selectedUnitAi);
+                canMove = true;
                 break;
             }
         }
@@ -175,7 +128,7 @@ public class AIPlayer extends ICWarsPlayer{
 
     @Override
     public void draw(Canvas canvas) {
-        if(!(getCurrentState() == playerState.IDLE)){sprite.draw(canvas);}
+       if(!(getCurrentState() == playerState.IDLE)){sprite.draw(canvas);}
         playerGUI.draw(canvas);
     }
 

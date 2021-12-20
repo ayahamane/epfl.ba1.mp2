@@ -52,9 +52,7 @@ public class Attack extends Action {
         }
         if (keyboard.get(keyboard.RIGHT).isReleased()) {
             if (unitToAttack < attackableUnitsIndex.size() - 1) {
-                System.out.println(unitToAttack);
                 ++unitToAttack;
-                System.out.println(unitToAttack);
             } else if (unitToAttack == attackableUnitsIndex.size() - 1) {
                 unitToAttack = 0;
             }
@@ -94,7 +92,6 @@ public class Attack extends Action {
         attackableUnitsIndex = getArea().attackableUnits(playerFaction, unitRadius, x, y);
         if (!attackableUnitsIndex.isEmpty() && attackableUnitsIndex != null) {
             unitToAttack = getArea().autoAttackableUnit(attackableUnitsIndex);
-            System.out.println(unitToAttack);
             getArea().applyDamage(attackableUnitsIndex.get(unitToAttack), getUnit().getDamage());
         }
     }

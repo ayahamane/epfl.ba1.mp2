@@ -11,10 +11,8 @@ import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.game.icwars.area.Level0;
 import ch.epfl.cs107.play.game.icwars.area.Level1;
 import ch.epfl.cs107.play.io.FileSystem;
-import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,6 +71,9 @@ public class ICWars extends AreaGame {
             }
             players.get(i).centerCamera();
         }
+        for(int i = 0; i < players.size(); ++i) {
+            playersWaitingForCurrentRound.add(players.get(i));
+        }
         gameCurrentState = gameState.INIT;
     }
 
@@ -81,29 +82,10 @@ public class ICWars extends AreaGame {
         Keyboard keyboard = getCurrentArea().getKeyboard();
         super.update(deltaTime);
         changeGameState();
-        if((keyboard.get(Keyboard.N).isReleased())){//Button N(same que END)
-            if(areaIndex == 0){
-                switchArea();
-            } else {
-                System.out.println(end());//Peut être upgraded
-            }
-        }
-        if ((keyboard.get(Keyboard.R).isReleased())) {
-            initArea(getCurrentArea().getTitle());
-        }
-        if (keyboard.get(Keyboard.U).isReleased()) {
-            ((RealPlayer)players).selectUnit (1);
-        }
-        if (keyboard.get(Keyboard.V).isReleased()) {
-            ((RealPlayer)players).selectUnit (0);
-        }
     }
     protected void changeGameState(){
         switch (gameCurrentState){
             case INIT:
-                for(int i = 0; i < players.size(); ++i) {
-                    playersWaitingForCurrentRound.add(players.get(i));
-                }
                 gameCurrentState = gameState.CHOOSE_PLAYER;
                 break;
             case CHOOSE_PLAYER:
@@ -126,7 +108,6 @@ public class ICWars extends AreaGame {
                 break;
             case END_PLAYER_TURN:
                 if(activePlayer.isDefeated()){
-                    //getCurrentArea().unregisterActor(activePlayer);
                     activePlayer.leaveArea();
                 } else {
                     playersWaitingForNextRound.add(activePlayer);
@@ -135,17 +116,19 @@ public class ICWars extends AreaGame {
                 gameCurrentState = gameState.CHOOSE_PLAYER;
                 break;
             case END_TURN:
-                for(ICWarsPlayer player : playersWaitingForNextRound) {
-                    if(player.isDefeated()){
-                        //getCurrentArea().unregisterActor(playersWaitingForNextRound.get(i));
-                        player.leaveArea();
+                for(int i = 0; i< playersWaitingForNextRound.size(); ++i){
+                    if(playersWaitingForNextRound.get(i).isDefeated()){
+                        playersWaitingForNextRound.get(i).leaveArea();
+                        playersWaitingForNextRound.remove(i);
                     }
                 }
                 if(playersWaitingForNextRound.size() == 1){
                     gameCurrentState = gameState.END;
+                    break;
                 } else {
                     for(int i = 0; i < playersWaitingForNextRound.size(); ++i) {
                         playersWaitingForCurrentRound.add(playersWaitingForNextRound.get(i));
+                        playersWaitingForNextRound.remove(i);
                     }
                 }
                 gameCurrentState = gameState.CHOOSE_PLAYER;
@@ -154,7 +137,7 @@ public class ICWars extends AreaGame {
                 if(areaIndex == 0){
                     switchArea();
                 } else {
-                    System.out.println(end());//May be upgraded
+                    System.out.println("The end");
                 }
                 break;
             default:
@@ -162,16 +145,11 @@ public class ICWars extends AreaGame {
     }
 
     @Override
-    public String end() { return "Game Over :("; }
-
-    @Override
-    public String getTitle() { return "ICWars";
-    }
+    public String getTitle() { return "ICWars"; }
 
     protected void switchArea() {
-        for(int i = 0; i < players.size(); ++i) {
-            players.get(i).leaveArea();
-        }
+        playersWaitingForNextRound.get(0).leaveArea();
+        playersWaitingForNextRound.remove(playersWaitingForNextRound.get(0));
         areaIndex = (areaIndex == 0) ? 1 : 0;
         ICWarsArea currentArea = (ICWarsArea) setCurrentArea(areas[areaIndex], false);
         initArea(currentArea.getTitle());
