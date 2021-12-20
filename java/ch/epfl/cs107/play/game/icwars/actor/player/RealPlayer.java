@@ -35,6 +35,7 @@ public class RealPlayer extends ICWarsPlayer{
     private boolean canPass = false;
     private Action actionToExecute;
     private List<Action> list;
+
     /**
      * Demo actor
      *
@@ -61,9 +62,7 @@ public class RealPlayer extends ICWarsPlayer{
         super.update(deltaTime);
         Keyboard keyboard = getOwnerArea().getKeyboard();
         if (getCurrentState() == playerState.NORMAL || getCurrentState() == playerState.SELECT_CELL ||
-                getCurrentState() == playerState.MOVE_UNIT){  //je sais qu'on peut rendre ça moins long mais
-            //jsais plus cmt ^^. J'y reviendrai plus tard.
-            //Can I improve this method?
+                getCurrentState() == playerState.MOVE_UNIT){
             moveIfPressed(Orientation.UP, keyboard.get(Keyboard.UP));
             moveIfPressed(Orientation.LEFT, keyboard.get(Keyboard.LEFT));
             moveIfPressed(Orientation.RIGHT, keyboard.get(Keyboard.RIGHT));

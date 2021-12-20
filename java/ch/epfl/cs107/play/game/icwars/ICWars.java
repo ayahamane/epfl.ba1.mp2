@@ -84,7 +84,7 @@ public class ICWars extends AreaGame {
         Keyboard keyboard = getCurrentArea().getKeyboard();
         super.update(deltaTime);
         changeGameState();
-        if((keyboard.get(Keyboard.N).isReleased())){//Button N(same que END)
+       /* if((keyboard.get(Keyboard.N).isReleased())){//Button N(same que END)
             if(areaIndex == 0){
                 switchArea();
             } else {
@@ -99,7 +99,7 @@ public class ICWars extends AreaGame {
         }
         if (keyboard.get(Keyboard.V).isReleased()) {
             ((RealPlayer)players).selectUnit (0);
-        }
+        }*/
     }
     protected void changeGameState(){
         switch (gameCurrentState){
@@ -153,10 +153,10 @@ public class ICWars extends AreaGame {
                 break;
             case END:
                 if(areaIndex == 0){
-                    switchArea();
-                } else {
-                    System.out.println(end());
-                }
+                    switchArea();}
+                //} else {
+                //    System.out.println(end());
+                //}
                 break;
             default:
         }

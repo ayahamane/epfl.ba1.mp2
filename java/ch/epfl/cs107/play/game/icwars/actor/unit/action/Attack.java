@@ -52,9 +52,7 @@ public class Attack extends Action {
         }
         if (keyboard.get(keyboard.RIGHT).isReleased()) {
             if (unitToAttack < attackableUnitsIndex.size() - 1) {
-                System.out.println(unitToAttack);
                 ++unitToAttack;
-                System.out.println(unitToAttack);
             } else if (unitToAttack == attackableUnitsIndex.size() - 1) {
                 unitToAttack = 0;
             }
