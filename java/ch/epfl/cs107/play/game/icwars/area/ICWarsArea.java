@@ -131,8 +131,6 @@ public abstract class ICWarsArea extends Area {
     public DiscreteCoordinates getCoordsNearestUnit(Unit unitAi){
         DiscreteCoordinates coordsNearestUnit = new DiscreteCoordinates(0,0);
         double previousDistance = 0;
-        //previousDistance = Double.MAX_VALUE;
-        //System.out.println("firstPrevious distance: " +previousDistance);
         for (int index = 0; index < unitInArea.size(); ++index) {
             if (unitAi.getFaction() != unitInArea.get(index).getFaction()) {
                 DiscreteCoordinates unitAiPosition = new DiscreteCoordinates((int) unitAi.getPosition().x,
@@ -142,20 +140,11 @@ public abstract class ICWarsArea extends Area {
                 double potentialDistance = distanceBetween(unitAiPosition, unitInAreaPosition);
                 if (index == 0) {
                     previousDistance = potentialDistance;
-                    //System.out.println("Previous distance 0: " + previousDistance);
                     coordsNearestUnit = unitInAreaPosition;
-                    //System.out.println("CoordsNearestUnitX 0: "+ coordsNearestUnit.x +
-                     //       " CoordsNearestUnitY 0: "+coordsNearestUnit.y);
                 } else {
                     if (potentialDistance < previousDistance) {
-                    //    System.out.println("Index: " + index);
-                    //    System.out.println("Dans potentialDistance < previousDistance");
-                    //    System.out.println("Previous distance: " + previousDistance);
-                    //    System.out.println("Potential distance: " + potentialDistance);
                         previousDistance = potentialDistance;
                         coordsNearestUnit = unitInAreaPosition;
-                    //    System.out.println("CoordsNearestUnitX: "+ coordsNearestUnit.x +
-                    //            " CoordsNearestUnitY: "+coordsNearestUnit.y);
                     }
                 }
             }

@@ -28,8 +28,6 @@ public class AIPlayer extends ICWarsPlayer{
     private Faction faction;
     private DiscreteCoordinates coordsNearestUnit;
     private List<Action> list;
-    private Unit posUnit;
-    private ICWarsBehavior.ICWarsCellType cellTypePlayer;
 
     public AIPlayer(ICWarsArea area, DiscreteCoordinates position, Faction fac, String spriteName, Unit... units) {
         super(area, position, fac, units);
@@ -78,10 +76,6 @@ public class AIPlayer extends ICWarsPlayer{
                 if(position.y > selectedUnitAi.getPosition().y + selectedUnitAi.getRadius()){
                     finalOrdinate = (int)(selectedUnitAi.getPosition().y + selectedUnitAi.getRadius());
                 }
-               /* if (selectedUnitAi.getPosition().x - selectedUnitAi.getRadius() <= finalAbcsissa
-                        && finalAbcsissa <= selectedUnitAi.getPosition().x + selectedUnitAi.getRadius()
-                        && selectedUnitAi.getPosition().y - selectedUnitAi.getRadius() <= finalOrdinate
-                        && finalOrdinate <= selectedUnitAi.getPosition().y + selectedUnitAi.getRadius()) {*/
                 return new DiscreteCoordinates(finalAbcsissa, finalOrdinate);
             }
         }
@@ -93,10 +87,6 @@ public class AIPlayer extends ICWarsPlayer{
             case IDLE:
                 break;
             case NORMAL:
-                System.out.println("Je suis passé par là!");
-                if(unit.isEmpty()){
-                    System.out.println("Youpii! La liste est enfin vide sa mère");
-                }
                 selectUnitAi();
                 setCurrentPosition(selectedUnitAi.getPosition());
                 if(waitFor(2,dt)){

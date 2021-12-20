@@ -73,6 +73,9 @@ public class ICWars extends AreaGame {
             }
             players.get(i).centerCamera();
         }
+        for(int i = 0; i < players.size(); ++i) {
+            playersWaitingForCurrentRound.add(players.get(i));
+        }
         gameCurrentState = gameState.INIT;
     }
 
@@ -85,7 +88,7 @@ public class ICWars extends AreaGame {
             if(areaIndex == 0){
                 switchArea();
             } else {
-                System.out.println(end());//Peut être upgraded
+                System.out.println(end());
             }
         }
         if ((keyboard.get(Keyboard.R).isReleased())) {
@@ -101,9 +104,6 @@ public class ICWars extends AreaGame {
     protected void changeGameState(){
         switch (gameCurrentState){
             case INIT:
-                for(int i = 0; i < players.size(); ++i) {
-                    playersWaitingForCurrentRound.add(players.get(i));
-                }
                 gameCurrentState = gameState.CHOOSE_PLAYER;
                 break;
             case CHOOSE_PLAYER:
@@ -126,7 +126,6 @@ public class ICWars extends AreaGame {
                 break;
             case END_PLAYER_TURN:
                 if(activePlayer.isDefeated()){
-                    //getCurrentArea().unregisterActor(activePlayer);
                     activePlayer.leaveArea();
                 } else {
                     playersWaitingForNextRound.add(activePlayer);
@@ -135,17 +134,19 @@ public class ICWars extends AreaGame {
                 gameCurrentState = gameState.CHOOSE_PLAYER;
                 break;
             case END_TURN:
-                for(ICWarsPlayer player : playersWaitingForNextRound) {
-                    if(player.isDefeated()){
-                        //getCurrentArea().unregisterActor(playersWaitingForNextRound.get(i));
-                        player.leaveArea();
+                for(int i = 0; i< playersWaitingForNextRound.size(); ++i){
+                    if(playersWaitingForNextRound.get(i).isDefeated()){
+                        playersWaitingForNextRound.get(i).leaveArea();
+                        playersWaitingForNextRound.remove(i);
                     }
                 }
                 if(playersWaitingForNextRound.size() == 1){
                     gameCurrentState = gameState.END;
+                    break;
                 } else {
                     for(int i = 0; i < playersWaitingForNextRound.size(); ++i) {
                         playersWaitingForCurrentRound.add(playersWaitingForNextRound.get(i));
+                        playersWaitingForNextRound.remove(i);
                     }
                 }
                 gameCurrentState = gameState.CHOOSE_PLAYER;
@@ -154,7 +155,7 @@ public class ICWars extends AreaGame {
                 if(areaIndex == 0){
                     switchArea();
                 } else {
-                    System.out.println(end());//May be upgraded
+                    System.out.println(end());
                 }
                 break;
             default:
@@ -162,11 +163,10 @@ public class ICWars extends AreaGame {
     }
 
     @Override
-    public String end() { return "Game Over :("; }
+    public String end() { return "The end"; }
 
     @Override
-    public String getTitle() { return "ICWars";
-    }
+    public String getTitle() { return "ICWars"; }
 
     protected void switchArea() {
         for(int i = 0; i < players.size(); ++i) {

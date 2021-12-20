@@ -20,7 +20,7 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
     public enum playerState{
         IDLE, NORMAL, SELECT_CELL, MOVE_UNIT, ACTION_SELECTION, ACTION
     }
-    protected List<Unit> unit;
+    protected ArrayList<Unit> unit;
     protected playerState currentState;
     private Keyboard keyboard= getOwnerArea().getKeyboard();
     protected Unit unitInMemory;
@@ -57,13 +57,13 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
 
     public void update(float deltaTime){
         super.update(deltaTime);
-        for(Unit u : unit){
-            if(u.hasBeenUsed()){
-                u.getSprite().setAlpha(0.5f);
+        for(int i = 0; i< unit.size(); ++i){
+            if(unit.get(i).hasBeenUsed()){
+                unit.get(i).getSprite().setAlpha(0.5f);
             }
-            //if(u.isDead()){
-            //    unit.remove(u);
-            //}
+            if(unit.get(i).isDead()){
+                unit.remove(i);
+            }
         }
     }
 
@@ -72,8 +72,8 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
      */
     @Override
     public void leaveArea(){
-       for(Unit u : unit){
-            u.leaveArea();
+       for(int i = 0; i< unit.size(); ++i){
+            unit.get(i).leaveArea();
         }
         super.leaveArea();
     }
