@@ -59,6 +59,9 @@ public class RealPlayer extends ICWarsPlayer{
     public void update(float deltaTime) {
         super.update(deltaTime);
         Keyboard keyboard = getOwnerArea().getKeyboard();
+        if (keyboard.get(Keyboard.T).isPressed()){
+            tPressed = true;
+        }
         if (getCurrentState() == playerState.NORMAL || getCurrentState() == playerState.SELECT_CELL ||
                 getCurrentState() == playerState.MOVE_UNIT){
             moveIfPressed(Orientation.UP, keyboard.get(Keyboard.UP));
@@ -73,9 +76,9 @@ public class RealPlayer extends ICWarsPlayer{
             if (playerGUI.getTimer() < 0) playerGUI.setTimer(0);
         }
         if (currentState != playerState.MOVE_UNIT && tHasBeenPressed()){
-            playerGUI.setTimer(150);
+            playerGUI.setTimer(200);
         }
-        if (currentState != playerState.MOVE_UNIT){
+        else if (currentState != playerState.MOVE_UNIT){
             playerGUI.setTimer(100);
         }
         changeState(deltaTime);
@@ -119,9 +122,6 @@ public class RealPlayer extends ICWarsPlayer{
                 }
              if (playerGUI.getTimer() == 0){
                  currentState = playerState.IDLE;
-             }
-             if (keyboard.get(Keyboard.T).isPressed()){
-                 tPressed = true;
              }
                 break;
             case ACTION_SELECTION:

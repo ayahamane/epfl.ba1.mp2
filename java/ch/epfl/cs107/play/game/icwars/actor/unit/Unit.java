@@ -106,8 +106,8 @@ abstract public class Unit extends ICWarsActor implements Interactor {
     }
 
     public void undergoDamage(float minus) {
-        hp = hp - minus + cellDefenseStars;
         sound.shouldBeStarted();
+        hp = hp - minus + cellDefenseStars;
         if (hp < 0) {
             hp = 0;
             leaveArea();
