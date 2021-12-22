@@ -52,6 +52,11 @@ public class ICWars extends AreaGame {
         return false;
     }
 
+    @Override
+    public String end(){
+        return "Game Over :(";
+    }
+
     private void initArea(String areaKey) {
         players = new ArrayList<>();
         playersWaitingForNextRound = new ArrayList<>();
@@ -69,7 +74,8 @@ public class ICWars extends AreaGame {
             } else {
                 players.get(i).enterArea(area, area.getPlayerEnemySpawnPosition());
             }
-            players.get(i).centerCamera();
+            players.get(0).centerCamera();    //Pour ne pas avoir le bug du début j'ai modifié cette ligne;
+                                                //ça passe ?
         }
         for(int i = 0; i < players.size(); ++i) {
             playersWaitingForCurrentRound.add(players.get(i));
@@ -137,7 +143,7 @@ public class ICWars extends AreaGame {
                 if(areaIndex == 0){
                     switchArea();
                 } else {
-                    System.out.println("The end");
+                    System.out.println(end());
                 }
                 break;
             default:

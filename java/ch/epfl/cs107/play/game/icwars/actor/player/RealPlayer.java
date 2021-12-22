@@ -32,6 +32,7 @@ public class RealPlayer extends ICWarsPlayer{
     private boolean canPass = false;
     private Action actionToExecute;
     private List<Action> list;
+    private boolean tPressed = false;
 
     /**
      * Demo actor
@@ -65,7 +66,23 @@ public class RealPlayer extends ICWarsPlayer{
             moveIfPressed(Orientation.RIGHT, keyboard.get(Keyboard.RIGHT));
             moveIfPressed(Orientation.DOWN, keyboard.get(Keyboard.DOWN));
         }
+        if (currentState == playerState.MOVE_UNIT){
+            if (playerGUI.getTimer() > 0) {
+                playerGUI.setTimer(playerGUI.getTimer()-1);
+            }
+            if (playerGUI.getTimer() < 0) playerGUI.setTimer(0);
+        }
+        if (currentState != playerState.MOVE_UNIT && tHasBeenPressed()){
+            playerGUI.setTimer(150);
+        }
+        if (currentState != playerState.MOVE_UNIT){
+            playerGUI.setTimer(100);
+        }
         changeState(deltaTime);
+    }
+
+    private boolean tHasBeenPressed(){
+        return tPressed;
     }
 
     protected void changeState(float dt){
@@ -79,6 +96,15 @@ public class RealPlayer extends ICWarsPlayer{
                     currentState = playerState.SELECT_CELL; }
                 if (keyboard.get(Keyboard.TAB).isReleased()) {
                     currentState = playerState.IDLE;}
+                int compteur = 0;
+                for (int i = 0; i < unit.size(); ++i){
+                    if (unit.get(i).hasBeenUsed()){
+                        ++compteur;
+                    }
+                }
+                if (compteur == unit.size()){
+                    currentState = playerState.IDLE;
+                }
                 break;
             case SELECT_CELL:
                 if (canPass && !unitInMemory.hasBeenUsed()){
@@ -91,6 +117,12 @@ public class RealPlayer extends ICWarsPlayer{
                         canPass = false;
                     }
                 }
+             if (playerGUI.getTimer() == 0){
+                 currentState = playerState.IDLE;
+             }
+             if (keyboard.get(Keyboard.T).isPressed()){
+                 tPressed = true;
+             }
                 break;
             case ACTION_SELECTION:
                 list = unitInMemory.getListOfActions();

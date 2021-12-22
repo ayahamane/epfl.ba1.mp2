@@ -44,7 +44,7 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
 
     public void startTurn(){
         currentState = playerState.NORMAL;
-        this.unitsReusable();
+        unitsReusable();
         centerCamera();
     }
 

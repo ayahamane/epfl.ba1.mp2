@@ -1,6 +1,7 @@
 package ch.epfl.cs107.play.game.icwars.actor.unit;
 
 import ch.epfl.cs107.play.game.actor.SoundAcoustics;
+import ch.epfl.cs107.play.game.actor.TextGraphics;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.*;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
@@ -12,10 +13,13 @@ import ch.epfl.cs107.play.game.icwars.area.ICWarsBehavior;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsRange;
 import ch.epfl.cs107.play.game.icwars.handler.ICWarsInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Audio;
 import ch.epfl.cs107.play.window.Canvas;
+import ch.epfl.cs107.play.window.Keyboard;
 
 
+import java.awt.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.Queue;
@@ -31,13 +35,17 @@ abstract public class Unit extends ICWarsActor implements Interactor {
     private int cellDefenseStars;
     private ICWarsUnitInteractionHandler handler;
     private List<Action> listOfActions;
+
+    //Extensions
     private final static SoundAcoustics sound = new SoundAcoustics(ResourcePath.getSound("canon"));
+
 
     public Unit(ICWarsArea area, DiscreteCoordinates position, Faction fac) {
         super(area, position, fac);
         setRange(position);
         hasBeenUsed = false;
         handler = new ICWarsUnitInteractionHandler();
+
     }
 
     protected void setListOfActions(List<Action> unitsActions) {
@@ -129,6 +137,19 @@ abstract public class Unit extends ICWarsActor implements Interactor {
     public boolean changePosition(DiscreteCoordinates newPosition) {
         if ((range.nodeExists(newPosition) && (super.changePosition(newPosition)))) {
             setRange(newPosition);
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * Check if the position entered exists in the unit's radius.
+     * @param position
+     * @return
+     */
+    public boolean inRadius(DiscreteCoordinates position){
+        if (range.nodeExists(position)){
             return true;
         }
         return false;
