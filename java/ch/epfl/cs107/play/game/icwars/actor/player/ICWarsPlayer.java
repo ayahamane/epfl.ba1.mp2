@@ -26,6 +26,7 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
     private Keyboard keyboard= getOwnerArea().getKeyboard();
     protected Unit unitInMemory;
     private boolean inEnd = false;
+    private boolean inStart = false;
 
     //Extensions
     private final static SoundAcoustics sound = new SoundAcoustics(ResourcePath.getSound("gameSound"),1.0f,false,
@@ -35,7 +36,6 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
     public ICWarsPlayer(ICWarsArea area, DiscreteCoordinates position, Faction fac, Unit... units) {
         super(area, position, fac);
         unit = new ArrayList<>(Arrays.asList(units));
-        sound.shouldBeStarted();
         for(int i = 0; i < units.length; ++i){
             getOwnerArea().registerActor(unit.get(i));
             area.addToUnitInArea(unit.get(i));
@@ -45,12 +45,23 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
     }
 
 
+    public void soundCanBeStarted(){
+        sound.shouldBeStarted();
+    }
     public void setInEnd(boolean inEnd){
         this.inEnd = inEnd;
     }
 
     public boolean getInEnd(){
         return inEnd;
+    }
+
+    public void setInStart(boolean inStart){
+        this.inStart = inStart;
+    }
+
+    public boolean getInStart(){
+        return inStart;
     }
 
     public float areaWidth(){

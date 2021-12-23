@@ -18,6 +18,8 @@ import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
+import jdk.swing.interop.SwingInterOpUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,11 +34,13 @@ public class ICWars extends AreaGame {
     private List<ICWarsPlayer> playersWaitingForNextRound;
     private ICWarsPlayer activePlayer;
     private gameState gameCurrentState;
-    Keyboard keyboard;
+    private Keyboard keyboard;
+    private float counter;
+    private boolean counting;
+    private boolean start = true;
     protected enum gameState{
         INIT, CHOOSE_PLAYER, START_PLAYER_TURN, PLAYER_TURN, END_PLAYER_TURN, END_TURN, END
     }
-    private SoundActor soundGame = new SoundActor();
 
     /**
      * Add all the areas
@@ -62,9 +66,7 @@ public class ICWars extends AreaGame {
     @Override
     public String end() {
         if(playersWaitingForNextRound.size() == 1){
-            System.out.println("here");
             if (playersWaitingForNextRound.get(0) instanceof RealPlayer) {
-                System.out.println();
                 return "You win ^^";
             }
         }
@@ -82,19 +84,23 @@ public class ICWars extends AreaGame {
         Soldier soldier2 = new Soldier(area, area.getSoldierEnemySpawnPosition(), ICWarsActor.Faction.enemy);
         players.add(new RealPlayer(area, area.getPlayerAllySpawnPosition(), ICWarsActor.Faction.ally, "1", tank1, soldier1));
         players.add(new AIPlayer(area, area.getPlayerEnemySpawnPosition(), ICWarsActor.Faction.enemy, "2",tank2, soldier2));
+        if (start){
+            players.get(0).soundCanBeStarted();
+        }
         for(int i = 0; i < players.size(); ++i) {
-            //players.get(i).setInEnd(false);
             if (players.get(i).getFaction() == ICWarsActor.Faction.ally) {
                 players.get(i).enterArea(area, area.getPlayerAllySpawnPosition());
             } else {
                 players.get(i).enterArea(area, area.getPlayerEnemySpawnPosition());
             }
-            players.get(0).centerCamera();    //Pour ne pas avoir le bug du début j'ai modifié cette ligne;
-            //ça passe ?
+            players.get(0).centerCamera();
         }
         for(int i = 0; i < players.size(); ++i) {
             playersWaitingForCurrentRound.add(players.get(i));
+            if(start){
+                players.get(i).setInStart(true);}
         }
+        start = false;
         gameCurrentState = gameState.INIT;
     }
 
@@ -102,75 +108,87 @@ public class ICWars extends AreaGame {
     public void update(float deltaTime) {
         keyboard = getCurrentArea().getKeyboard();
         super.update(deltaTime);
-        soundGame.getSound().shouldBeStarted();
-        changeGameState();
+        changeGameState(deltaTime);
+        if ((keyboard.get(Keyboard.R).isReleased())) {
+            initArea("icwars/Level0");
+            begin(windowReset, fileSystemReset);
+        }
+        changeGameState(deltaTime);
     }
-    protected void changeGameState(){
-        switch (gameCurrentState){
-            case INIT:
-                gameCurrentState = gameState.CHOOSE_PLAYER;
-                break;
-            case CHOOSE_PLAYER:
-                if (playersWaitingForCurrentRound.isEmpty()) {
-                    gameCurrentState = gameState.END_TURN;
-                } else {
-                    activePlayer = playersWaitingForCurrentRound.get(0);
-                    playersWaitingForCurrentRound.remove(0);
-                    gameCurrentState = gameState.START_PLAYER_TURN;
-                }
-                break;
-            case START_PLAYER_TURN:
-                activePlayer.startTurn();
-                gameCurrentState = gameState.PLAYER_TURN;
-                break;
-            case PLAYER_TURN:
-                if(activePlayer.playerEndedTurn()){
-                    gameCurrentState = gameState.END_PLAYER_TURN;
-                }
-                break;
-            case END_PLAYER_TURN:
-                if(activePlayer.isDefeated()){
-                    activePlayer.leaveArea();
-                } else {
-                    playersWaitingForNextRound.add(activePlayer);
-                    activePlayer.unitsReusable();
-                }
-                gameCurrentState = gameState.CHOOSE_PLAYER;
-                break;
-            case END_TURN:
-                for(int i = 0; i< playersWaitingForNextRound.size(); ++i){
-                    if(playersWaitingForNextRound.get(i).isDefeated()){
-                        playersWaitingForNextRound.get(i).leaveArea();
-                        playersWaitingForNextRound.remove(i);
-                    }
-                }
-                if(playersWaitingForNextRound.size() == 1){
-                    gameCurrentState = gameState.END;
-                    break;
-                } else {
-                    for(int i = 0; i < playersWaitingForNextRound.size(); ++i) {
-                        playersWaitingForCurrentRound.add(playersWaitingForNextRound.get(i));
-                        playersWaitingForNextRound.remove(i);
-                    }
-                }
-                gameCurrentState = gameState.CHOOSE_PLAYER;
-                break;
-            case END:
-                if(areaIndex == 0){
-                    switchArea();
-                } else {
-                    for (int i = 0; i < players.size(); ++i){
-                        players.get(i).setInEnd(true);     //Mettre une méthode auxiliaire qui fait ça mdr
-                    }
-                    if (keyboard != null && keyboard.get(Keyboard.ENTER).isPressed()){
-                        for (int i = 0; i < players.size(); ++i){
-                            players.get(i).setInEnd(false);
+
+    protected void changeGameState(float deltaTime){
+        if(gameCurrentState != null) {
+            switch (gameCurrentState){
+                case INIT:
+                        if(waitFor(7,deltaTime)){
+                            for(int i = 0; i < players.size(); ++i) {
+                                players.get(i).setInStart(false);
+                            }
+                            gameCurrentState = gameState.CHOOSE_PLAYER;
                         }
-                        switchArea();
+                    break;
+                case CHOOSE_PLAYER:
+                    if (playersWaitingForCurrentRound.isEmpty()) {
+                        gameCurrentState = gameState.END_TURN;
+                    } else {
+                        activePlayer = playersWaitingForCurrentRound.get(0);
+                        playersWaitingForCurrentRound.remove(0);
+                        gameCurrentState = gameState.START_PLAYER_TURN;
                     }
-                }
-                break;
-            default:
+                    break;
+                case START_PLAYER_TURN:
+                    activePlayer.startTurn();
+                    gameCurrentState = gameState.PLAYER_TURN;
+                    break;
+                case PLAYER_TURN:
+                    if(activePlayer.playerEndedTurn()){
+                        gameCurrentState = gameState.END_PLAYER_TURN;
+                    }
+                    break;
+                case END_PLAYER_TURN:
+                    if(activePlayer.isDefeated()){
+                        activePlayer.leaveArea();
+                    } else {
+                        playersWaitingForNextRound.add(activePlayer);
+                        activePlayer.unitsReusable();
+                    }
+                    gameCurrentState = gameState.CHOOSE_PLAYER;
+                    break;
+                case END_TURN:
+                    for(int i = 0; i< playersWaitingForNextRound.size(); ++i){
+                        if(playersWaitingForNextRound.get(i).isDefeated()){
+                            playersWaitingForNextRound.get(i).leaveArea();
+                            playersWaitingForNextRound.remove(i);
+                        }
+                    }
+                    if(playersWaitingForNextRound.size() == 1){
+                        gameCurrentState = gameState.END;
+                        break;
+                    } else {
+                        for(int i = 0; i < playersWaitingForNextRound.size(); ++i) {
+                            playersWaitingForCurrentRound.add(playersWaitingForNextRound.get(i));
+                            playersWaitingForNextRound.remove(i);
+                        }
+                    }
+                    gameCurrentState = gameState.CHOOSE_PLAYER;
+                    break;
+                case END:
+                    if(areaIndex == 0){
+                        switchArea();
+                    } else {
+                        for (int i = 0; i < players.size(); ++i){
+                            players.get(i).setInEnd(true);     //Mettre une méthode auxiliaire qui fait ça mdr
+                        }
+                        if (keyboard != null && keyboard.get(Keyboard.ENTER).isPressed()){
+                            for (int i = 0; i < players.size(); ++i){
+                                players.get(i).setInEnd(false);
+                            }
+                            switchArea();
+                        }
+                    }
+                    break;
+                default:
+            }
         }
     }
 
@@ -183,5 +201,26 @@ public class ICWars extends AreaGame {
         areaIndex = (areaIndex == 0) ? 1 : 0;
         ICWarsArea currentArea = (ICWarsArea) setCurrentArea(areas[areaIndex], false);
         initArea(currentArea.getTitle());
+    }
+
+
+    /**
+     * Ensures that value time elapsed before returning true
+     * @param dt elapsed time
+     * @param value waiting time (in seconds)
+     * @return true if value seconds has elapsed , false otherwise
+     */
+    private boolean waitFor(float value , float dt) {
+        if (counting) {
+            counter += dt;
+            if (counter > value) {
+                counting = false;
+                return true;
+            }
+        } else {
+            counter = 0f;
+            counting = true;
+        }
+        return false;
     }
 }
