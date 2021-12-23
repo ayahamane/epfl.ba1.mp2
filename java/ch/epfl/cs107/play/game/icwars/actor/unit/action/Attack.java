@@ -78,6 +78,12 @@ public class Attack extends Action {
         }
     }
 
+    /**
+     * Describes the actions executed by the AI player.
+     * @param dt delta time
+     * @param player AI player
+     * @param actionList of actions
+     */
     @Override
     public void doAutoAction(float dt, ICWarsPlayer player, List<Action> actionList) {
         ICWarsActor.Faction playerFaction = player.getFaction();

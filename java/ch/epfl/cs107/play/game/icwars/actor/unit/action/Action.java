@@ -63,7 +63,6 @@ abstract public class Action implements Graphics
         return unit;
     }
 
-
     /**
      *
      * @return the action's area

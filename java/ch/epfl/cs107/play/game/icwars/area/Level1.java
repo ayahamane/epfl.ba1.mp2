@@ -8,10 +8,18 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
  */
 public class Level1 extends ICWarsArea {
 
+    /**
+     * @return a string representing the title of the game.
+     */
     @Override
     public String getTitle() {
         return "icwars/Level1";
     }
+
+    /**
+     * Creates area by registering actors there
+     */
+    protected void createArea() {registerActor(new Background(this));}
 
     public DiscreteCoordinates getPlayerAllySpawnPosition() { return new DiscreteCoordinates(2,5); }
 
@@ -24,7 +32,5 @@ public class Level1 extends ICWarsArea {
     public DiscreteCoordinates getSoldierAllySpawnPosition() { return new DiscreteCoordinates(3,5); }
 
     public DiscreteCoordinates getSoldierEnemySpawnPosition() { return new DiscreteCoordinates(9,5); }
-
-    protected void createArea() {registerActor(new Background(this));}
 }
 

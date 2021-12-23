@@ -25,10 +25,9 @@ public abstract class ICWarsArea extends Area {
      */
     protected abstract void createArea();
 
-
     /**
      * Gets the camera scale factor.
-     * @return
+     * @return the camera scale factor
      */
     @Override
     public final float getCameraScaleFactor() {
@@ -36,38 +35,32 @@ public abstract class ICWarsArea extends Area {
     }
 
     /**
-     * Returns the position of an ally player.
-     * @return
+     * @return the position of an ally player.
      */
     public abstract DiscreteCoordinates getPlayerAllySpawnPosition();
 
     /**
-     * Returns the position of an enemy player.
-     * @return
+     * @return the position of an enemy player.
      */
     public abstract DiscreteCoordinates getPlayerEnemySpawnPosition();
 
     /**
-     *Returns the position of an ally tank.
-     * @return
+     * @return the position of an ally tank.
      */
     public abstract DiscreteCoordinates getTankAllySpawnPosition();
 
     /**
-     * Returns the position of an enemy tank.
-     * @return
+     * @return the position of an enemy tank.
      */
     public abstract DiscreteCoordinates getTankEnemySpawnPosition();
 
     /**
-     * Returns the position of an ally soldier.
-     * @return
+     * @return the position of an ally soldier.
      */
     public abstract DiscreteCoordinates getSoldierAllySpawnPosition();
 
     /**
-     * Returns the position of an enemy soldier.
-     * @return
+     * @return the position of an enemy soldier.
      */
     public abstract DiscreteCoordinates getSoldierEnemySpawnPosition();
 
@@ -117,9 +110,9 @@ public abstract class ICWarsArea extends Area {
     }
 
     /**
-     * Method that selects the potentially attackable units for the AIPlayer.
-     * @param attackableUnits
-     * @return
+     * Method that selects the potentially attackable units for the AIPlayer
+     * @param attackableUnits a list of the potentially attackable units
+     * @return the index of the attackable unit with the lowest hp
      */
     public int autoAttackableUnit(ArrayList<Integer> attackableUnits) {
         int previousValue = Integer.MAX_VALUE;
@@ -136,7 +129,7 @@ public abstract class ICWarsArea extends Area {
     /**
      * Applies damage to a specific unit to attack.
      * @param unitToAttack   the index of the unit to attack
-     * @param damage         the damage to apply to it
+     * @param damage to apply to it
      */
     public void applyDamage(int unitToAttack, int damage) {
         unitInArea.get(unitToAttack).undergoDamage(damage);
@@ -147,7 +140,7 @@ public abstract class ICWarsArea extends Area {
 
     /**
      * Centers on unit.
-     * @param index     the index of the unit to be centered on.
+     * @param index the index of the unit to be centered on.
      */
     public void centerOnUnit(int index) {
         unitInArea.get(index).centerCamera();

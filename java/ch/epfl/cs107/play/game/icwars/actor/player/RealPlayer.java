@@ -92,8 +92,7 @@ public class RealPlayer extends ICWarsPlayer {
 
     /**
      * Describes the different states of a real player
-     *
-     * @param dt
+     * @param dt is the delta time
      */
     private void changeState(float dt) {
         switch (getCurrentState()) {
@@ -184,8 +183,7 @@ public class RealPlayer extends ICWarsPlayer {
         }
 
         /**
-         * Gets current cells of the player
-         * @return
+         * @return current cells of the player
          */
         @Override
         public List<DiscreteCoordinates> getCurrentCells () {
@@ -217,7 +215,7 @@ public class RealPlayer extends ICWarsPlayer {
 
             /**
              * Describes the interaction between a unit and a real player.
-             * @param u
+             * @param u unit
              */
             @Override
             public void interactWith(Unit u) {

@@ -46,7 +46,7 @@ public class ICWarsPlayerGUI implements Graphics {
 
     /**
      * Sets the selected unit.
-     * @param selectedUnit
+     * @param selectedUnit by the player
      */
     public void setSelectedUnit(Unit selectedUnit) {
         this.selectedUnitGui = selectedUnit;
@@ -54,7 +54,7 @@ public class ICWarsPlayerGUI implements Graphics {
 
     /**
      * Sets the setCellTypePlayerGUI.
-     * @param cellTypePlayer
+     * @param cellTypePlayer the type of cell of the player
      */
     public void setCellTypePlayerGUI(ICWarsBehavior.ICWarsCellType cellTypePlayer) {
         cellTypePlayerGUI = cellTypePlayer;
@@ -70,7 +70,7 @@ public class ICWarsPlayerGUI implements Graphics {
 
     /**
      * Sets the timer.
-     * @param time
+     * @param time of the beginning of the timer
      */
     public void setTimer(Integer time){
         timer = time;
@@ -78,7 +78,7 @@ public class ICWarsPlayerGUI implements Graphics {
 
     /**
      * Gets the timer.
-     * @return
+     * @return timer related to the time within the move can be made
      */
     public Integer getTimer(){
         return timer;

@@ -25,8 +25,7 @@ public class ICWarsBehavior extends AreaBehavior {
         }
 
         /**
-         * Returns the type as a string.
-         * @return
+         * @return the type as a string.
          */
         public String typeToString(){
             return toString();
@@ -34,8 +33,8 @@ public class ICWarsBehavior extends AreaBehavior {
 
         /**
          * Used to compare cell types.
-         * @param type
-         * @return
+         * @param type is an int representing the number of defense stars
+         * @return the type of  cell
          */
         public static ICWarsCellType toType(int type){
             for(ICWarsCellType ict : ICWarsCellType.values()){
@@ -46,8 +45,7 @@ public class ICWarsBehavior extends AreaBehavior {
         }
 
         /**
-         * Returns number of defense stars.
-         * @return
+         * @return number of defense stars.
          */
         public int getDefenseStar(){
             int t = star;
@@ -84,8 +82,7 @@ public class ICWarsBehavior extends AreaBehavior {
 
 
         /**
-         * Returns number of defense stars.
-         * @return
+         * @return number of defense stars.
          */
         public int getDefenseStar(){
             int t = type.star;

@@ -108,7 +108,7 @@ public class ICWars extends AreaGame {
 
     /**
      * Describes the different states of a game
-     * @param deltaTime
+     * @param deltaTime 
      */
     private void changeGameState(float deltaTime){
         if(gameCurrentState != null) {

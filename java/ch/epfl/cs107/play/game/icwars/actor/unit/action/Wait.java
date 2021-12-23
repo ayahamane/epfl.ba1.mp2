@@ -29,9 +29,9 @@ public class Wait extends Action {
 
     /**
      * Describes the actions executed by the AI player.
-     * @param dt
-     * @param player
-     * @param list
+     * @param dt delta time
+     * @param player AI player
+     * @param list of actions
      */
     @Override
     public void doAutoAction(float dt, ICWarsPlayer player, List<Action> list) {

@@ -82,7 +82,7 @@ public class AIPlayer extends ICWarsPlayer{
 
     /**
      * Describes the different states of a virtual player
-     * @param dt
+     * @param dt is the delta time
      */
     private void changeState(float dt){
         switch (getCurrentState()){
@@ -139,8 +139,7 @@ public class AIPlayer extends ICWarsPlayer{
     }
 
     /**
-     * Gets the current cells of the AI player
-     * @return
+     * @return the current cells of the AI player
      */
     @Override
     public List<DiscreteCoordinates> getCurrentCells() { return Collections.singletonList(getCurrentMainCellCoordinates()); }

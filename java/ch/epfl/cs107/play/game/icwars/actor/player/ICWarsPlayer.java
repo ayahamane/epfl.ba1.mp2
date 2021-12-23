@@ -53,7 +53,7 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
 
     /**
      * sets the value of inEnd
-     * @param inEnd
+     * @param inEnd determines that it is the end of the game
      */
     public void setInEnd(boolean inEnd){
         this.inEnd = inEnd;
@@ -61,7 +61,7 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
 
     /**
      * gets the value of inEnd
-     * @return
+     * @return inEnd defining that it is the end of the game
      */
     public boolean getInEnd(){
         return inEnd;
@@ -69,7 +69,7 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
 
     /**
      * sets the value of inStart
-     * @param inStart
+     * @param inStart determines that it is the start of the game
      */
     public void setInStart(boolean inStart){
         this.inStart = inStart;
@@ -77,7 +77,7 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
 
     /**
      * gets the value of inStart
-     * @return
+     * @return defining that it is the start of the game
      */
     public boolean getInStart(){
         return inStart;
@@ -101,7 +101,7 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
 
     /**
      * sets the player's current state
-     * @param state
+     * @param state new player's state
      */
     public void setCurrentState(playerState state){
         currentState = state;
@@ -160,7 +160,8 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
     }
 
     /**
-     * Tells if the player is defeated or not.
+     * Verify if the player is defeated or not
+     * @return true if the player is defeated and false otherwise
      */
     public boolean isDefeated(){
         if(units.isEmpty()){
@@ -174,7 +175,6 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
      */
     public void centerCamera() { getOwnerArea().setViewCandidate(this); }
 
-
     /**
      * Makes all players units reusable.
      */
@@ -186,7 +186,7 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
     }
 
     /**
-     *Returns true if player ended his turn.
+     * @return true if player ended his turn.
      */
     public boolean playerEndedTurn(){
         if(currentState == ICWarsPlayer.playerState.IDLE){
@@ -217,19 +217,28 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
     public boolean wantsViewInteraction() { return false; }
 
     /**
-     *
      * @return the current state of the player
      */
     public playerState getCurrentState() { return currentState; }
 
+    /**
+     * @return unitInMemory
+     */
     protected Unit getUnitInMemory(){
         return unitInMemory;
     }
 
+    /**
+     * Sets unitInMemory
+     * @param u to set
+     */
     protected void setUnitInMemory(Unit u){
         unitInMemory = u;
     }
 
+    /**
+     * @return list of units
+     */
     protected ArrayList<Unit> getUnits(){
         return units;
     }
