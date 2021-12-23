@@ -160,7 +160,7 @@ abstract public class Unit extends ICWarsActor implements Interactor {
 
     @Override
     public boolean changePosition(DiscreteCoordinates newPosition) {
-        if (inRadius(newPosition) && (super.changePosition(newPosition)))) {
+        if (inRadius(newPosition) && (super.changePosition(newPosition))) {
             setRange(newPosition);
             return true;
         }
