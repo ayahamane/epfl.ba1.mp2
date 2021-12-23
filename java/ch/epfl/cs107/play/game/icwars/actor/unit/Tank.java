@@ -1,8 +1,7 @@
 package ch.epfl.cs107.play.game.icwars.actor.unit;
 
-import ch.epfl.cs107.play.game.areagame.Area;
+
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
-import ch.epfl.cs107.play.game.icwars.actor.unit.Unit;
 import ch.epfl.cs107.play.game.icwars.actor.unit.action.Action;
 import ch.epfl.cs107.play.game.icwars.actor.unit.action.Attack;
 import ch.epfl.cs107.play.game.icwars.actor.unit.action.Wait;
@@ -29,7 +28,7 @@ public class Tank extends Unit {
             setSprite(new Sprite("icwars/enemyTank" , 1.5f, 1.5f, this , null , new
                     Vector(-0.25f, -0.25f)));
         }
-        Action attack = new Attack(this, (ICWarsArea)(getOwnerArea()));
+        Action attack = new Attack(this, (ICWarsArea)(getOwnerArea()));   //A tank has attack and wait as actions.
         Action wait = new Wait(this, ((ICWarsArea) getOwnerArea()));
         List<Action> actionList = new ArrayList<>();
         actionList.add(attack);

@@ -10,11 +10,12 @@ import java.util.List;
 
 abstract public class ICWarsActor extends MovableAreaEntity {
 
+    //Stores faction's types.
     public enum Faction {
         ally, enemy;
     }
 
-    private Faction faction;
+    private final Faction faction;
 
     public ICWarsActor (ICWarsArea area, DiscreteCoordinates position, Faction fac){
             super(area, Orientation.UP, position);
@@ -39,11 +40,19 @@ abstract public class ICWarsActor extends MovableAreaEntity {
         getOwnerArea().unregisterActor(this);
     }
 
+    /**
+     *
+     * @return the actor's faction;
+     */
     public Faction getFaction(){
         return faction;
     }
 
     @Override
+    /**
+     * Get this Interactor's current occupying cells coordinates
+     * @return (List of DiscreteCoordinates). May be empty but not null
+     */
     public List<DiscreteCoordinates> getCurrentCells() {
         return Collections.singletonList(getCurrentMainCellCoordinates());
     }

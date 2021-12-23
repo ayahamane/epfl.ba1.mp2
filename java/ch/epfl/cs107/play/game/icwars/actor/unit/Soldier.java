@@ -1,6 +1,6 @@
 package ch.epfl.cs107.play.game.icwars.actor.unit;
 
-import ch.epfl.cs107.play.game.areagame.Area;
+
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.icwars.actor.unit.action.Action;
 import ch.epfl.cs107.play.game.icwars.actor.unit.action.Attack;

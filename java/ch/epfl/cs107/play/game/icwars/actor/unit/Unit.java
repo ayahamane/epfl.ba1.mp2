@@ -1,8 +1,6 @@
 package ch.epfl.cs107.play.game.icwars.actor.unit;
 
 import ch.epfl.cs107.play.game.actor.SoundAcoustics;
-import ch.epfl.cs107.play.game.actor.TextGraphics;
-import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.*;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
@@ -13,13 +11,11 @@ import ch.epfl.cs107.play.game.icwars.area.ICWarsBehavior;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsRange;
 import ch.epfl.cs107.play.game.icwars.handler.ICWarsInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
-import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Audio;
 import ch.epfl.cs107.play.window.Canvas;
-import ch.epfl.cs107.play.window.Keyboard;
 
 
-import java.awt.*;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Queue;
@@ -49,10 +45,18 @@ abstract public class Unit extends ICWarsActor implements Interactor {
 
     }
 
+    /**
+     * set the unit's list of actions.
+     * @param unitsActions
+     */
     protected void setListOfActions(List<Action> unitsActions) {
         listOfActions = Collections.unmodifiableList(unitsActions);
     }
 
+    /**
+     * set the range of the unit
+     * @param position
+     */
     private void setRange(DiscreteCoordinates position) {
         range = new ICWarsRange();
         radius = getRadius();
@@ -79,9 +83,11 @@ abstract public class Unit extends ICWarsActor implements Interactor {
         }
     }
 
+    @Override
     public void draw(Canvas canvas) {
         sprite.draw(canvas);
     }
+
 
     /**
      * Draw the unit's range and a path from the unit position to
@@ -102,10 +108,18 @@ abstract public class Unit extends ICWarsActor implements Interactor {
         }
     }
 
+    /**
+     *
+     * @return true if the unit is dead
+     */
     public boolean isDead() {
         return (hp <= 0);
     }
 
+    /**
+     * apply damage on the unit
+     * @param minus energy removed from the unit's energy
+     */
     public void undergoDamage(float minus) {
         sound.shouldBeStarted();
         hp = hp - minus + cellDefenseStars;
@@ -114,6 +128,7 @@ abstract public class Unit extends ICWarsActor implements Interactor {
             leaveArea();
         }
     }
+
 
     @Override
     public void bip(Audio audio){
@@ -128,15 +143,24 @@ abstract public class Unit extends ICWarsActor implements Interactor {
         getOwnerArea().setViewCandidate(this);
     }
 
+    /**
+     * add energy to the unit
+     * @param plus energy added to the the unit's energy
+     */
     public void fix(float plus) {
         hp = hp + plus;
     }
 
+
+    /**
+     *
+     * @return the value of unit's damage
+     */
     abstract public int getDamage();
 
     @Override
     public boolean changePosition(DiscreteCoordinates newPosition) {
-        if ((range.nodeExists(newPosition) && (super.changePosition(newPosition)))) {
+        if (inRadius(newPosition) && (super.changePosition(newPosition)))) {
             setRange(newPosition);
             return true;
         }
@@ -147,7 +171,7 @@ abstract public class Unit extends ICWarsActor implements Interactor {
     /**
      * Check if the position entered exists in the unit's radius.
      * @param position
-     * @return
+     * @return true if the position entered exists in the unit's radius.
      */
     public boolean inRadius(DiscreteCoordinates position){
         if (range.nodeExists(position)){
@@ -195,8 +219,8 @@ abstract public class Unit extends ICWarsActor implements Interactor {
         sprite = s;
     }
 
-    public Sprite getSprite() {
-        return sprite;
+    public String getSprite() {
+        return sprite.getName();
     }
 
     public int getRadius() {
@@ -207,7 +231,10 @@ abstract public class Unit extends ICWarsActor implements Interactor {
         return hasBeenUsed;
     }
 
-    //IsThisAnIntrusiveSetter?
+    /**
+     * set the unit's hasBeenUsed attribute
+     * @param used hasBeenUsed expected after the execution
+     */
     public void setHasBeenUsed(boolean used) {
         hasBeenUsed = used;
     }
@@ -233,14 +260,23 @@ abstract public class Unit extends ICWarsActor implements Interactor {
     }
 
 
+    @Override
     public void acceptInteraction(AreaInteractionVisitor v) {
         ((ICWarsInteractionVisitor) v).interactWith(this);
     }
 
+    /**
+     *
+     * @return a list of the unit's possible actions.
+     */
     public List<Action> getListOfActions() {
         return listOfActions;
     }
 
+
+    /**
+     * Class that handles the specific's unit interactions.
+     */
     public class ICWarsUnitInteractionHandler implements ICWarsInteractionVisitor {
         @Override
         public void interactWith(ICWarsBehavior.ICWarsCell cellType) {

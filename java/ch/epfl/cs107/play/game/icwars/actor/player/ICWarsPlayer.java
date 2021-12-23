@@ -1,7 +1,6 @@
 package ch.epfl.cs107.play.game.icwars.actor.player;
 
 import ch.epfl.cs107.play.game.actor.SoundAcoustics;
-import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Interactor;
 import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
@@ -18,24 +17,29 @@ import java.util.List;
 
 public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
 
-    protected ArrayList<Unit> unit;
-    protected playerState currentState;
+    protected ArrayList<Unit> units;
+    private playerState currentState;
     protected Keyboard keyboard= getOwnerArea().getKeyboard();
-    protected Unit unitInMemory;
-    private boolean inEnd = false;
-    private boolean inStart = false;
-    private final static SoundAcoustics sound = new SoundAcoustics(ResourcePath.getSound("gameSound"),1.0f,false,
-            false,true,false);
+    private Unit unitInMemory;
+    private boolean inEnd = false;      //true if the player is in the game's end state.
+    private boolean inStart = false;   // true if the game has just started.
+
+    //Stores the player's state.
     public enum playerState{
         IDLE, NORMAL, SELECT_CELL, MOVE_UNIT, ACTION_SELECTION, ACTION
     }
 
-    public ICWarsPlayer(ICWarsArea area, DiscreteCoordinates position, Faction fac, Unit... units) {
+    //extensions
+    private final static SoundAcoustics sound = new SoundAcoustics(ResourcePath.getSound("gameSound"),1.0f,false,
+            false,true,false);
+
+
+    public ICWarsPlayer(ICWarsArea area, DiscreteCoordinates position, Faction fac, Unit... allUnits) {
         super(area, position, fac);
-        unit = new ArrayList<>(Arrays.asList(units));
-        for(int i = 0; i < units.length; ++i){
-            getOwnerArea().registerActor(unit.get(i));
-            area.addToUnitInArea(unit.get(i));
+        units = new ArrayList<>(Arrays.asList(allUnits));
+        for(int i = 0; i < allUnits.length; ++i){
+            getOwnerArea().registerActor(units.get(i));
+            area.addToUnitInArea(units.get(i));
         }
         currentState = playerState.IDLE;
     }
@@ -112,7 +116,8 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
         centerCamera();
     }
 
-    //LINA
+    //if the player leaves a cell in a SELECT_CELL state without actually selecting a unit,
+    // his state goes back to normal.
     @Override
     public void onLeaving(List<DiscreteCoordinates> coordinates) {
         if (currentState == playerState.SELECT_CELL) {
@@ -120,7 +125,10 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
         }
     }
 
-    //LINA
+    /**
+     * Allows the sound of all the game to be generated.
+     * @param audio
+     */
     @Override
     public void bip(Audio audio){
         super.bip(audio);
@@ -130,12 +138,12 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
     @Override
     public void update(float deltaTime){
         super.update(deltaTime);
-        for(int i = 0; i< unit.size(); ++i){
-            if(unit.get(i).hasBeenUsed()){
-                unit.get(i).getSprite().setAlpha(0.5f);
+        for(int i = 0; i< units.size(); ++i){
+            if(units.get(i).hasBeenUsed()){
+                units.get(i).getSprite().setAlpha(0.5f);
             }
-            if(unit.get(i).isDead()){
-                unit.remove(i);
+            if(units.get(i).isDead()){
+                units.remove(i);
             }
         }
     }
@@ -145,8 +153,8 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
      */
     @Override
     public void leaveArea(){
-        for(int i = 0; i< unit.size(); ++i){
-            unit.get(i).leaveArea();
+        for(int i = 0; i< units.size(); ++i){
+            units.get(i).leaveArea();
         }
         super.leaveArea();
     }
@@ -155,7 +163,7 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
      * Tells if the player is defeated or not.
      */
     public boolean isDefeated(){
-        if(unit.isEmpty()){
+        if(units.isEmpty()){
             return true;
         }
         return false;
@@ -171,9 +179,9 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
      * Makes all players units reusable.
      */
     public void unitsReusable(){
-        for(int i = 0; i < unit.size(); ++i){
-            unit.get(i).getSprite().setAlpha(1.f);
-            unit.get(i).setHasBeenUsed(false);
+        for(int i = 0; i < units.size(); ++i){
+            units.get(i).getSprite().setAlpha(1.f);
+            units.get(i).setHasBeenUsed(false);
         }
     }
 
@@ -208,5 +216,21 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
     @Override
     public boolean wantsViewInteraction() { return false; }
 
+    /**
+     *
+     * @return the current state of the player
+     */
     public playerState getCurrentState() { return currentState; }
+
+    protected Unit getUnitInMemory(){
+        return unitInMemory;
+    }
+
+    protected void setUnitInMemory(Unit u){
+        unitInMemory = u;
+    }
+
+    protected ArrayList<Unit> getUnits(){
+        return units;
+    }
 }
