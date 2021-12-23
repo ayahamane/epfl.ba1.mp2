@@ -149,16 +149,16 @@ public abstract class ICWarsArea extends Area {
 
     /**
      * Centers on unit.
-     * @param index
+     * @param index in the list unitInArea of the unit on which the camera should be centered
      */
     public void centerOnUnit(int index) {
         unitInArea.get(index).centerCamera();
     }
 
     /**
-     * Returns the position of the nearest unit to attack.
-     * @param unitAi
-     * @return
+     * Returns the position of the nearest unit to attack
+     * @param unitAi selected by AI player
+     * @return coordinates of the nearest unit
      */
     public DiscreteCoordinates getCoordsNearestUnit(Unit unitAi){
         DiscreteCoordinates coordsNearestUnit = new DiscreteCoordinates(0,0);
