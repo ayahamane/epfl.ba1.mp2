@@ -16,7 +16,7 @@ import static ch.epfl.cs107.play.math.DiscreteCoordinates.distanceBetween;
 public abstract class ICWarsArea extends Area {
     private List<Unit> unitInArea = new ArrayList<>();
     private ICWarsBehavior behavior;
-    private final static float CAMERA_SCALE_FACTOR = 22.f;
+    private final static float CAMERA_SCALE_FACTOR = 10.f;
 
     /**
      * Create the area by adding it all actors

@@ -14,6 +14,7 @@ public class Wait extends Action {
 
     private ArrayList<Integer> attackableUnitsIndex;
     private int unitToAttack;
+
     public Wait (Unit u, ICWarsArea a){
         super(u,a);
         setName("(W)ait");
@@ -22,6 +23,7 @@ public class Wait extends Action {
 
     public void draw(Canvas canvas) { }
 
+    @Override
     public void doAction(float dt, ICWarsPlayer player, Keyboard keyboard){
         getUnit().setHasBeenUsed(true);
         player.setCurrentState(ICWarsPlayer.playerState.NORMAL);

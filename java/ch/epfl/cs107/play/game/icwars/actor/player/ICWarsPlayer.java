@@ -83,21 +83,6 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
         return inStart;
     }
 
-    /**
-     * gets the width of the player's area
-     * @return
-     */
-    public float areaWidth(){
-        return getOwnerArea().getWidth();
-    }
-
-    /**
-     * gets the height of the player's area
-     * @return
-     */
-    public float areaHeight(){
-        return getOwnerArea().getHeight();
-    }
 
     /**
      * sets the player's current state

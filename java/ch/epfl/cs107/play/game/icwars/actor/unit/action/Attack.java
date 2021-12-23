@@ -17,7 +17,7 @@ public class Attack extends Action {
     private ArrayList<Integer> attackableUnitsIndex;
     private int unitToAttack;
     private ImageGraphics cursor;
-    boolean firstTimeSet = true;
+    private boolean firstTimeSet = true;
 
     public Attack(Unit u, ICWarsArea a) {
         super(u, a);
@@ -47,6 +47,9 @@ public class Attack extends Action {
             unitToAttack = 0;
             firstTimeSet = false;
         }
+
+        //The modifications allowed by the keyboard are reversible,we can go back again and again
+        //in the list just by using one of them.
         if (keyboard.get(keyboard.RIGHT).isReleased()) {
             if (unitToAttack < attackableUnitsIndex.size() - 1) {
                 ++unitToAttack;

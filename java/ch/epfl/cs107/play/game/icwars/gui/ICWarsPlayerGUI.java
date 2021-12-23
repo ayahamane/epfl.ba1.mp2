@@ -39,9 +39,9 @@ public class ICWarsPlayerGUI implements Graphics {
         icWarsPlayer = player;
         infoPanel = new ICWarsInfoPanel(cameraScaleFactor);
         actionsPanel = new ICWarsActionsPanel(cameraScaleFactor);
-        gameOver = new GameOver(icWarsPlayer.areaWidth(), icWarsPlayer.areaHeight());
-        startGame = new StartGame(icWarsPlayer.areaWidth(), icWarsPlayer.areaHeight());
-        youWon = new YouWon(icWarsPlayer.areaWidth(), icWarsPlayer.areaHeight());
+        gameOver = new GameOver();
+        startGame = new StartGame();
+        youWon = new YouWon();
     }
 
     /**
