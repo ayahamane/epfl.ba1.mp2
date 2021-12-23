@@ -27,10 +27,15 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
     protected Unit unitInMemory;
     private boolean inEnd = false;
 
+    //Extensions
+    private final static SoundAcoustics sound = new SoundAcoustics(ResourcePath.getSound("gameSound"),1.0f,false,
+            false,true,false);
+
 
     public ICWarsPlayer(ICWarsArea area, DiscreteCoordinates position, Faction fac, Unit... units) {
         super(area, position, fac);
         unit = new ArrayList<>(Arrays.asList(units));
+        sound.shouldBeStarted();
         for(int i = 0; i < units.length; ++i){
             getOwnerArea().registerActor(unit.get(i));
             area.addToUnitInArea(unit.get(i));
@@ -71,6 +76,13 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
         if (currentState == playerState.SELECT_CELL) {
             currentState = playerState.NORMAL;
         }
+    }
+
+    @Override
+    public void bip(Audio audio){
+        System.out.println("COUCOU");
+        super.bip(audio);
+        sound.bip(audio);
     }
 
 

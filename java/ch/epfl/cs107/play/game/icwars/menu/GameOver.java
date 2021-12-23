@@ -14,7 +14,7 @@ public class GameOver implements Graphics {
 
 
     public GameOver (float width, float height){
-        gameOver = new ImageGraphics(ResourcePath.getForeground("GameOver"),width, height,
+        gameOver = new ImageGraphics(ResourcePath.getForeground("gameOver"),width, height,
                 null,anchor,1f,3001f, true);
     }
 

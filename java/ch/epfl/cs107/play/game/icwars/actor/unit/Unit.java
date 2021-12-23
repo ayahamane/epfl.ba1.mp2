@@ -37,7 +37,8 @@ abstract public class Unit extends ICWarsActor implements Interactor {
     private List<Action> listOfActions;
 
     //Extensions
-    private final static SoundAcoustics sound = new SoundAcoustics(ResourcePath.getSound("canon"));
+    private final static SoundAcoustics sound = new SoundAcoustics(ResourcePath.getSound("canon"),1.0f,
+            false, false, false, false);
 
 
     public Unit(ICWarsArea area, DiscreteCoordinates position, Faction fac) {

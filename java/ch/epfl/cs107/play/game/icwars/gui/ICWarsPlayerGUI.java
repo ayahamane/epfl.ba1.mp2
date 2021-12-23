@@ -94,6 +94,7 @@ public class ICWarsPlayerGUI implements Graphics {
                 gameOver.draw(canvas);
             }
         }
+        //if (icWarsPlayer.isDefeated())
         //Est-ce que cette donnée est prise en compte ici?(WARNING: A REVOIR)
         // RealPlayer: à savoir l’unité sur laquelle il est éventuellement positionné
     }
