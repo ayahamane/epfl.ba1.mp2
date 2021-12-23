@@ -1,6 +1,7 @@
 package ch.epfl.cs107.play.game.icwars.actor.player;
 
 import ch.epfl.cs107.play.game.actor.SoundAcoustics;
+import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Interactor;
 import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
@@ -141,6 +142,9 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
         for(int i = 0; i< units.size(); ++i){
             if(units.get(i).hasBeenUsed()){
                 units.get(i).getSprite().setAlpha(0.5f);
+        for(int i = 0; i< unit.size(); ++i){
+            if(unit.get(i).hasBeenUsed()){
+                unit.get(i).changeTransparency(0.5f);
             }
             if(units.get(i).isDead()){
                 units.remove(i);
@@ -182,6 +186,9 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
         for(int i = 0; i < units.size(); ++i){
             units.get(i).getSprite().setAlpha(1.f);
             units.get(i).setHasBeenUsed(false);
+        for(int i = 0; i < unit.size(); ++i){
+            unit.get(i).changeTransparency(1.f);
+            unit.get(i).setHasBeenUsed(false);
         }
     }
 

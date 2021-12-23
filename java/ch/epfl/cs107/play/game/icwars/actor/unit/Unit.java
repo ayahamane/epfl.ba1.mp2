@@ -219,8 +219,8 @@ abstract public class Unit extends ICWarsActor implements Interactor {
         sprite = s;
     }
 
-    public String getSprite() {
-        return sprite.getName();
+    public void changeTransparency(float f){
+        sprite.setAlpha(f);
     }
 
     public int getRadius() {
@@ -260,7 +260,6 @@ abstract public class Unit extends ICWarsActor implements Interactor {
     }
 
 
-    @Override
     public void acceptInteraction(AreaInteractionVisitor v) {
         ((ICWarsInteractionVisitor) v).interactWith(this);
     }

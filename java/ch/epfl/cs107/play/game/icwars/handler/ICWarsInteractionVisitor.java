@@ -9,10 +9,8 @@ public interface ICWarsInteractionVisitor extends AreaInteractionVisitor{
 
     default void interactWith(Unit u){}
 
-    default void interactWith(ICWarsPlayer player){
-    }
+    default void interactWith(ICWarsPlayer player){}
 
-    default void interactWith(ICWarsBehavior.ICWarsCell cellType){
-    }
+    default void interactWith(ICWarsBehavior.ICWarsCell cellType){}
 
 }

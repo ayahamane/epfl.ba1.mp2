@@ -15,6 +15,10 @@ public class YouWon implements Graphics {
                 null,anchor,1f,3001f, true);
     }
 
+    /**
+     * Displays the message "You won" at the end of the game if the real player won
+     * @param canvas target, not null
+     */
     @Override
     public void draw(Canvas canvas) {
         youWon.draw(canvas);

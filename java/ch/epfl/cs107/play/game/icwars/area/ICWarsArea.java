@@ -17,14 +17,9 @@ import java.util.List;
 import static ch.epfl.cs107.play.math.DiscreteCoordinates.distanceBetween;
 
 public abstract class ICWarsArea extends Area {
-
     private List<Unit> unitInArea = new ArrayList<>();
     private ICWarsBehavior behavior;
     private final static float CAMERA_SCALE_FACTOR = 22.f;
-    //The camera scale factor was in ICWars at first,
-    // but in the subject she said that it should be here.
-    //Also,I changed it to a private instead of a public
-
 
     /**
      * Create the area by adding it all actors
@@ -34,29 +29,56 @@ public abstract class ICWarsArea extends Area {
     protected abstract void createArea();
 
     /// EnigmeArea extends Area
+
+    /**
+     * Gets the camera scale factor.
+     * @return
+     */
     @Override
     public final float getCameraScaleFactor() {
         return CAMERA_SCALE_FACTOR;
     }
 
+    /**
+     * Returns the position of an ally player.
+     * @return
+     */
     public abstract DiscreteCoordinates getPlayerAllySpawnPosition();
 
-    //I added those methods, can I improve these?
+    /**
+     * Returns the position of an enemy player.
+     * @return
+     */
     public abstract DiscreteCoordinates getPlayerEnemySpawnPosition();
 
+    /**
+     *Returns the position of an ally tank.
+     * @return
+     */
     public abstract DiscreteCoordinates getTankAllySpawnPosition();
 
+    /**
+     * Returns the position of an enemy tank.
+     * @return
+     */
     public abstract DiscreteCoordinates getTankEnemySpawnPosition();
 
+    /**
+     * Returns the position of an ally soldier.
+     * @return
+     */
     public abstract DiscreteCoordinates getSoldierAllySpawnPosition();
 
+    /**
+     * Returns the position of an enemy soldier.
+     * @return
+     */
     public abstract DiscreteCoordinates getSoldierEnemySpawnPosition();
 
     // Demo2Area implements Playable
     @Override
     public boolean begin(Window window, FileSystem fileSystem) {
         if (super.begin(window, fileSystem)) {
-            // Set the behavior map
             behavior = new ICWarsBehavior(window, getTitle());
             setBehavior(behavior);
             createArea();
@@ -65,25 +87,20 @@ public abstract class ICWarsArea extends Area {
         return false;
     }
 
-
-    @Override
-    public String getTitle() {
-        return null;
-    }
-
     /**
      * Lists all the units of the area
+     * @param unitToMemorise
      */
     public void addToUnitInArea(Unit unitToMemorise) {
         unitInArea.add(unitToMemorise);
     }
 
-
     /**
      * Method that selects the potentially attackable units.
-     *
      * @param faction
      * @param radius
+     * @param positionX
+     * @param positionY
      * @return
      */
     public ArrayList<Integer> attackableUnits(ICWarsActor.Faction faction, int radius, int positionX, int positionY) {
@@ -103,7 +120,6 @@ public abstract class ICWarsArea extends Area {
 
     /**
      * Method that selects the potentially attackable units for the AIPlayer.
-     *
      * @param attackableUnits
      * @return
      */
@@ -119,7 +135,11 @@ public abstract class ICWarsArea extends Area {
         return unitToAutoAttack;
     }
 
-
+    /**
+     * Applies damage to a specific unit to attack.
+     * @param unitToAttack
+     * @param damage
+     */
     public void applyDamage(int unitToAttack, int damage) {
         unitInArea.get(unitToAttack).undergoDamage(damage);
         if (unitInArea.get(unitToAttack).isDead()) {
@@ -127,12 +147,18 @@ public abstract class ICWarsArea extends Area {
         }
     }
 
+    /**
+     * Centers on unit.
+     * @param index
+     */
     public void centerOnUnit(int index) {
         unitInArea.get(index).centerCamera();
     }
 
     /**
      * Returns the position of the nearest unit to attack.
+     * @param unitAi
+     * @return
      */
     public DiscreteCoordinates getCoordsNearestUnit(Unit unitAi){
         DiscreteCoordinates coordsNearestUnit = new DiscreteCoordinates(0,0);
@@ -153,12 +179,14 @@ public abstract class ICWarsArea extends Area {
                         coordsNearestUnit = unitInAreaPosition;
                     }
                 }
-                //if (potentialDistance == previousDistance) {
-                //    coordsNearestUnit = unitInAreaPosition;
-                //}
             }
         }
         return coordsNearestUnit;
+    }
+
+    @Override
+    public String getTitle() {
+        return null;
     }
 }
 
