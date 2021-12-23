@@ -7,8 +7,6 @@ import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Canvas;
 
 public class GameOver implements Graphics {
-
-
     private Vector anchor = new Vector(.0f, .0f);
     private ImageGraphics gameOver;
 
@@ -18,7 +16,10 @@ public class GameOver implements Graphics {
                 null,anchor,1f,3001f, true);
     }
 
-
+    /**
+     * Displays the message "Game Over" at the end of the game if the real player lost
+     * @param canvas target, not null
+     */
     @Override
     public void draw(Canvas canvas) {
         gameOver.draw(canvas);

@@ -15,6 +15,10 @@ public class StartGame implements Graphics {
                 null,anchor,1f,3001f, true);
     }
 
+    /**
+     * Displays the title of the game as its start
+     * @param canvas target, not null
+     */
     @Override
     public void draw(Canvas canvas) {
         startGame.draw(canvas);

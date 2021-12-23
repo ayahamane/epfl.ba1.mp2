@@ -132,7 +132,7 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
         super.update(deltaTime);
         for(int i = 0; i< unit.size(); ++i){
             if(unit.get(i).hasBeenUsed()){
-                unit.get(i).getSprite().setAlpha(0.5f);
+                unit.get(i).changeTransparency(0.5f);
             }
             if(unit.get(i).isDead()){
                 unit.remove(i);
@@ -172,7 +172,7 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
      */
     public void unitsReusable(){
         for(int i = 0; i < unit.size(); ++i){
-            unit.get(i).getSprite().setAlpha(1.f);
+            unit.get(i).changeTransparency(1.f);
             unit.get(i).setHasBeenUsed(false);
         }
     }

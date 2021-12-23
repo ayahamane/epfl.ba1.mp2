@@ -7,16 +7,9 @@ import ch.epfl.cs107.play.game.icwars.handler.ICWarsInteractionVisitor;
 import ch.epfl.cs107.play.window.Window;
 
 public class ICWarsBehavior extends AreaBehavior {
-
-
     public enum ICWarsCellType {
-        //I changed the first element to a type int.(A)
         NONE(0,0),
-        // Should never be used except
-        // in the toType method
         ROAD(-16777216, 0),
-        // the second value is the number
-        // of defense stars
         PLAIN(-14112955, 1),
         WOOD(-65536, 3),
         RIVER(-16776961, 0),
@@ -25,23 +18,37 @@ public class ICWarsBehavior extends AreaBehavior {
 
         private final int star;
         private int i;
-        public String typeToString(){
-            return toString();
-        }
 
         ICWarsCellType(int i, int type){
             this.i = i;
             this.star = type;
         }
 
+        /**
+         * Returns the type as a string.
+         * @return
+         */
+        public String typeToString(){
+            return toString();
+        }
+
+        /**
+         * Used to compare cell types.
+         * @param type
+         * @return
+         */
         public static ICWarsCellType toType(int type){
             for(ICWarsCellType ict : ICWarsCellType.values()){
                 if(ict.i == type)
                     return ict;
             }
-            return null; //There was an error with NULL, so i replaced it with a null.
+            return null;
         }
 
+        /**
+         * Returns number of defense stars.
+         * @return
+         */
         public int getDefenseStar(){
             int t = star;
             return t;
@@ -69,13 +76,17 @@ public class ICWarsBehavior extends AreaBehavior {
      * Cell adapted to the Tuto2 game
      */
     public class ICWarsCell extends AreaBehavior.Cell {
-        /// Type of the cell following the enum
         private final ICWarsCellType type;
 
         public ICWarsCellType getI(){
             return type;
         }
 
+
+        /**
+         * Returns number of defense stars.
+         * @return
+         */
         public int getDefenseStar(){
             int t = type.star;
             return t;
@@ -92,11 +103,22 @@ public class ICWarsBehavior extends AreaBehavior {
             this.type = type;
         }
 
+        /**
+         * Returns true if an entity can enter in a cell.
+         * @param entity (Interactable), not null
+         * @return
+         */
         @Override
         protected boolean canLeave(Interactable entity) {
             return true;
         }
 
+        /**
+         * Verfifies if an entity can enter in a specific cell considering if it takes space and if the
+         * entities that are already there take space.
+         * @param entity (Interactable), not null
+         * @return
+         */
         @Override
         protected boolean canEnter(Interactable entity) {
             for(Interactable element:entities){
@@ -105,6 +127,15 @@ public class ICWarsBehavior extends AreaBehavior {
                 }
             }
             return true;
+        }
+
+        /**
+         * Deals with the interactions between a cell and a visitor.
+         * @param v (AreaInteractionVisitor) : the visitor
+         */
+        @Override
+        public void acceptInteraction(AreaInteractionVisitor v) {
+            ((ICWarsInteractionVisitor)v).interactWith(this);
         }
 
         @Override
@@ -116,14 +147,5 @@ public class ICWarsBehavior extends AreaBehavior {
         public boolean isViewInteractable() {
             return false;
         }
-
-        @Override
-        public void acceptInteraction(AreaInteractionVisitor v)
-        {
-            ((ICWarsInteractionVisitor)v).interactWith(this);
-        }
-
-
-
     }
 }

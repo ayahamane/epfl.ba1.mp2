@@ -195,8 +195,8 @@ abstract public class Unit extends ICWarsActor implements Interactor {
         sprite = s;
     }
 
-    public Sprite getSprite() {
-        return sprite;
+    public void changeTransparency(float f){
+        sprite.setAlpha(f);
     }
 
     public int getRadius() {
