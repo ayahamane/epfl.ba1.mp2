@@ -13,7 +13,6 @@ import ch.epfl.cs107.play.window.Canvas;
 import java.util.Collections;
 import java.util.List;
 
-
 public class AIPlayer extends ICWarsPlayer{
     private float counter;
     private boolean counting;
@@ -54,10 +53,6 @@ public class AIPlayer extends ICWarsPlayer{
         int finalOrdinate = (int)selectedUnitAi.getPosition().y;
         if(0 <= position.x && position.x < getOwnerArea().getWidth()
                 && 0 <= position.y && position.y < getOwnerArea().getHeight()) {
-//            if (selectedUnitAi.getPosition().x - selectedUnitAi.getRadius() <= position.x
-//                    && position.x <= selectedUnitAi.getPosition().x + selectedUnitAi.getRadius()
-//                    && selectedUnitAi.getPosition().y - selectedUnitAi.getRadius() <= position.y
-//                    && position.y <= selectedUnitAi.getPosition().y + selectedUnitAi.getRadius()) {
             if (selectedUnitAi.inRadius(position)){
                 return new DiscreteCoordinates(finalAbcsissa, finalOrdinate);
             } else {
@@ -79,7 +74,11 @@ public class AIPlayer extends ICWarsPlayer{
         return null;
     }
 
-    protected void changeState(float dt){
+    /**
+     * Describes the different states of a virtuel player
+     * @param dt
+     */
+    private void changeState(float dt){
         switch (getCurrentState()){
             case IDLE:
                 break;
@@ -110,7 +109,7 @@ public class AIPlayer extends ICWarsPlayer{
     }
 
     /**
-     * Selects one of the units of the player
+     * Selects one of the units of the  AI player
      */
     public void selectUnitAi() {
         for (int i = 0; i < unit.size(); ++i) {
@@ -123,12 +122,20 @@ public class AIPlayer extends ICWarsPlayer{
         }
     }
 
+    /**
+     * Draws the AI player if it is not in the state Idle.
+     * @param canvas
+     */
     @Override
     public void draw(Canvas canvas) {
         if(!(getCurrentState() == playerState.IDLE)){sprite.draw(canvas);}
         playerGUI.draw(canvas);
     }
 
+    /**
+     * 
+     * @return
+     */
     @Override
     public List<DiscreteCoordinates> getCurrentCells() { return Collections.singletonList(getCurrentMainCellCoordinates()); }
 
