@@ -6,22 +6,17 @@ import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Canvas;
 
-public class GameOver implements Graphics {
-
-
+public class StartGame implements Graphics {
     private Vector anchor = new Vector(.0f, .0f);
-    private ImageGraphics gameOver;
+    private ImageGraphics startGame;
 
-
-    public GameOver (float width, float height){
-        gameOver = new ImageGraphics(ResourcePath.getForeground("gameOver"),width, height,
+    public StartGame (float width, float height){
+        startGame = new ImageGraphics(ResourcePath.getForeground("startGame"),width, height,
                 null,anchor,1f,3001f, true);
     }
 
-
     @Override
     public void draw(Canvas canvas) {
-        gameOver.draw(canvas);
+        startGame.draw(canvas);
     }
 }
-

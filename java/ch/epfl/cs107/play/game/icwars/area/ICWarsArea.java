@@ -20,7 +20,7 @@ public abstract class ICWarsArea extends Area {
 
     private List<Unit> unitInArea = new ArrayList<>();
     private ICWarsBehavior behavior;
-    private final static float CAMERA_SCALE_FACTOR = 30.f;
+    private final static float CAMERA_SCALE_FACTOR = 18.f;
     //The camera scale factor was in ICWars at first,
     // but in the subject she said that it should be here.
     //Also,I changed it to a private instead of a public

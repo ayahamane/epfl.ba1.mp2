@@ -11,6 +11,7 @@ import ch.epfl.cs107.play.game.icwars.actor.unit.action.Action;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsBehavior;
 import ch.epfl.cs107.play.game.icwars.menu.GameOver;
+import ch.epfl.cs107.play.game.icwars.menu.StartGame;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Canvas;
 
@@ -29,6 +30,7 @@ public class ICWarsPlayerGUI implements Graphics {
     private ICWarsActionsPanel actionsPanel;
     private ICWarsInfoPanel infoPanel;
     private GameOver gameOver;
+    private StartGame startGame;
     public static final float FONT_SIZE = 20.f;
     private Integer timer = 100;
     private TextGraphics messageTimer;
@@ -39,6 +41,7 @@ public class ICWarsPlayerGUI implements Graphics {
         infoPanel = new ICWarsInfoPanel(cameraScaleFactor);
         actionsPanel = new ICWarsActionsPanel(cameraScaleFactor);
         gameOver = new GameOver(icWarsPlayer.areaWidth(), icWarsPlayer.areaHeight());
+        startGame = new StartGame(icWarsPlayer.areaWidth(), icWarsPlayer.areaHeight());
     }
 
     public void setSelectedUnit(Unit selectedUnit) {
@@ -86,17 +89,13 @@ public class ICWarsPlayerGUI implements Graphics {
         }
 
         if (icWarsPlayer instanceof AIPlayer && !icWarsPlayer.isDefeated()){
-            System.out.println("Dans premiere condi");
-            boolean yo = icWarsPlayer.getInEnd();
-            System.out.println(yo);
-            if (yo){
-                System.out.println("Dans deuxieme condi");
+            if (icWarsPlayer.getInEnd()){
                 gameOver.draw(canvas);
             }
         }
-        //Est-ce que cette donnée est prise en compte ici?(WARNING: A REVOIR)
-        // RealPlayer: à savoir l’unité sur laquelle il est éventuellement positionné
+        if(icWarsPlayer.getInStart()){
+            startGame.draw(canvas);
+       }
     }
-
 }
 
