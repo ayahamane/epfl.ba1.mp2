@@ -83,7 +83,6 @@ public class Attack extends Action {
 
     @Override
     public void doAutoAction(float dt, ICWarsPlayer player, List<Action> actionList) {
-        //Duplicated code!!!!!
         ICWarsActor.Faction playerFaction = player.getFaction();
         int unitRadius = getUnit().getRadius();
         int x = getUnit().getCurrentCells().get(0).x;

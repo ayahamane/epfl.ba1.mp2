@@ -27,18 +27,23 @@ public class Wait extends Action {
         player.setCurrentState(ICWarsPlayer.playerState.NORMAL);
     }
 
+    /**
+     * Describes the actions executed by the AI player.
+     * @param dt
+     * @param player
+     * @param list
+     */
     @Override
     public void doAutoAction(float dt, ICWarsPlayer player, List<Action> list) {
-        //Duplicated code!!!!!
         ICWarsActor.Faction playerFaction = player.getFaction();
         int unitRadius = getUnit().getRadius();
         int x = getUnit().getCurrentCells().get(0).x;
         int y = getUnit().getCurrentCells().get(0).y;
         attackableUnitsIndex = new ArrayList<>();
         attackableUnitsIndex = getArea().attackableUnits(playerFaction, unitRadius, x, y);
-        if (!attackableUnitsIndex.isEmpty()) {
-            unitToAttack = getArea().autoAttackableUnit(attackableUnitsIndex);
-            getArea().applyDamage(attackableUnitsIndex.get(unitToAttack), getUnit().getDamage());
-        }
+       if (!attackableUnitsIndex.isEmpty()) {
+           unitToAttack = getArea().autoAttackableUnit(attackableUnitsIndex);
+           getArea().applyDamage(attackableUnitsIndex.get(unitToAttack), getUnit().getDamage());
+       }
     }
 }

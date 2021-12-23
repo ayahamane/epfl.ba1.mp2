@@ -17,9 +17,9 @@ import java.util.List;
 
 public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
 
-    protected ArrayList<Unit> units;
+    private ArrayList<Unit> units;
     private playerState currentState;
-    protected Keyboard keyboard= getOwnerArea().getKeyboard();
+    private Keyboard keyboard= getOwnerArea().getKeyboard();
     private Unit unitInMemory;
     private boolean inEnd = false;      //true if the player is in the game's end state.
     private boolean inStart = false;   // true if the game has just started.

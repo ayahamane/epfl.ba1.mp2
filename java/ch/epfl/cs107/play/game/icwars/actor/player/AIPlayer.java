@@ -53,11 +53,15 @@ public class AIPlayer extends ICWarsPlayer{
     private DiscreteCoordinates newCoords( DiscreteCoordinates position){
         int finalAbcsissa = (int)selectedUnitAi.getPosition().x;
         int finalOrdinate = (int)selectedUnitAi.getPosition().y;
+        //Verify if the position of the unit in parameter is in the grid, and if that's the case,
+        // returns the position in parameter as the new coordinates.
         if(0 <= position.x && position.x < getOwnerArea().getWidth()
                 && 0 <= position.y && position.y < getOwnerArea().getHeight()) {
             if (selectedUnitAi.inRadius(position)){
                 return new DiscreteCoordinates(finalAbcsissa, finalOrdinate);
             } else {
+                //If not in the grid, test if the position is way too high or way to low, and also if it is
+                //not inside the left limit or right limit and choose the extreme position in each case.
                 if(position.x < selectedUnitAi.getPosition().x - selectedUnitAi.getRadius()){
                     finalAbcsissa = (int)(selectedUnitAi.getPosition().x - selectedUnitAi.getRadius());
                 }
@@ -90,21 +94,21 @@ public class AIPlayer extends ICWarsPlayer{
                 setCurrentPosition(selectedUnitAi.getPosition());
                 if(waitFor(2,dt) && canMove){
                     coordsNearestUnit = ((ICWarsArea)getOwnerArea()).getCoordsNearestUnit(selectedUnitAi);
-                    currentState = playerState.MOVE_UNIT;
+                    setCurrentState(playerState.MOVE_UNIT);
                 }
                 break;
             case MOVE_UNIT:
                 selectedUnitAi.changePosition(newCoords(coordsNearestUnit));
                 setCurrentPosition(selectedUnitAi.getPosition());
                 if(waitFor(2,dt)) {
-                    currentState = playerState.ACTION;
+                    setCurrentState(playerState.ACTION);
                 }
                 break;
             case ACTION:
                 list = selectedUnitAi.getListOfActions();
                 selectedUnitAi.getListOfActions().get(0).doAutoAction(dt,this, list);
                 selectedUnitAi.setHasBeenUsed(true);
-                currentState = playerState.IDLE;
+                setCurrentState(playerState.IDLE);
                 break;
             default:
         }
@@ -114,9 +118,9 @@ public class AIPlayer extends ICWarsPlayer{
      * Selects one of the units of the AI player
      */
     public void selectUnitAi() {
-        for (int i = 0; i < unit.size(); ++i) {
-            if (!unit.get(i).isDead()) {
-                selectedUnitAi = unit.get(i);
+        for (int i = 0; i < getUnits().size(); ++i) {
+            if (!getUnits().get(i).isDead()) {
+                selectedUnitAi = getUnits().get(i);
                 playerGUI.setSelectedUnit(selectedUnitAi);
                 canMove = true;
                 break;

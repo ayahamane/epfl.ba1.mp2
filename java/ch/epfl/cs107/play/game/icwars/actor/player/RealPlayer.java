@@ -110,12 +110,12 @@ public class RealPlayer extends ICWarsPlayer {
                 }
                 int count = 0;
                 //If the RealPlayer has no units available to select, his state becomes IDLE.
-                for (int i = 0; i < units.size(); ++i) {
-                    if (units.get(i).hasBeenUsed()) {
+                for (int i = 0; i < getUnits().size(); ++i) {
+                    if (getUnits().get(i).hasBeenUsed()) {
                         ++count;
                     }
                 }
-                if (count == units.size()) {
+                if (count == getUnits().size()) {
                     setCurrentState(playerState.IDLE);
                 }
                 break;
