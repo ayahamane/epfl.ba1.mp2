@@ -12,6 +12,7 @@ import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.game.icwars.area.ICWarsBehavior;
 import ch.epfl.cs107.play.game.icwars.menu.GameOver;
 import ch.epfl.cs107.play.game.icwars.menu.StartGame;
+import ch.epfl.cs107.play.game.icwars.menu.YouWon;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Canvas;
 
@@ -31,6 +32,7 @@ public class ICWarsPlayerGUI implements Graphics {
     private ICWarsInfoPanel infoPanel;
     private GameOver gameOver;
     private StartGame startGame;
+    private YouWon youWon;
     public static final float FONT_SIZE = 20.f;
     private Integer timer = 100;
     private TextGraphics messageTimer;
@@ -42,6 +44,7 @@ public class ICWarsPlayerGUI implements Graphics {
         actionsPanel = new ICWarsActionsPanel(cameraScaleFactor);
         gameOver = new GameOver(icWarsPlayer.areaWidth(), icWarsPlayer.areaHeight());
         startGame = new StartGame(icWarsPlayer.areaWidth(), icWarsPlayer.areaHeight());
+        youWon = new YouWon(icWarsPlayer.areaWidth(), icWarsPlayer.areaHeight());
     }
 
     public void setSelectedUnit(Unit selectedUnit) {
@@ -96,6 +99,11 @@ public class ICWarsPlayerGUI implements Graphics {
         if(icWarsPlayer.getInStart()){
             startGame.draw(canvas);
        }
+        if(icWarsPlayer instanceof RealPlayer && !icWarsPlayer.isDefeated()){
+            if (icWarsPlayer.getInEnd()){
+                youWon.draw(canvas);
+            }
+        }
     }
 }
 

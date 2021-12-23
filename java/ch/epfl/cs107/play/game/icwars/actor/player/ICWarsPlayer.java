@@ -36,7 +36,6 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
     public ICWarsPlayer(ICWarsArea area, DiscreteCoordinates position, Faction fac, Unit... units) {
         super(area, position, fac);
         unit = new ArrayList<>(Arrays.asList(units));
-        sound.shouldBeStarted();
         for(int i = 0; i < units.length; ++i){
             getOwnerArea().registerActor(unit.get(i));
             area.addToUnitInArea(unit.get(i));
@@ -46,6 +45,9 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
     }
 
 
+    public void soundCanBeStarted(){
+        sound.shouldBeStarted();
+    }
     public void setInEnd(boolean inEnd){
         this.inEnd = inEnd;
     }

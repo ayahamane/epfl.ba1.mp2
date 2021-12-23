@@ -41,7 +41,6 @@ public class ICWars extends AreaGame {
     protected enum gameState{
         INIT, CHOOSE_PLAYER, START_PLAYER_TURN, PLAYER_TURN, END_PLAYER_TURN, END_TURN, END
     }
-    private SoundActor soundGame = new SoundActor();
 
     /**
      * Add all the areas
@@ -85,6 +84,9 @@ public class ICWars extends AreaGame {
         Soldier soldier2 = new Soldier(area, area.getSoldierEnemySpawnPosition(), ICWarsActor.Faction.enemy);
         players.add(new RealPlayer(area, area.getPlayerAllySpawnPosition(), ICWarsActor.Faction.ally, "1", tank1, soldier1));
         players.add(new AIPlayer(area, area.getPlayerEnemySpawnPosition(), ICWarsActor.Faction.enemy, "2",tank2, soldier2));
+        if (start){
+            players.get(0).soundCanBeStarted();
+        }
         for(int i = 0; i < players.size(); ++i) {
             if (players.get(i).getFaction() == ICWarsActor.Faction.ally) {
                 players.get(i).enterArea(area, area.getPlayerAllySpawnPosition());
@@ -111,20 +113,19 @@ public class ICWars extends AreaGame {
             initArea("icwars/Level0");
             begin(windowReset, fileSystemReset);
         }
-        soundGame.getSound().shouldBeStarted();
-        changeGameState();
+        changeGameState(deltaTime);
     }
 
     protected void changeGameState(float deltaTime){
         if(gameCurrentState != null) {
             switch (gameCurrentState){
                 case INIT:
-                    if(waitFor(3,deltaTime)){
-                        for(int i = 0; i < players.size(); ++i) {
-                            players.get(i).setInStart(false);
+                        if(waitFor(7,deltaTime)){
+                            for(int i = 0; i < players.size(); ++i) {
+                                players.get(i).setInStart(false);
+                            }
+                            gameCurrentState = gameState.CHOOSE_PLAYER;
                         }
-                        gameCurrentState = gameState.CHOOSE_PLAYER;
-                    }
                     break;
                 case CHOOSE_PLAYER:
                     if (playersWaitingForCurrentRound.isEmpty()) {
