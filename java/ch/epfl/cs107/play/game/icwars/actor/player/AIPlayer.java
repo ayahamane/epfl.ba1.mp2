@@ -46,9 +46,9 @@ public class AIPlayer extends ICWarsPlayer{
     }
 
     /**
-     * Returns the new position of the selected unit.
-     * @param position
-     * @return
+     * Returns the new position of the selected unit
+     * @param position of the nearest unit to attack
+     * @return new coordinates of the selected unit
      */
     private DiscreteCoordinates newCoords( DiscreteCoordinates position){
         int finalAbcsissa = (int)selectedUnitAi.getPosition().x;
