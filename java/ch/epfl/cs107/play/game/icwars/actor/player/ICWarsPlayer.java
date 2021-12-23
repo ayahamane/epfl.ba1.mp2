@@ -25,6 +25,7 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
     protected playerState currentState;
     private Keyboard keyboard= getOwnerArea().getKeyboard();
     protected Unit unitInMemory;
+    private boolean inEnd = false;
 
 
     public ICWarsPlayer(ICWarsArea area, DiscreteCoordinates position, Faction fac, Unit... units) {
@@ -36,6 +37,23 @@ public abstract class ICWarsPlayer extends ICWarsActor implements Interactor {
         }
 
         currentState = playerState.IDLE;
+    }
+
+
+    public void setInEnd(boolean inEnd){
+        this.inEnd = inEnd;
+    }
+
+    public boolean getInEnd(){
+        return inEnd;
+    }
+
+    public float areaWidth(){
+        return getOwnerArea().getWidth();
+    }
+
+    public float areaHeight(){
+        return getOwnerArea().getHeight();
     }
 
     public void setCurrentState(playerState state){

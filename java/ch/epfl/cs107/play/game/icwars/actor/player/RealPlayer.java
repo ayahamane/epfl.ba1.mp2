@@ -34,6 +34,7 @@ public class RealPlayer extends ICWarsPlayer{
     private List<Action> list;
     private boolean tPressed = false;
 
+
     /**
      * Demo actor
      *
@@ -154,6 +155,7 @@ public class RealPlayer extends ICWarsPlayer{
             }
         }
     }
+
 
     /**
      * Selects one of the units of the player

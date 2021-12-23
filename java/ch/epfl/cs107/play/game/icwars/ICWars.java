@@ -11,6 +11,7 @@ import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.game.icwars.area.Level0;
 import ch.epfl.cs107.play.game.icwars.area.Level1;
 import ch.epfl.cs107.play.io.FileSystem;
+import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class ICWars extends AreaGame {
     private List<ICWarsPlayer> playersWaitingForNextRound;
     private ICWarsPlayer activePlayer;
     private gameState gameCurrentState;
+    Keyboard keyboard;
     protected enum gameState{
         INIT, CHOOSE_PLAYER, START_PLAYER_TURN, PLAYER_TURN, END_PLAYER_TURN, END_TURN, END
     }
@@ -53,7 +55,14 @@ public class ICWars extends AreaGame {
     }
 
     @Override
-    public String end(){
+    public String end() {
+        if(playersWaitingForNextRound.size() == 1){
+            System.out.println("here");
+            if (playersWaitingForNextRound.get(0) instanceof RealPlayer) {
+                System.out.println();
+                return "You win ^^";
+            }
+        }
         return "Game Over :(";
     }
 
@@ -69,13 +78,14 @@ public class ICWars extends AreaGame {
         players.add(new RealPlayer(area, area.getPlayerAllySpawnPosition(), ICWarsActor.Faction.ally, "1", tank1, soldier1));
         players.add(new AIPlayer(area, area.getPlayerEnemySpawnPosition(), ICWarsActor.Faction.enemy, "2",tank2, soldier2));
         for(int i = 0; i < players.size(); ++i) {
+            //players.get(i).setInEnd(false);
             if (players.get(i).getFaction() == ICWarsActor.Faction.ally) {
                 players.get(i).enterArea(area, area.getPlayerAllySpawnPosition());
             } else {
                 players.get(i).enterArea(area, area.getPlayerEnemySpawnPosition());
             }
             players.get(0).centerCamera();    //Pour ne pas avoir le bug du début j'ai modifié cette ligne;
-                                                //ça passe ?
+            //ça passe ?
         }
         for(int i = 0; i < players.size(); ++i) {
             playersWaitingForCurrentRound.add(players.get(i));
@@ -85,7 +95,7 @@ public class ICWars extends AreaGame {
 
     @Override
     public void update(float deltaTime) {
-        Keyboard keyboard = getCurrentArea().getKeyboard();
+        keyboard = getCurrentArea().getKeyboard();
         super.update(deltaTime);
         changeGameState();
     }
@@ -143,7 +153,15 @@ public class ICWars extends AreaGame {
                 if(areaIndex == 0){
                     switchArea();
                 } else {
-                    System.out.println(end());
+                    for (int i = 0; i < players.size(); ++i){
+                        players.get(i).setInEnd(true);     //Mettre une méthode auxiliaire qui fait ça mdr
+                    }
+                    if (keyboard != null && keyboard.get(Keyboard.ENTER).isPressed()){
+                        for (int i = 0; i < players.size(); ++i){
+                            players.get(i).setInEnd(false);
+                        }
+                        switchArea();
+                    }
                 }
                 break;
             default:
