@@ -45,6 +45,7 @@ public class SoundAcoustics implements Acoustics {
     /** Set the "should be started" flag to true*/
     public void shouldBeStarted(){
         this.shouldBeStarted = true;
+        System.out.println("censé commencer");
     }
 
     /// SoundAcoustics implements Acoustics
@@ -52,6 +53,7 @@ public class SoundAcoustics implements Acoustics {
     @Override
     public void bip(Audio audio) {
         if (shouldBeStarted && audio.isSoundSupported()) {
+            System.out.println("a commencé");
             Sound sound = audio.getSound(name);
             audio.playSound(sound, randomFirstStart, volume, fadeIn, loop, stopOthersOnStart);
             shouldBeStarted = false;

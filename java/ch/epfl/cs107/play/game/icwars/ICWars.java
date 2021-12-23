@@ -2,6 +2,7 @@ package ch.epfl.cs107.play.game.icwars;
 
 import ch.epfl.cs107.play.game.areagame.AreaGame;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
+import ch.epfl.cs107.play.game.icwars.actor.SoundActor;
 import ch.epfl.cs107.play.game.icwars.actor.player.AIPlayer;
 import ch.epfl.cs107.play.game.icwars.actor.unit.Soldier;
 import ch.epfl.cs107.play.game.icwars.actor.unit.Tank;
@@ -11,7 +12,10 @@ import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.game.icwars.area.Level0;
 import ch.epfl.cs107.play.game.icwars.area.Level1;
 import ch.epfl.cs107.play.io.FileSystem;
+import ch.epfl.cs107.play.math.Transform;
+import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Button;
+import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 import jdk.swing.interop.SwingInterOpUtils;
@@ -37,6 +41,7 @@ public class ICWars extends AreaGame {
     protected enum gameState{
         INIT, CHOOSE_PLAYER, START_PLAYER_TURN, PLAYER_TURN, END_PLAYER_TURN, END_TURN, END
     }
+    private SoundActor soundGame = new SoundActor();
 
     /**
      * Add all the areas
@@ -106,6 +111,8 @@ public class ICWars extends AreaGame {
             initArea("icwars/Level0");
             begin(windowReset, fileSystemReset);
         }
+        soundGame.getSound().shouldBeStarted();
+        changeGameState();
     }
 
     protected void changeGameState(float deltaTime){
