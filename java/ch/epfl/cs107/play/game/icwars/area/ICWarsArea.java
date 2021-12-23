@@ -1,16 +1,13 @@
 package ch.epfl.cs107.play.game.icwars.area;
 
-import ch.epfl.cs107.play.game.actor.SoundAcoustics;
+
 import ch.epfl.cs107.play.game.areagame.Area;
-import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
 import ch.epfl.cs107.play.game.icwars.actor.unit.Unit;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
-import ch.epfl.cs107.play.window.Audio;
 import ch.epfl.cs107.play.window.Window;
 
-import javax.sound.midi.spi.SoundbankReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +25,6 @@ public abstract class ICWarsArea extends Area {
      */
     protected abstract void createArea();
 
-    /// EnigmeArea extends Area
 
     /**
      * Gets the camera scale factor.
@@ -75,7 +71,7 @@ public abstract class ICWarsArea extends Area {
      */
     public abstract DiscreteCoordinates getSoldierEnemySpawnPosition();
 
-    // Demo2Area implements Playable
+
     @Override
     public boolean begin(Window window, FileSystem fileSystem) {
         if (super.begin(window, fileSystem)) {
@@ -97,19 +93,21 @@ public abstract class ICWarsArea extends Area {
 
     /**
      * Method that selects the potentially attackable units.
-     * @param faction
-     * @param radius
-     * @param positionX
-     * @param positionY
-     * @return
+     * @param faction   player's to attack faction
+     * @param radius    unit's to attack radius of
+     * @param positionX  position x of the unit to attack
+     * @param positionY  position y of the unit to attack
+     * @return    a list of the potentially attackable units
      */
     public ArrayList<Integer> attackableUnits(ICWarsActor.Faction faction, int radius, int positionX, int positionY) {
         ArrayList<Integer> unitsToAttack = new ArrayList<>();
         for (int index = 0; index < unitInArea.size(); ++index) {
+            //test if the unit's is an enemy
             if (unitInArea.get(index).getFaction() != faction) {
                 int x = unitInArea.get(index).getCurrentCells().get(0).x;
                 int y = unitInArea.get(index).getCurrentCells().get(0).y;
                 double distance = Math.sqrt(Math.pow(positionX - x, 2) + Math.pow(positionY - y, 2));
+                //test if the unit is in the attackable radius
                 if (distance <= radius) {
                     unitsToAttack.add(index);
                 }
@@ -137,8 +135,8 @@ public abstract class ICWarsArea extends Area {
 
     /**
      * Applies damage to a specific unit to attack.
-     * @param unitToAttack
-     * @param damage
+     * @param unitToAttack   the index of the unit to attack
+     * @param damage         the damage to apply to it
      */
     public void applyDamage(int unitToAttack, int damage) {
         unitInArea.get(unitToAttack).undergoDamage(damage);
@@ -149,7 +147,7 @@ public abstract class ICWarsArea extends Area {
 
     /**
      * Centers on unit.
-     * @param index in the list unitInArea of the unit on which the camera should be centered
+     * @param index     the index of the unit to be centered on.
      */
     public void centerOnUnit(int index) {
         unitInArea.get(index).centerCamera();

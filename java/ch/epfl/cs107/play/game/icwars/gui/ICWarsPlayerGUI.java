@@ -13,7 +13,7 @@ import ch.epfl.cs107.play.game.icwars.menu.StartGame;
 import ch.epfl.cs107.play.game.icwars.menu.YouWon;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Canvas;
-import java.awt.*;
+import java.awt.Color;
 import java.util.List;
 
 public class ICWarsPlayerGUI implements Graphics {
@@ -25,6 +25,8 @@ public class ICWarsPlayerGUI implements Graphics {
     private Unit selectedUnitGui;
     private ICWarsActionsPanel actionsPanel;
     private ICWarsInfoPanel infoPanel;
+
+    //extensions
     private GameOver gameOver;
     private StartGame startGame;
     private YouWon youWon;
@@ -109,15 +111,17 @@ public class ICWarsPlayerGUI implements Graphics {
             infoPanel.setUnit(posUnit);
             infoPanel.draw(canvas);
         }
-
+        //If the RealPlayer is defeated, (so AIPlayer has won), Game Over appears.
         if (icWarsPlayer instanceof AIPlayer && !icWarsPlayer.isDefeated()){
             if (icWarsPlayer.getInEnd()){
                 gameOver.draw(canvas);
             }
         }
+        //In the beginning of the game, Start Game appears.
         if(icWarsPlayer.getInStart()){
             startGame.draw(canvas);
        }
+        //If the RealPlayer has won, You Won appears.
         if(icWarsPlayer instanceof RealPlayer && !icWarsPlayer.isDefeated()){
             if (icWarsPlayer.getInEnd()){
                 youWon.draw(canvas);

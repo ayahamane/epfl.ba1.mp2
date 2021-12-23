@@ -41,9 +41,6 @@ public class Attack extends Action {
         int unitRadius = getUnit().getRadius();
         int x = getUnit().getCurrentCells().get(0).x;
         int y = getUnit().getCurrentCells().get(0).y;
-
-        // sound test
-
         attackableUnitsIndex = new ArrayList<>();
         attackableUnitsIndex = getArea().attackableUnits(playerFaction, unitRadius, x, y);
         if (firstTimeSet && !attackableUnitsIndex.isEmpty()) {
