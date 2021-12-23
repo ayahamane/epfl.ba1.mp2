@@ -2,7 +2,6 @@ package ch.epfl.cs107.play.game.icwars;
 
 import ch.epfl.cs107.play.game.areagame.AreaGame;
 import ch.epfl.cs107.play.game.icwars.actor.ICWarsActor;
-import ch.epfl.cs107.play.game.icwars.actor.SoundActor;
 import ch.epfl.cs107.play.game.icwars.actor.player.AIPlayer;
 import ch.epfl.cs107.play.game.icwars.actor.unit.Soldier;
 import ch.epfl.cs107.play.game.icwars.actor.unit.Tank;
@@ -12,14 +11,8 @@ import ch.epfl.cs107.play.game.icwars.area.ICWarsArea;
 import ch.epfl.cs107.play.game.icwars.area.Level0;
 import ch.epfl.cs107.play.game.icwars.area.Level1;
 import ch.epfl.cs107.play.io.FileSystem;
-import ch.epfl.cs107.play.math.Transform;
-import ch.epfl.cs107.play.math.Vector;
-import ch.epfl.cs107.play.window.Button;
-import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
-import jdk.swing.interop.SwingInterOpUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +31,7 @@ public class ICWars extends AreaGame {
     private float counter;
     private boolean counting;
     private boolean start = true;
-    protected enum gameState{
+    private enum gameState{
         INIT, CHOOSE_PLAYER, START_PLAYER_TURN, PLAYER_TURN, END_PLAYER_TURN, END_TURN, END
     }
 
@@ -64,15 +57,12 @@ public class ICWars extends AreaGame {
     }
 
     @Override
-    public String end() {
-        if(playersWaitingForNextRound.size() == 1){
-            if (playersWaitingForNextRound.get(0) instanceof RealPlayer) {
-                return "You win ^^";
-            }
-        }
-        return "Game Over :(";
-    }
+    public String end() { return null; }
 
+    /**
+     * Initiate area of the game
+     * @param areaKey
+     */
     private void initArea(String areaKey) {
         players = new ArrayList<>();
         playersWaitingForNextRound = new ArrayList<>();
@@ -116,7 +106,11 @@ public class ICWars extends AreaGame {
         changeGameState(deltaTime);
     }
 
-    protected void changeGameState(float deltaTime){
+    /**
+     * Describes the different states of a game
+     * @param deltaTime
+     */
+    private void changeGameState(float deltaTime){
         if(gameCurrentState != null) {
             switch (gameCurrentState){
                 case INIT:
@@ -177,7 +171,7 @@ public class ICWars extends AreaGame {
                         switchArea();
                     } else {
                         for (int i = 0; i < players.size(); ++i){
-                            players.get(i).setInEnd(true);     //Mettre une méthode auxiliaire qui fait ça mdr
+                            players.get(i).setInEnd(true);
                         }
                         if (keyboard != null && keyboard.get(Keyboard.ENTER).isPressed()){
                             for (int i = 0; i < players.size(); ++i){
@@ -192,17 +186,16 @@ public class ICWars extends AreaGame {
         }
     }
 
-    @Override
-    public String getTitle() { return "ICWars"; }
-
-    protected void switchArea() {
+    /**
+     * Used to switch from level0 to level1
+     */
+    private void switchArea() {
         playersWaitingForNextRound.get(0).leaveArea();
         playersWaitingForNextRound.remove(playersWaitingForNextRound.get(0));
         areaIndex = (areaIndex == 0) ? 1 : 0;
         ICWarsArea currentArea = (ICWarsArea) setCurrentArea(areas[areaIndex], false);
         initArea(currentArea.getTitle());
     }
-
 
     /**
      * Ensures that value time elapsed before returning true
@@ -223,4 +216,7 @@ public class ICWars extends AreaGame {
         }
         return false;
     }
+
+    @Override
+    public String getTitle() { return "ICWars"; }
 }

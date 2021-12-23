@@ -85,11 +85,16 @@ public class RealPlayer extends ICWarsPlayer{
         changeState(deltaTime);
     }
 
+    //LINA
     private boolean tHasBeenPressed(){
         return tPressed;
     }
 
-    protected void changeState(float dt){
+    /**
+     * Describes the different states of a real player
+     * @param dt
+     */
+    private void changeState(float dt){
         switch (getCurrentState()){
             case IDLE:
                 break;
@@ -156,17 +161,11 @@ public class RealPlayer extends ICWarsPlayer{
         }
     }
 
-
     /**
-     * Selects one of the units of the player
+     * Draws the player if he is not defeated and is in the state IDLE. Represents also the action exectuded
+     * and all what is related to its movement.
+     * @param canvas
      */
-    public void selectUnit(int index){
-        if(index < unit.size()){
-            selectedUnit = unit.get(index);
-            playerGUI.setSelectedUnit(selectedUnit);
-        }
-    }
-
     @Override
     public void draw(Canvas canvas) {
         if(!(getCurrentState() == playerState.IDLE) && !this.isDefeated()){sprite.draw(canvas);}
@@ -176,21 +175,38 @@ public class RealPlayer extends ICWarsPlayer{
         }
     }
 
+    /**
+     * Gets current cells of the player
+     * @return
+     */
     @Override
     public List<DiscreteCoordinates> getCurrentCells() { return Collections.singletonList(getCurrentMainCellCoordinates()); }
 
+    /**
+     * Accepts interaction between a player and a visitor.
+     * @param v (AreaInteractionVisitor) : the visitor
+     */
     @Override
     public void acceptInteraction(AreaInteractionVisitor v) {
         ((ICWarsInteractionVisitor)v).interactWith(this);}
 
+    /**
+     * Describes the interaction between the player and an interactable.
+     * @param other (Interactable). Not null
+     */
     @Override
     public void interactWith(Interactable other) {
         if (!isDisplacementOccurs()) {
             other.acceptInteraction(handler);
         }
     }
-
+    //LINA
     public class ICWarsPlayerInteractionHandler implements ICWarsInteractionVisitor {
+
+        /**
+         * Describes the interaction between a unit and a real player.
+         * @param u
+         */
         @Override
         public void interactWith(Unit u) {
             posUnit = u;
@@ -201,6 +217,12 @@ public class RealPlayer extends ICWarsPlayer{
                 playerGUI.setSelectedUnit(u);
             }
         }
+
+        /**
+         * Describes the interaction between a cellType and a real player.
+         * @param cellType
+         */
+        @Override
         public void interactWith(ICWarsBehavior.ICWarsCell cellType){
             cellTypePlayer = cellType.getI();
             playerGUI.setCellTypePlayerGUI(cellTypePlayer);
