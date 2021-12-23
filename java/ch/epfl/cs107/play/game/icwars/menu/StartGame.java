@@ -10,8 +10,8 @@ public class StartGame implements Graphics {
     private Vector anchor = new Vector(.0f, .0f);
     private ImageGraphics startGame;
 
-    public StartGame (float width, float height){
-        startGame = new ImageGraphics(ResourcePath.getForeground("startGame"),width, height,
+    public StartGame (){
+        startGame = new ImageGraphics(ResourcePath.getForeground("startGame"),5, 6,
                 null,anchor,1f,3001f, true);
     }
 

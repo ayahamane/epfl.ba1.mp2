@@ -7,11 +7,11 @@ import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Canvas;
 
 public class YouWon implements Graphics {
-    private Vector anchor = new Vector(.0f, .0f);
+    private Vector anchor = new Vector(2f, 3f);
     private ImageGraphics youWon;
 
-    public YouWon (float width, float height){
-        youWon = new ImageGraphics(ResourcePath.getForeground("youWon"),width, height,
+    public YouWon (){
+        youWon = new ImageGraphics(ResourcePath.getForeground("youWon"),6, 4,
                 null,anchor,1f,3001f, true);
     }
 
